@@ -58,7 +58,7 @@ DATA_DIR = Path.home() / ".local" / "share" / "study_todo"
 PROGRESS_FILE = DATA_DIR / "cka_progress.json"
 SCHEDULE_CSV = CKA_DIR / "schedule.csv"
 if not SCHEDULE_CSV.exists():
-    SCHEDULE_CSV = REPO_DIR / "cka_lfcs_schedule.csv"
+    SCHEDULE_CSV = CKA_DIR / "schedule.template.csv"
 
 BASE_DIR = REPO_DIR
 

@@ -44,7 +44,7 @@ devops-labs-mockexams-studyguides/
 │   ├── generate_labs.py            # Dedicated CKA lab & mock exam generator script
 │   ├── generate_guides.py          # Dedicated CKA daily study guide generator script
 │   ├── study_todo.py               # Dedicated CKA terminal progress tracker & checklist
-│   ├── schedule.csv / .ics         # Dedicated CKA daily study schedule & calendar
+│   ├── schedule.template.csv       # Standard CKA curriculum schedule template
 │   ├── guides/                     # 48 Track-specific CKA daily study guides & architectural theory
 │   ├── kodekloud_cka/              # KodeKloud CKA course notes and references
 │   ├── mock-cka-1/                 # Full-scale CKA timed mock exam 1 (17 killer.sh questions)
@@ -58,7 +58,7 @@ devops-labs-mockexams-studyguides/
 │   ├── generate_labs.py            # Dedicated LFCS lab & mock exam generator script
 │   ├── generate_guides.py          # Dedicated LFCS daily study guide generator script
 │   ├── study_todo.py               # Dedicated LFCS terminal progress tracker & checklist
-│   ├── schedule.csv / .ics         # Dedicated LFCS daily study schedule & calendar
+│   ├── schedule.template.csv       # Standard LFCS curriculum schedule template
 │   ├── guides/                     # 48 Track-specific LFCS daily study guides & system concepts
 │   ├── mock-lfcs-1/ ... 4/         # 4 Full-scale LFCS timed mock exams (20 PSI questions each)
 │   └── w1d1-lfcs/ ... w8d6-lfcs/   # 48 Calendar-aligned hands-on Linux lab scenarios
@@ -79,10 +79,8 @@ devops-labs-mockexams-studyguides/
 │   └── start_simulator.sh          # Terminal mock exam launcher
 │
 ├── lab                             # 🚀 Master CLI Orchestrator (start, check, solve, reset, vm)
-├── cka_lfcs_schedule.csv           # Master dual-track schedule
-├── cka_lfcs_schedule.ics           # Master dual-track iCalendar file
 ├── LICENSE                         # MIT Open Source License
-├── .gitignore
+├── .gitignore                      # Ignores personal/generated schedules (*.ics, *.csv, *.json)
 └── README.md
 ```
 
@@ -318,12 +316,13 @@ cd lfcs && python3 generate_calendar.py  # Tailored for LFCS (3 hrs/day)
 4. **Planned Pauses**: Optionally insert scheduled recovery/pause weeks (e.g. for travel, family, or work commitments) which automatically shifts all remaining modules without disrupting the syllabus flow.
 
 <a id="calendar-outputs"></a>
-### Calendar Outputs:
-- **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (morning intensive blocks 08:00 - 12:00)
-- **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (afternoon intensive blocks 15:00 - 18:00)
-- **Master Combined Calendar**: `cka_lfcs_schedule.ics` & `cka_lfcs_schedule.csv`
+### Private Local Calendar Outputs:
+When you run the generator, your customized calendar files are generated locally for your private use (and excluded from Git tracking via `.gitignore` so your personal dates are never committed):
+- **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (morning blocks 08:00 - 12:00)
+- **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (afternoon blocks 15:00 - 18:00)
+- **Dual-Track Calendar**: `cka_lfcs_schedule.ics` & `cka_lfcs_schedule.csv` (when scheduling both)
 
-Compatible with Google Calendar, Apple Calendar, Microsoft Outlook, Thunderbird, and mobile calendar apps.
+Importable directly into Google Calendar, Apple Calendar, Microsoft Outlook, Thunderbird, and mobile calendar apps.
 
 ---
 

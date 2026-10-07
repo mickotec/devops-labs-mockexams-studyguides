@@ -54,6 +54,8 @@ except ImportError:
 DATA_DIR = Path.home() / ".local" / "share" / "study_todo"
 PROGRESS_FILE = DATA_DIR / "progress.json"
 SCHEDULE_CSV = BASE_DIR / "cka_lfcs_schedule.csv"
+if not SCHEDULE_CSV.exists():
+    SCHEDULE_CSV = BASE_DIR / "cka" / "schedule.template.csv"
 
 app = Flask(__name__,
             template_folder=str(Path(__file__).parent / "templates"),

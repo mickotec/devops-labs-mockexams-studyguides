@@ -34,7 +34,7 @@ if str(BASE_DIR) not in sys.path:
 
 SCHEDULE_CSV = BASE_DIR / "cka_lfcs_schedule.csv"
 if not SCHEDULE_CSV.exists():
-    SCHEDULE_CSV = TOOLS_DIR / "cka_lfcs_schedule.csv"
+    SCHEDULE_CSV = BASE_DIR / "cka" / "schedule.template.csv"
 CURRICULUM_DIR = TOOLS_DIR / "curriculum"
 
 # ── Colour pairs ──────────────────────────────────────────────

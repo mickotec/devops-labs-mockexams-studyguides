@@ -51,8 +51,8 @@ START_DATE = datetime.strptime("20260914", "%Y%m%d")
 
 def parse_ics_schedule(ics_file: Path):
     """Parse VCALENDAR events into a date-keyed dictionary."""
-    if not ics_file.exists():
-        raise FileNotFoundError(f"ICS file not found at {ics_file}")
+    if not ics_file or not ics_file.exists():
+        return {}
 
     content = ics_file.read_text(encoding="utf-8")
     raw_events = content.split("BEGIN:VEVENT")

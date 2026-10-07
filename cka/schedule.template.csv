@@ -1,5 +1,5 @@
 Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
-"[CKA] 8am-12pm: Kubernetes Architecture & Container Runtimes",09/14/2026,08:00 AM,09/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Kubernetes Architecture & Container Runtimes",10/12/2026,08:00 AM,10/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Kubernetes Architecture & Container Runtimes
 
 Schedule:
@@ -9,7 +9,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Explore cluster components & ContainerD
 11:15 AM - 11:30 AM: Eye rest & mobility
 11:30 AM - 12:00 PM: Exploratory: Inspect running static pod manifests in /etc/kubernetes/manifests",,False
-"[CKA] 8am-12pm: ETCD Fundamentals & Cluster State Store",09/15/2026,08:00 AM,09/15/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: ETCD Fundamentals & Cluster State Store",10/13/2026,08:00 AM,10/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ETCD Fundamentals & Cluster State Store
 
 Schedule:
@@ -19,7 +19,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: etcd for Beginners & etcd in Kubernetes
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Querying etcd endpoint health and members",,False
-"[CKA] 8am-12pm: Pod Internals & YAML Architecture",09/16/2026,08:00 AM,09/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Pod Internals & YAML Architecture",10/14/2026,08:00 AM,10/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Pod Internals & YAML Architecture
 
 Schedule:
@@ -29,7 +29,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Pods & Pods with YAML
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Break YAML indentation and observe kubectl error parsers",,False
-"[CKA] 8am-12pm: Multi-Container Pod Patterns & Init Containers",09/17/2026,08:00 AM,09/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Multi-Container Pod Patterns & Init Containers",10/15/2026,08:00 AM,10/15/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Multi-Container Pod Patterns & Init Containers
 
 Schedule:
@@ -39,7 +39,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Multi-Container Pods & Init Containers
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Shared volume logging sidecar demo",,False
-"[CKA] 8am-12pm: Fast Imperative CLI Mastery with Kubectl",09/18/2026,08:00 AM,09/18/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Fast Imperative CLI Mastery with Kubectl",10/16/2026,08:00 AM,10/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Fast Imperative CLI Mastery with Kubectl
 
 Schedule:
@@ -49,7 +49,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Imperative Commands with Kubectl
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Speed Synthesis: Set up ~/.bashrc aliases (k, do, now) and vimrc tabstop settings",,False
-"[CKA] 8am-12pm: Week 1 Integration & Speedrun Drill",09/19/2026,08:00 AM,09/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 1 Integration & Speedrun Drill",10/17/2026,08:00 AM,10/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 1 Integration & Speedrun Drill
 
 Schedule:
@@ -57,24 +57,10 @@ Schedule:
 09:30 AM - 09:45 AM: Movement & hydration
 09:45 AM - 11:00 AM: Speed Drill: Generate 20 different Pod manifests without documentation in 20 min
 11:00 AM - 12:00 PM: Milestone Assessment 1: Pod deployment and multi-container debugging",,False
-"[REST] Full Recovery & Memory Consolidation (Week 1)",09/20/2026,08:00 AM,09/20/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 1)",10/18/2026,08:00 AM,10/18/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/21/2026,08:00 AM,09/21/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/22/2026,08:00 AM,09/22/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/23/2026,08:00 AM,09/23/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/24/2026,08:00 AM,09/24/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/25/2026,08:00 AM,09/25/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/26/2026,08:00 AM,09/26/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 2)",09/27/2026,08:00 AM,09/27/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[CKA] 8am-12pm: ReplicaSets & Self-Healing Controllers",09/28/2026,08:00 AM,09/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: ReplicaSets & Self-Healing Controllers",10/19/2026,08:00 AM,10/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ReplicaSets & Self-Healing Controllers
 
 Schedule:
@@ -84,7 +70,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: ReplicaSets
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Deleting pods to witness reconciliation loop in real time",,False
-"[CKA] 8am-12pm: Deployments, Rollouts & Revisions",09/29/2026,08:00 AM,09/29/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Deployments, Rollouts & Revisions",10/20/2026,08:00 AM,10/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Deployments, Rollouts & Revisions
 
 Schedule:
@@ -94,7 +80,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Deployments & Rollout Updates
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Rollout undo to a specific previous revision (--to-revision)",,False
-"[CKA] 8am-12pm: Services: ClusterIP, NodePort & LoadBalancer",09/30/2026,08:00 AM,09/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Services: ClusterIP, NodePort & LoadBalancer",10/21/2026,08:00 AM,10/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Services: ClusterIP, NodePort & LoadBalancer
 
 Schedule:
@@ -104,7 +90,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Services (ClusterIP & NodePort)
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Inspecting cluster iptables rules generated for a Service",,False
-"[CKA] 8am-12pm: Namespaces & DNS Resolution Inside Clusters",10/01/2026,08:00 AM,10/01/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Namespaces & DNS Resolution Inside Clusters",10/22/2026,08:00 AM,10/22/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Namespaces & DNS Resolution Inside Clusters
 
 Schedule:
@@ -114,7 +100,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Namespaces & CoreDNS Exploration
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Launch temporary busybox pod for nslookup and curl tests",,False
-"[CKA] 8am-12pm: Kubectl Explain & Declarative Workflow",10/02/2026,08:00 AM,10/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Kubectl Explain & Declarative Workflow",10/23/2026,08:00 AM,10/23/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Kubectl Explain & Declarative Workflow
 
 Schedule:
@@ -124,7 +110,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Kubectl Apply Command & Imperative vs Declarative
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Synthesis: Constructing a complete 3-tier app manifest declaratively",,False
-"[CKA] 8am-12pm: Week 2 Speed Drills & Controller Triathlon",10/03/2026,08:00 AM,10/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 2 Speed Drills & Controller Triathlon",10/24/2026,08:00 AM,10/24/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 2 Speed Drills & Controller Triathlon
 
 Schedule:
@@ -132,24 +118,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Rolling update failure scenario & rollback under pressure
 11:00 AM - 12:00 PM: Milestone 2 Assessment: Multi-tier deployment with namespace routing",,False
-"[REST] Full Recovery & Memory Consolidation (Week 2)",10/04/2026,08:00 AM,10/04/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 2)",10/25/2026,08:00 AM,10/25/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/05/2026,08:00 AM,10/05/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/06/2026,08:00 AM,10/06/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/07/2026,08:00 AM,10/07/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/08/2026,08:00 AM,10/08/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/09/2026,08:00 AM,10/09/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/10/2026,08:00 AM,10/10/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[PAUSE] Scheduled Break (Week 3)",10/11/2026,08:00 AM,10/11/2026,06:00 PM,False,"Scheduled rest and recovery week.
-Detached from terminal to recharge cognitive endurance.",,False
-"[CKA] 8am-12pm: Manual Scheduling, Labels & Selectors",10/12/2026,08:00 AM,10/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Manual Scheduling, Labels & Selectors",10/26/2026,08:00 AM,10/26/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Manual Scheduling, Labels & Selectors
 
 Schedule:
@@ -159,7 +131,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Manual Scheduling, Labels and Selectors
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Manually binding an unscheduled pod via binding API",,False
-"[CKA] 8am-12pm: Taints, Tolerations & Node Affinity",10/13/2026,08:00 AM,10/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Taints, Tolerations & Node Affinity",10/27/2026,08:00 AM,10/27/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Taints, Tolerations & Node Affinity
 
 Schedule:
@@ -169,7 +141,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Taints & Tolerations, Node Affinity
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Evicting running pods using NoExecute taints",,False
-"[CKA] 8am-12pm: Resource Requirements, Limits & LimitRanges",10/14/2026,08:00 AM,10/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Resource Requirements, Limits & LimitRanges",10/28/2026,08:00 AM,10/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Resource Requirements, Limits & LimitRanges
 
 Schedule:
@@ -179,7 +151,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Resource Requirements & Limits
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Simulating memory leak pod to witness OOMKilled",,False
-"[CKA] 8am-12pm: DaemonSets & Static Pods Architecture",10/15/2026,08:00 AM,10/15/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: DaemonSets & Static Pods Architecture",10/29/2026,08:00 AM,10/29/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: DaemonSets & Static Pods Architecture
 
 Schedule:
@@ -189,7 +161,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: DaemonSets & Static Pods
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Deploying custom static pod on worker node and verifying node name suffix",,False
-"[CKA] 8am-12pm: Priority Classes & Multiple Schedulers",10/16/2026,08:00 AM,10/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Priority Classes & Multiple Schedulers",10/30/2026,08:00 AM,10/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Priority Classes & Multiple Schedulers
 
 Schedule:
@@ -199,7 +171,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Priority Classes & Multiple Schedulers
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Assigning pods to custom scheduler via schedulerName",,False
-"[CKA] 8am-12pm: Week 3 Scheduling Troubleshooting Matrix",10/17/2026,08:00 AM,10/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 3 Scheduling Troubleshooting Matrix",10/31/2026,08:00 AM,10/31/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 3 Scheduling Troubleshooting Matrix
 
 Schedule:
@@ -207,10 +179,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Static pod troubleshooting (broken manifest path in kubelet config)
 11:00 AM - 12:00 PM: Milestone 3 Assessment: Advanced scheduling orchestration",,False
-"[REST] Full Recovery & Memory Consolidation (Week 3)",10/18/2026,08:00 AM,10/18/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 3)",11/01/2026,08:00 AM,11/01/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[CKA] 8am-12pm: Commands & Arguments (Docker vs Kubernetes)",10/19/2026,08:00 AM,10/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Commands & Arguments (Docker vs Kubernetes)",11/02/2026,08:00 AM,11/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Commands & Arguments (Docker vs Kubernetes)
 
 Schedule:
@@ -220,7 +192,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Commands and Arguments in Kubernetes
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Sleeping pods for debugging using command override",,False
-"[CKA] 8am-12pm: ConfigMaps & Application Configuration",10/20/2026,08:00 AM,10/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: ConfigMaps & Application Configuration",11/03/2026,08:00 AM,11/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ConfigMaps & Application Configuration
 
 Schedule:
@@ -230,7 +202,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Configuring ConfigMaps in Applications
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Hot-reloading application configuration from volume mounts",,False
-"[CKA] 8am-12pm: Secrets Management & Encryption at Rest",10/21/2026,08:00 AM,10/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Secrets Management & Encryption at Rest",11/04/2026,08:00 AM,11/04/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Secrets Management & Encryption at Rest
 
 Schedule:
@@ -240,7 +212,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Secrets & Encrypting Secret Data at Rest
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Verifying encrypted data directly inside etcd database",,False
-"[CKA] 8am-12pm: Autoscaling: HPA, VPA & In-Place Pod Resize",10/22/2026,08:00 AM,10/22/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Autoscaling: HPA, VPA & In-Place Pod Resize",11/05/2026,08:00 AM,11/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Autoscaling: HPA, VPA & In-Place Pod Resize
 
 Schedule:
@@ -250,7 +222,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: HPA, VPA & Modifying CPU Resources in VPA
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Generating CPU load to trigger HPA pod scaling",,False
-"[CKA] 8am-12pm: Admission Controllers & Validating Webhooks",10/23/2026,08:00 AM,10/23/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Admission Controllers & Validating Webhooks",11/06/2026,08:00 AM,11/06/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Admission Controllers & Validating Webhooks
 
 Schedule:
@@ -260,7 +232,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Admission Controllers & Validating/Mutating Webhooks
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Enabling and disabling admission plugins in kube-apiserver manifest",,False
-"[CKA] 8am-12pm: Week 4 App Lifecycle & Secret Security Drill",10/24/2026,08:00 AM,10/24/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 4 App Lifecycle & Secret Security Drill",11/07/2026,08:00 AM,11/07/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 4 App Lifecycle & Secret Security Drill
 
 Schedule:
@@ -268,10 +240,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Debugging Secret decoding and environment injection errors
 11:00 AM - 12:00 PM: Milestone 4 Assessment: Application Lifecycle Mastery",,False
-"[REST] Full Recovery & Memory Consolidation (Week 4)",10/25/2026,08:00 AM,10/25/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 4)",11/08/2026,08:00 AM,11/08/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[CKA] 8am-12pm: Node Maintenance: Cordon, Drain & Uncordon",10/26/2026,08:00 AM,10/26/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Node Maintenance: Cordon, Drain & Uncordon",11/09/2026,08:00 AM,11/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Node Maintenance: Cordon, Drain & Uncordon
 
 Schedule:
@@ -281,7 +253,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: OS Upgrades & Maintenance
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Evicting pods respecting PDB minAvailable / maxUnavailable",,False
-"[CKA] 8am-12pm: Cluster Upgrade: Kubeadm Control Plane",10/27/2026,08:00 AM,10/27/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Cluster Upgrade: Kubeadm Control Plane",11/10/2026,08:00 AM,11/10/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Cluster Upgrade: Kubeadm Control Plane
 
 Schedule:
@@ -291,7 +263,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Cluster Upgrade Process - Control Plane
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Verifying control plane component versions after upgrade",,False
-"[CKA] 8am-12pm: Cluster Upgrade: Worker Nodes",10/28/2026,08:00 AM,10/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Cluster Upgrade: Worker Nodes",11/11/2026,08:00 AM,11/11/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Cluster Upgrade: Worker Nodes
 
 Schedule:
@@ -301,7 +273,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Cluster Upgrade Process - Worker Nodes
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Speed Drill: Upgrading worker node in under 6 minutes",,False
-"[CKA] 8am-12pm: ETCD Snapshot Backup & Disaster Recovery",10/29/2026,08:00 AM,10/29/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: ETCD Snapshot Backup & Disaster Recovery",11/12/2026,08:00 AM,11/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ETCD Snapshot Backup & Disaster Recovery
 
 Schedule:
@@ -311,7 +283,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Backup and Restore Methods (ETCD)
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Speed Drill: Timed ETCD backup and complete cluster recovery from snapshot",,False
-"[CKA] 8am-12pm: TLS Basics & PKI in Kubernetes",10/30/2026,08:00 AM,10/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: TLS Basics & PKI in Kubernetes",11/13/2026,08:00 AM,11/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: TLS Basics & PKI in Kubernetes
 
 Schedule:
@@ -321,7 +293,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: TLS Basics & View Certificate Details
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Diagnosing expired certificate errors on kube-apiserver",,False
-"[CKA] 8am-12pm: Full Disaster Recovery & Upgrade Drill",10/31/2026,08:00 AM,10/31/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Full Disaster Recovery & Upgrade Drill",11/14/2026,08:00 AM,11/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Full Disaster Recovery & Upgrade Drill
 
 Schedule:
@@ -329,10 +301,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Full multi-node kubeadm upgrade across 3 nodes
 11:00 AM - 12:00 PM: Milestone 5 Assessment: Disaster recovery & cluster maintenance",,False
-"[REST] Full Recovery & Memory Consolidation (Week 5)",11/01/2026,08:00 AM,11/01/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 5)",11/15/2026,08:00 AM,11/15/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[CKA] 8am-12pm: Certificates API & KubeConfig Management",11/02/2026,08:00 AM,11/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Certificates API & KubeConfig Management",11/16/2026,08:00 AM,11/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Certificates API & KubeConfig Management
 
 Schedule:
@@ -342,7 +314,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Certificates API & KubeConfig
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Generating custom user kubeconfig with client certs and key",,False
-"[CKA] 8am-12pm: RBAC (Roles, RoleBindings & ClusterRoles)",11/03/2026,08:00 AM,11/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: RBAC (Roles, RoleBindings & ClusterRoles)",11/17/2026,08:00 AM,11/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: RBAC (Roles, RoleBindings & ClusterRoles)
 
 Schedule:
@@ -352,7 +324,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Role-Based Access Controls & Cluster Roles
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Testing developer permissions via --as=developer flag",,False
-"[CKA] 8am-12pm: ServiceAccounts & SecurityContexts",11/04/2026,08:00 AM,11/04/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: ServiceAccounts & SecurityContexts",11/18/2026,08:00 AM,11/18/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ServiceAccounts & SecurityContexts
 
 Schedule:
@@ -362,7 +334,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Service Accounts & Security Contexts
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Adding NET_ADMIN capability to a pod",,False
-"[CKA] 8am-12pm: Storage: Volumes, PV, PVC & StorageClasses",11/05/2026,08:00 AM,11/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Storage: Volumes, PV, PVC & StorageClasses",11/19/2026,08:00 AM,11/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Storage: Volumes, PV, PVC & StorageClasses
 
 Schedule:
@@ -372,7 +344,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Persistent Volumes and Storage Classes
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Retain vs Delete reclaim policy verification",,False
-"[CKA] 8am-12pm: Helm & Kustomize (2025 Updates)",11/06/2026,08:00 AM,11/06/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Helm & Kustomize (2025 Updates)",11/20/2026,08:00 AM,11/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Helm & Kustomize (2025 Updates)
 
 Schedule:
@@ -382,7 +354,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Helm Basics & Kustomize Basics
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Generating patched environments using kustomize build",,False
-"[CKA] 8am-12pm: Security & Storage Lab Triathlon",11/07/2026,08:00 AM,11/07/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Security & Storage Lab Triathlon",11/21/2026,08:00 AM,11/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Security & Storage Lab Triathlon
 
 Schedule:
@@ -390,10 +362,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Helm chart deployment with custom values and Kustomize overlay
 11:00 AM - 12:00 PM: Milestone 6 Assessment: Enterprise security & storage configuration",,False
-"[REST] Full Recovery & Memory Consolidation (Week 6)",11/08/2026,08:00 AM,11/08/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Full Recovery & Memory Consolidation (Week 6)",11/22/2026,08:00 AM,11/22/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[CKA] 8am-12pm: Cluster & Pod Networking Prerequisites",11/09/2026,08:00 AM,11/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Cluster & Pod Networking Prerequisites",11/23/2026,08:00 AM,11/23/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Cluster & Pod Networking Prerequisites
 
 Schedule:
@@ -403,7 +375,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Prerequisite Switching, Routing, Gateways & CNI in Kubernetes
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Inspecting CNI configuration files in /etc/cni/net.d/",,False
-"[CKA] 8am-12pm: Service Networking & CoreDNS Deep Dive",11/10/2026,08:00 AM,11/10/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Service Networking & CoreDNS Deep Dive",11/24/2026,08:00 AM,11/24/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Service Networking & CoreDNS Deep Dive
 
 Schedule:
@@ -413,7 +385,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Service Networking & CoreDNS in Kubernetes
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Modifying CoreDNS configmap and watching resolution changes",,False
-"[CKA] 8am-12pm: Ingress Controllers & Routing Rules",11/11/2026,08:00 AM,11/11/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Ingress Controllers & Routing Rules",11/25/2026,08:00 AM,11/25/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Ingress Controllers & Routing Rules
 
 Schedule:
@@ -423,7 +395,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: CKA Ingress Networking Labs 1 & 2
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Testing path rewriting on Nginx ingress controller",,False
-"[CKA] 8am-12pm: Gateway API (2025 Updates)",11/12/2026,08:00 AM,11/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Gateway API (2025 Updates)",11/26/2026,08:00 AM,11/26/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Gateway API (2025 Updates)
 
 Schedule:
@@ -433,7 +405,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Gateway API (2025 Updates)
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Configuring weighted routing between service versions via HTTPRoute",,False
-"[CKA] 8am-12pm: Network Policies Deep Dive",11/13/2026,08:00 AM,11/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Network Policies Deep Dive",11/27/2026,08:00 AM,11/27/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Network Policies Deep Dive
 
 Schedule:
@@ -443,7 +415,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Network Policies Labs
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Visual Sketch: Drawing multi-namespace network policy isolation on whiteboard",,False
-"[CKA] 8am-12pm: Week 7 Network Mastery Triathlon",11/14/2026,08:00 AM,11/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 7 Network Mastery Triathlon",11/28/2026,08:00 AM,11/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 7 Network Mastery Triathlon
 
 Schedule:
@@ -451,10 +423,10 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: CNI crash troubleshooting and pod IP allocation recovery
 11:00 AM - 12:00 PM: Milestone 7 Assessment: Networking, Ingress & Security lockdown",,False
-"[REST] Exam Ready! Full Rest & Mental Grounding",11/15/2026,08:00 AM,11/15/2026,06:00 PM,False,"Complete detachment from code and terminal.
+"[REST] Exam Ready! Full Rest & Mental Grounding",11/29/2026,08:00 AM,11/29/2026,06:00 PM,False,"Complete detachment from code and terminal.
 Engage in physical movement, outdoor activities, social time, and restorative sleep.
 Allows long-term synaptic consolidation of weekly concepts.",,False
-"[CKA] 8am-12pm: Troubleshooting: Control Plane & Applications",11/16/2026,08:00 AM,11/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Troubleshooting: Control Plane & Applications",11/30/2026,08:00 AM,11/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Troubleshooting: Control Plane & Applications
 
 Schedule:
@@ -464,7 +436,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Application Failure & Control Plane Failure Labs
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Intentionally corrupting kube-apiserver manifest and restoring service",,False
-"[CKA] 8am-12pm: Troubleshooting: Worker Nodes & Network Failure",11/17/2026,08:00 AM,11/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Troubleshooting: Worker Nodes & Network Failure",12/01/2026,08:00 AM,12/01/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Troubleshooting: Worker Nodes & Network Failure
 
 Schedule:
@@ -474,7 +446,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Worker Node Failure & Network Troubleshooting Labs
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Speed Drill: Diagnosing and joining a detached worker node in under 5 minutes",,False
-"[CKA] 8am-12pm: JSONPath Queries & Lightning Labs 1 & 2",11/18/2026,08:00 AM,11/18/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: JSONPath Queries & Lightning Labs 1 & 2",12/02/2026,08:00 AM,12/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: JSONPath Queries & Lightning Labs 1 & 2
 
 Schedule:
@@ -484,7 +456,7 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: JSON Path in Kubernetes & Lightning Labs 1 & 2
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Speed review of Lightning Lab questions completed under target time",,False
-"[CKA] 8am-12pm: Timed Mock Exam 1 & Step-by-Step Review",11/19/2026,08:00 AM,11/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Timed Mock Exam 1 & Step-by-Step Review",12/03/2026,08:00 AM,12/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Timed Mock Exam 1 & Step-by-Step Review
 
 Schedule:
@@ -492,7 +464,7 @@ Schedule:
 08:15 AM - 10:15 AM: KodeKloud CKA Mock Exam 1 (Strict 2-hour timed exam simulation)
 10:15 AM - 10:30 AM: Physical walk & mental reset
 10:30 AM - 12:00 PM: Comprehensive Mock 1 Review: Analyze scoring, optimize slow commands",,False
-"[CKA] 8am-12pm: Timed Mock Exam 2 & 3 Marathon",11/20/2026,08:00 AM,11/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Timed Mock Exam 2 & 3 Marathon",12/04/2026,08:00 AM,12/04/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Timed Mock Exam 2 & 3 Marathon
 
 Schedule:
@@ -501,7 +473,7 @@ Schedule:
 10:00 AM - 10:15 AM: Movement & eye rest
 10:15 AM - 11:30 AM: KodeKloud Ultimate Mock Exam challenges
 11:30 AM - 12:00 PM: Verify allowed documentation bookmarks on kubernetes.io/docs",,False
-"[CKA] 8am-12pm: Killer.sh Simulator Marathon (Exam Benchmark)",11/21/2026,08:00 AM,11/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Killer.sh Simulator Marathon (Exam Benchmark)",12/05/2026,08:00 AM,12/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Killer.sh Simulator Marathon (Exam Benchmark)
 
 Schedule:

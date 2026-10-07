@@ -20,6 +20,17 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
+# User-generated study schedules & progress (private per learner)
+*.ics
+*.csv
+!*.template.csv
+!*.example.csv
+schedule.csv
+schedule.ics
+cka_lfcs_schedule.*
+cka_lfcs_4week.*
+*_progress.json
+
 # Runtime and temporary data
 *.log
 /tmp/

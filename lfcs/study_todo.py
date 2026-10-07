@@ -35,7 +35,7 @@ PROGRESS_FILE = DATA_DIR / "lfcs_progress.json"
 
 SCHEDULE_CSV = DIR / "schedule.csv"
 if not SCHEDULE_CSV.exists():
-    SCHEDULE_CSV = REPO_DIR / "cka_lfcs_schedule.csv"
+    SCHEDULE_CSV = DIR / "schedule.template.csv"
 CURRICULUM_DIR = TOOLS_DIR / "curriculum"
 
 C_HEADER   = 1
