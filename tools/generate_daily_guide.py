@@ -441,7 +441,7 @@ def build_cka_html_for_day(week: int, day: int, schedule_data: dict) -> str:
     cka_items = extract_schedule_items(cka_event.get("desc", ""))
     rec_items = extract_schedule_items(rec_event.get("desc", ""))
 
-    curr = get_curriculum(week, day)
+    curr = get_curriculum(week, day, track="cka")
     cka_theory_html = curr.get("cka_theory_html", "")
     cka_svg = curr.get("cka_svg", "")
     cka_aliases = curr.get("cka_aliases", "")
@@ -582,7 +582,7 @@ def build_lfcs_html_for_day(week: int, day: int, schedule_data: dict) -> str:
     lfcs_items = extract_schedule_items(lfcs_event.get("desc", ""))
     rec_items = extract_schedule_items(rec_event.get("desc", ""))
 
-    curr = get_curriculum(week, day)
+    curr = get_curriculum(week, day, track="lfcs")
     lfcs_theory_html = curr.get("lfcs_theory_html", "")
     lfcs_svg = curr.get("lfcs_svg", "")
     lfcs_aliases = curr.get("lfcs_aliases", "")

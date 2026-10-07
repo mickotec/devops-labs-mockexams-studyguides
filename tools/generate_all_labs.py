@@ -16,30 +16,38 @@ Generates complete, production-grade lab packages:
 import os
 import stat
 
-from curriculum.labs_week1 import WEEK_1_LABS
-from curriculum.labs_week2 import WEEK_2_LABS
-from curriculum.labs_week3 import WEEK_3_LABS
-from curriculum.labs_week4 import WEEK_4_LABS
-from curriculum.labs_week5 import WEEK_5_LABS
-from curriculum.labs_week6 import WEEK_6_LABS
-from curriculum.labs_week7 import WEEK_7_LABS
-from curriculum.labs_week8 import WEEK_8_LABS
-from curriculum.labs_mocks import MOCK_LABS
+from curriculum.cka.labs_week1 import WEEK_1_LABS as CKA_W1
+from curriculum.cka.labs_week2 import WEEK_2_LABS as CKA_W2
+from curriculum.cka.labs_week3 import WEEK_3_LABS as CKA_W3
+from curriculum.cka.labs_week4 import WEEK_4_LABS as CKA_W4
+from curriculum.cka.labs_week5 import WEEK_5_LABS as CKA_W5
+from curriculum.cka.labs_week6 import WEEK_6_LABS as CKA_W6
+from curriculum.cka.labs_week7 import WEEK_7_LABS as CKA_W7
+from curriculum.cka.labs_week8 import WEEK_8_LABS as CKA_W8
+from curriculum.cka.labs_mocks import MOCK_LABS as CKA_MOCKS
+
+from curriculum.lfcs.labs_week1 import WEEK_1_LABS as LFCS_W1
+from curriculum.lfcs.labs_week2 import WEEK_2_LABS as LFCS_W2
+from curriculum.lfcs.labs_week3 import WEEK_3_LABS as LFCS_W3
+from curriculum.lfcs.labs_week4 import WEEK_4_LABS as LFCS_W4
+from curriculum.lfcs.labs_week5 import WEEK_5_LABS as LFCS_W5
+from curriculum.lfcs.labs_week6 import WEEK_6_LABS as LFCS_W6
+from curriculum.lfcs.labs_week7 import WEEK_7_LABS as LFCS_W7
+from curriculum.lfcs.labs_week8 import WEEK_8_LABS as LFCS_W8
+from curriculum.lfcs.labs_mocks import MOCK_LABS as LFCS_MOCKS
 
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(TOOLS_DIR) if os.path.basename(TOOLS_DIR) == "tools" else TOOLS_DIR
 CKA_DIR = os.path.join(REPO_DIR, "cka")
 LFCS_DIR = os.path.join(REPO_DIR, "lfcs")
 
-ALL_WEEKS = [
-    (1, WEEK_1_LABS),
-    (2, WEEK_2_LABS),
-    (3, WEEK_3_LABS),
-    (4, WEEK_4_LABS),
-    (5, WEEK_5_LABS),
-    (6, WEEK_6_LABS),
-    (7, WEEK_7_LABS),
-    (8, WEEK_8_LABS),
+CKA_WEEKS = [
+    (1, CKA_W1), (2, CKA_W2), (3, CKA_W3), (4, CKA_W4),
+    (5, CKA_W5), (6, CKA_W6), (7, CKA_W7), (8, CKA_W8),
+]
+LFCS_WEEKS = [
+    (1, LFCS_W1), (2, LFCS_W2), (3, LFCS_W3), (4, LFCS_W4),
+    (5, LFCS_W5), (6, LFCS_W6), (7, LFCS_W7), (8, LFCS_W8),
 ]
 
 def make_executable(path):
@@ -219,53 +227,74 @@ echo "[✓] Reset complete."
 def main():
     total_generated = 0
 
-    # Generate Weeks 1 to 8
-    for week_num, days_data in ALL_WEEKS:
-        print(f"--> Processing Week {week_num} ({len(days_data)} days)...")
+    # Generate CKA Weeks 1 to 8
+    for week_num, days_data in CKA_WEEKS:
+        print(f"--> Processing CKA Week {week_num} ({len(days_data)} days)...")
         for item in days_data:
             d = item["day"]
             date_str = item["date"]
-
-            # Generate CKA lab
             cka_id = f"w{week_num}d{d}-cka"
             write_lab(
                 cka_id,
                 "CKA",
                 date_str,
-                item["cka_title"],
-                item["cka_diff"],
-                item["cka_time"],
-                item["cka_tasks"],
-                item["cka_setup"],
-                item["cka_verify"],
-                item["cka_solution"],
-                item["cka_reset"]
+                item["title"],
+                item["diff"],
+                item["time"],
+                item["tasks"],
+                item["setup"],
+                item["verify"],
+                item["solution"],
+                item["reset"]
             )
             total_generated += 1
 
-            # Generate LFCS lab
+    # Generate LFCS Weeks 1 to 8
+    for week_num, days_data in LFCS_WEEKS:
+        print(f"--> Processing LFCS Week {week_num} ({len(days_data)} days)...")
+        for item in days_data:
+            d = item["day"]
+            date_str = item["date"]
             lfcs_id = f"w{week_num}d{d}-lfcs"
             write_lab(
                 lfcs_id,
                 "LFCS",
                 date_str,
-                item["lfcs_title"],
-                item["lfcs_diff"],
-                item["lfcs_time"],
-                item["lfcs_tasks"],
-                item["lfcs_setup"],
-                item["lfcs_verify"],
-                item["lfcs_solution"],
-                item["lfcs_reset"]
+                item["title"],
+                item["diff"],
+                item["time"],
+                item["tasks"],
+                item["setup"],
+                item["verify"],
+                item["solution"],
+                item["reset"]
             )
             total_generated += 1
 
-    # Generate Mock Exams
-    print(f"--> Processing Mock Exams ({len(MOCK_LABS)} mock exams)...")
-    for mock in MOCK_LABS:
+    # Generate CKA Mock Exams
+    print(f"--> Processing CKA Mock Exams ({len(CKA_MOCKS)} mock exams)...")
+    for mock in CKA_MOCKS:
         write_lab(
             mock["lab_id"],
-            mock["track"],
+            "CKA",
+            mock["date"],
+            mock["title"],
+            mock["diff"],
+            mock["time"],
+            mock["tasks"],
+            mock["setup"],
+            mock["verify"],
+            mock["solution"],
+            mock["reset"]
+        )
+        total_generated += 1
+
+    # Generate LFCS Mock Exams
+    print(f"--> Processing LFCS Mock Exams ({len(LFCS_MOCKS)} mock exams)...")
+    for mock in LFCS_MOCKS:
+        write_lab(
+            mock["lab_id"],
+            "LFCS",
             mock["date"],
             mock["title"],
             mock["diff"],

@@ -38,9 +38,10 @@ LFCS_DOMAINS = {
 }
 
 def load_mock_labs():
-    """Loads raw mock labs from curriculum.labs_mocks."""
-    from curriculum.labs_mocks import MOCK_LABS
-    return {lab["lab_id"]: lab for lab in MOCK_LABS}
+    """Loads raw mock labs from curriculum.cka and curriculum.lfcs."""
+    from curriculum.cka.labs_mocks import MOCK_LABS as CKA_M
+    from curriculum.lfcs.labs_mocks import MOCK_LABS as LFCS_M
+    return {lab["lab_id"]: lab for lab in (CKA_M + LFCS_M)}
 
 
 def get_question_context(track, exam_id, q_num, q_text, domain):

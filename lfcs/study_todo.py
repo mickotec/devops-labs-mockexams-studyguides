@@ -25,6 +25,8 @@ from pathlib import Path
 DIR = Path(__file__).resolve().parent
 REPO_DIR = DIR.parent
 TOOLS_DIR = REPO_DIR / "tools"
+if str(DIR) not in sys.path:
+    sys.path.insert(0, str(DIR))
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 if str(REPO_DIR) not in sys.path:
@@ -36,7 +38,7 @@ PROGRESS_FILE = DATA_DIR / "lfcs_progress.json"
 SCHEDULE_CSV = DIR / "schedule.csv"
 if not SCHEDULE_CSV.exists():
     SCHEDULE_CSV = DIR / "schedule.template.csv"
-CURRICULUM_DIR = TOOLS_DIR / "curriculum"
+CURRICULUM_DIR = DIR / "curriculum"
 
 C_HEADER   = 1
 C_CKA      = 2
@@ -114,7 +116,7 @@ def parse_schedule_csv():
 def load_curriculum_checklists():
     checklists = {}
     try:
-        from curriculum import WEEKS
+        from curriculum.lfcs import WEEKS
         for wi in range(1, 9):
             wmod = WEEKS.get(wi)
             if not wmod:
@@ -136,7 +138,7 @@ def build_study_days(schedule_days):
     checklists = load_curriculum_checklists()
     week_topics = {}
     try:
-        from curriculum import WEEKS
+        from curriculum.lfcs import WEEKS
         for wi in range(1, 9):
             wmod = WEEKS.get(wi)
             if wmod and wmod.__doc__:

@@ -110,7 +110,7 @@ def load_curriculum():
     checklists = {}
     week_topics = {}
     try:
-        from curriculum import WEEKS
+        from curriculum.cka import WEEKS
         for wi in range(1, 9):
             wmod = WEEKS.get(wi)
             if not wmod:

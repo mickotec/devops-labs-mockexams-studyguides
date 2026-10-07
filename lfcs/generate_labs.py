@@ -14,20 +14,22 @@ DIR = Path(__file__).resolve().parent
 REPO_DIR = DIR.parent
 TOOLS_DIR = REPO_DIR / "tools"
 
+if str(DIR) not in sys.path:
+    sys.path.insert(0, str(DIR))
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 if str(REPO_DIR) not in sys.path:
     sys.path.insert(0, str(REPO_DIR))
 
-from curriculum.labs_week1 import WEEK_1_LABS
-from curriculum.labs_week2 import WEEK_2_LABS
-from curriculum.labs_week3 import WEEK_3_LABS
-from curriculum.labs_week4 import WEEK_4_LABS
-from curriculum.labs_week5 import WEEK_5_LABS
-from curriculum.labs_week6 import WEEK_6_LABS
-from curriculum.labs_week7 import WEEK_7_LABS
-from curriculum.labs_week8 import WEEK_8_LABS
-from curriculum.labs_mocks import MOCK_LABS
+from curriculum.lfcs.labs_week1 import WEEK_1_LABS
+from curriculum.lfcs.labs_week2 import WEEK_2_LABS
+from curriculum.lfcs.labs_week3 import WEEK_3_LABS
+from curriculum.lfcs.labs_week4 import WEEK_4_LABS
+from curriculum.lfcs.labs_week5 import WEEK_5_LABS
+from curriculum.lfcs.labs_week6 import WEEK_6_LABS
+from curriculum.lfcs.labs_week7 import WEEK_7_LABS
+from curriculum.lfcs.labs_week8 import WEEK_8_LABS
+from curriculum.lfcs.labs_mocks import MOCK_LABS
 
 ALL_WEEKS = [
     (1, WEEK_1_LABS),

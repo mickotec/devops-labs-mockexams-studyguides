@@ -38,8 +38,8 @@ LFCS_DOMAINS = {
 }
 
 def load_mock_labs():
-    """Loads raw mock labs from curriculum.labs_mocks."""
-    from curriculum.labs_mocks import MOCK_LABS
+    """Loads raw mock labs for CKA."""
+    from curriculum.cka.labs_mocks import MOCK_LABS
     return {lab["lab_id"]: lab for lab in MOCK_LABS}
 
 

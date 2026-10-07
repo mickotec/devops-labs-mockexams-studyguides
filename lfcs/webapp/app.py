@@ -110,7 +110,7 @@ def load_curriculum():
     checklists = {}
     week_topics = {}
     try:
-        from curriculum import WEEKS
+        from curriculum.lfcs import WEEKS
         for wi in range(1, 9):
             wmod = WEEKS.get(wi)
             if not wmod:
@@ -123,7 +123,7 @@ def load_curriculum():
                         dn = int(m.group(1))
                         parts = m.group(2).split("|")
                         cka = parts[0].strip()
-                        lfcs = parts[1].strip() if len(parts) > 1 else "LFCS Study"
+                        lfcs = parts[1].strip() if len(parts) > 1 else parts[0].strip()
                         week_topics[(wi, dn)] = (cka, lfcs)
             for d in range(1, 7):
                 fn = f"get_day_{d}"
