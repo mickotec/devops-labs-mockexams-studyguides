@@ -12,6 +12,7 @@ Outputs synchronized RFC 5545 iCalendar (.ics) and Google Calendar (.csv) files.
 
 import sys
 import os
+import re
 import argparse
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
@@ -451,6 +452,96 @@ def resolve_pause_weeks(input_str: str) -> list:
     return sorted(list(set(result)))
 
 
+# ── Study Time Parsing & Formatting ──────────────────────────────────────
+def parse_time_str(s: str, default_ampm: str = None):
+    s = s.strip().lower()
+    m = re.match(r"^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$", s)
+    if not m:
+        return None
+    h = int(m.group(1))
+    minute = int(m.group(2)) if m.group(2) else 0
+    ampm = m.group(3) or default_ampm
+
+    if ampm:
+        ampm = ampm.lower()
+        if ampm == "pm" and h < 12:
+            h += 12
+        elif ampm == "am" and h == 12:
+            h = 0
+    return (h, minute)
+
+
+def parse_time_window(val: str, default_start: str = "08:00 AM", default_end: str = "12:00 PM") -> dict:
+    if not val or not val.strip():
+        val = f"{default_start} to {default_end}"
+    raw = val.strip().replace(" - ", " to ").replace("-", " to ")
+    parts = [p.strip() for p in raw.split(" to ") if p.strip()]
+    if len(parts) != 2:
+        return None
+
+    end_ampm = "pm" if "pm" in parts[1].lower() else ("am" if "am" in parts[1].lower() else None)
+    first_has_ampm = "am" in parts[0].lower() or "pm" in parts[0].lower()
+    default_first_ampm = None if first_has_ampm else end_ampm
+
+    t1 = parse_time_str(parts[0], default_ampm=default_first_ampm)
+    t2 = parse_time_str(parts[1])
+    if not t1 or not t2:
+        return None
+
+    def format_tuple(t):
+        h, m = t
+        ampm = "AM" if h < 12 else "PM"
+        h12 = h % 12
+        if h12 == 0:
+            h12 = 12
+        csv_str = f"{h12:02d}:{m:02d} {ampm}"
+        ics_str = f"{h:02d}{m:02d}00"
+        label = f"{h12}{(':' + str(m).zfill(2)) if m else ''}{ampm.lower()}"
+        return csv_str, ics_str, label
+
+    c1, i1, l1 = format_tuple(t1)
+    c2, i2, l2 = format_tuple(t2)
+    return {
+        "csv_start": c1,
+        "csv_end": c2,
+        "ics_start": i1,
+        "ics_end": i2,
+        "label": f"{l1}-{l2}",
+        "t_start": t1,
+        "t_end": t2,
+    }
+
+
+def format_event_description(track: str, time_window: dict, topic: str, original_desc: str) -> str:
+    start_label = time_window["csv_start"]
+    end_label = time_window["csv_end"]
+
+    is_standard = (
+        (track == "CKA" and start_label == "08:00 AM" and end_label == "12:00 PM") or
+        (track == "LFCS" and start_label == "03:00 PM" and end_label == "06:00 PM")
+    )
+    if is_standard:
+        return f"{track} STUDY BLOCK ({start_label} - {end_label})\nTopic: {topic}\n\nSchedule:\n{original_desc}"
+
+    clean_lines = []
+    for line in original_desc.split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        line = re.sub(r"^\d{2}:\d{2}\s*[AP]M\s*-\s*\d{2}:\d{2}\s*[AP]M:\s*", "• ", line)
+        if not line.startswith("• "):
+            line = f"• {line}"
+        clean_lines.append(line)
+
+    activities_str = "\n".join(clean_lines)
+    return (
+        f"{track} STUDY BLOCK ({start_label} - {end_label})\n"
+        f"Topic: {topic}\n\n"
+        f"Curriculum Focus & Daily Objectives:\n"
+        f"{activities_str}"
+    )
+
+
 # ── Interactive Prompting ─────────────────────────────────────────────────
 def prompt_user_inputs(default_track: str = None) -> tuple:
     print()
@@ -463,7 +554,7 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
     # 1. Start Date
     default_monday = get_upcoming_monday()
     default_str = default_monday.strftime("%Y-%m-%d")
-    print("📅 [Step 1/4] When do you plan to start studying?")
+    print("📅 [Step 1/5] When do you plan to start studying?")
     print("   Options: YYYY-MM-DD, 'today', 'tomorrow', or 'next monday'")
     while True:
         try:
@@ -475,7 +566,7 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
             print(f"   [!] {e}. Please enter a valid date.")
 
     # 2. Duration / Length
-    print("⏱️  [Step 2/4] For how long do you plan to study?")
+    print("⏱️  [Step 2/5] For how long do you plan to study?")
     print("   [1] 8 Weeks — Standard Comprehensive Track (6 days/week, ~48 days) [Recommended]")
     print("   [2] 4 Weeks — Accelerated Intensive Sprint (condensed double-pace, ~24 days)")
     print("   [3] Custom duration (enter any number of weeks between 1 and 16)")
@@ -492,18 +583,18 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
     # 3. Track selection
     if default_track in ("cka", "lfcs"):
         track = default_track
-        print(f"🎯 [Step 3/4] Certification Track: {track.upper()} (Preselected)\n")
+        print(f"🎯 [Step 3/5] Certification Track: {track.upper()} (Preselected)\n")
     else:
-        print("🎯 [Step 3/4] Which certification track are you preparing for?")
-        print("   [1] Both CKA & LFCS (Dual Track: Morning CKA 08:00-12:00, Afternoon LFCS 15:00-18:00) [Default]")
-        print("   [2] CKA Only (Certified Kubernetes Administrator — 4 hours/day)")
-        print("   [3] LFCS Only (Linux Foundation Certified SysAdmin — 3 hours/day)")
+        print("🎯 [Step 3/5] Which certification track are you preparing for?")
+        print("   [1] Both CKA & LFCS (Dual Track) [Default]")
+        print("   [2] CKA Only (Certified Kubernetes Administrator)")
+        print("   [3] LFCS Only (Linux Foundation Certified SysAdmin)")
         val = input("   Select track [1-3, default: 1]: ").strip()
         track = resolve_track(val)
         print(f"   ✓ Track selected: {track.upper()}\n")
 
     # 4. Scheduled Pauses
-    print("⏸️  [Step 4/4] Do you want to schedule any pause or break weeks?")
+    print("⏸️  [Step 4/5] Do you want to schedule any pause or break weeks?")
     print("   (e.g., enter '2' to pause during week 2, 'none' for continuous study)")
     val = input("   Pause weeks [default: none]: ").strip()
     pauses = resolve_pause_weeks(val)
@@ -512,13 +603,42 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
     else:
         print("   ✓ Continuous study with no planned pause weeks.\n")
 
-    return start_date, duration_weeks, track, pauses
+    # 5. Daily Study Hours
+    print("🕐 [Step 5/5] What specific hours of the day do you want to study?")
+    cka_time = None
+    lfcs_time = None
+
+    if track in ("both", "cka"):
+        print("   Enter your preferred CKA daily time window (e.g. '4am to 12pm', '8am to 12pm', '06:00-10:00')")
+        while True:
+            val = input("   CKA Study Hours [default: 08:00 AM - 12:00 PM]: ").strip()
+            cka_time = parse_time_window(val, default_start="08:00 AM", default_end="12:00 PM")
+            if cka_time:
+                print(f"   ✓ CKA daily study block: {cka_time['csv_start']} - {cka_time['csv_end']} ({cka_time['label']})\n")
+                break
+            print("   [!] Could not parse time window. Format example: '4am to 12pm' or '08:00 AM - 12:00 PM'.")
+
+    if track in ("both", "lfcs"):
+        print("   Enter your preferred LFCS daily time window (e.g. '6pm to 8pm', '3pm to 6pm', '18:00-21:00')")
+        while True:
+            val = input("   LFCS Study Hours [default: 03:00 PM - 06:00 PM]: ").strip()
+            lfcs_time = parse_time_window(val, default_start="03:00 PM", default_end="06:00 PM")
+            if lfcs_time:
+                print(f"   ✓ LFCS daily study block: {lfcs_time['csv_start']} - {lfcs_time['csv_end']} ({lfcs_time['label']})\n")
+                break
+            print("   [!] Could not parse time window. Format example: '6pm to 8pm' or '03:00 PM - 06:00 PM'.")
+
+    return start_date, duration_weeks, track, pauses, cka_time, lfcs_time
 
 
 # ── Schedule Event Builders ───────────────────────────────────────────────
-def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: list = None) -> list:
+def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: list = None, cka_time: dict = None, lfcs_time: dict = None) -> list:
     if pauses is None:
         pauses = []
+    if cka_time is None:
+        cka_time = parse_time_window("", "08:00 AM", "12:00 PM")
+    if lfcs_time is None:
+        lfcs_time = parse_time_window("", "03:00 PM", "06:00 PM")
 
     events = []
     now_stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -575,39 +695,47 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                 if track in ("both", "cka"):
                     events.append({
                         "uid": f"cka-w{cka['week']}d{cka['day_num']}@{ds}",
-                        "subject": f"[CKA] 8am-12pm: {cka['cka_title']}",
-                        "start_dt": f"{ds}T080000",
-                        "end_dt": f"{ds}T120000",
+                        "subject": f"[CKA] {cka_time['label']}: {cka['cka_title']}",
+                        "start_dt": f"{ds}T{cka_time['ics_start']}",
+                        "end_dt": f"{ds}T{cka_time['ics_end']}",
                         "csv_date": csv_date,
-                        "csv_start": "08:00 AM",
-                        "csv_end": "12:00 PM",
-                        "desc": f"CKA STUDY BLOCK (8:00 AM - 12:00 PM)\nTopic: {cka['cka_title']}\n\nSchedule:\n{cka['cka_desc']}",
+                        "csv_start": cka_time["csv_start"],
+                        "csv_end": cka_time["csv_end"],
+                        "desc": format_event_description("CKA", cka_time, cka["cka_title"], cka["cka_desc"]),
                         "type": "CKA"
                     })
 
                 if track == "both":
-                    events.append({
-                        "uid": f"rec-w{cka['week']}d{cka['day_num']}@{ds}",
-                        "subject": "[RECOVERY] 12pm-3pm: Cognitive Reset & BDNF Boost",
-                        "start_dt": f"{ds}T120000",
-                        "end_dt": f"{ds}T150000",
-                        "csv_date": csv_date,
-                        "csv_start": "12:00 PM",
-                        "csv_end": "03:00 PM",
-                        "desc": "COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)\n12:00-01:00 Lunch & total screen detachment\n01:00-02:00 Aerobic exercise / brisk walk\n02:00-02:45 Power nap or NSDR\n02:45-03:00 Terminal & desk prep for LFCS",
-                        "type": "RECOVERY"
-                    })
+                    if cka_time["t_end"] <= lfcs_time["t_start"]:
+                        gap_minutes = (lfcs_time["t_start"][0]*60 + lfcs_time["t_start"][1]) - (cka_time["t_end"][0]*60 + cka_time["t_end"][1])
+                        if gap_minutes >= 45:
+                            rec_ics_start = cka_time["ics_end"]
+                            rec_ics_end = lfcs_time["ics_start"]
+                            rec_csv_start = cka_time["csv_end"]
+                            rec_csv_end = lfcs_time["csv_start"]
+                            rec_label = f"{cka_time['label'].split('-')[-1]}-{lfcs_time['label'].split('-')[0]}"
+                            events.append({
+                                "uid": f"rec-w{cka['week']}d{cka['day_num']}@{ds}",
+                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
+                                "start_dt": f"{ds}T{rec_ics_start}",
+                                "end_dt": f"{ds}T{rec_ics_end}",
+                                "csv_date": csv_date,
+                                "csv_start": rec_csv_start,
+                                "csv_end": rec_csv_end,
+                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious lunch & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Terminal & desk prep for LFCS",
+                                "type": "RECOVERY"
+                            })
 
                 if track in ("both", "lfcs"):
                     events.append({
                         "uid": f"lfcs-w{lfcs['week']}d{lfcs['day_num']}@{ds}",
-                        "subject": f"[LFCS] 3pm-6pm: {lfcs['lfcs_title']}",
-                        "start_dt": f"{ds}T150000",
-                        "end_dt": f"{ds}T180000",
+                        "subject": f"[LFCS] {lfcs_time['label']}: {lfcs['lfcs_title']}",
+                        "start_dt": f"{ds}T{lfcs_time['ics_start']}",
+                        "end_dt": f"{ds}T{lfcs_time['ics_end']}",
                         "csv_date": csv_date,
-                        "csv_start": "03:00 PM",
-                        "csv_end": "06:00 PM",
-                        "desc": f"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)\nTopic: {lfcs['lfcs_title']}\n\nSchedule:\n{lfcs['lfcs_desc']}",
+                        "csv_start": lfcs_time["csv_start"],
+                        "csv_end": lfcs_time["csv_end"],
+                        "desc": format_event_description("LFCS", lfcs_time, lfcs["lfcs_title"], lfcs["lfcs_desc"]),
                         "type": "LFCS"
                     })
 
@@ -670,41 +798,49 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                 if track in ("both", "cka"):
                     events.append({
                         "uid": f"cka-w{day['week']}d{placed+1}@{ds}",
-                        "subject": f"[CKA] 8am-12pm: {day['cka_title']}",
-                        "start_dt": f"{ds}T080000",
-                        "end_dt": f"{ds}T120000",
+                        "subject": f"[CKA] {cka_time['label']}: {day['cka_title']}",
+                        "start_dt": f"{ds}T{cka_time['ics_start']}",
+                        "end_dt": f"{ds}T{cka_time['ics_end']}",
                         "csv_date": csv_date,
-                        "csv_start": "08:00 AM",
-                        "csv_end": "12:00 PM",
-                        "desc": f"CKA STUDY BLOCK (8:00 AM - 12:00 PM)\nTopic: {day['cka_title']}\n\nSchedule:\n{day['cka_desc']}",
+                        "csv_start": cka_time["csv_start"],
+                        "csv_end": cka_time["csv_end"],
+                        "desc": format_event_description("CKA", cka_time, day["cka_title"], day["cka_desc"]),
                         "type": "CKA"
                     })
 
                 # Midday Recovery
                 if track == "both":
-                    events.append({
-                        "uid": f"recovery-w{day['week']}d{placed+1}@{ds}",
-                        "subject": "[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",
-                        "start_dt": f"{ds}T120000",
-                        "end_dt": f"{ds}T150000",
-                        "csv_date": csv_date,
-                        "csv_start": "12:00 PM",
-                        "csv_end": "03:00 PM",
-                        "desc": "COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)\n12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment\n01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)\n02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)\n02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",
-                        "type": "RECOVERY"
-                    })
+                    if cka_time["t_end"] <= lfcs_time["t_start"]:
+                        gap_minutes = (lfcs_time["t_start"][0]*60 + lfcs_time["t_start"][1]) - (cka_time["t_end"][0]*60 + cka_time["t_end"][1])
+                        if gap_minutes >= 45:
+                            rec_ics_start = cka_time["ics_end"]
+                            rec_ics_end = lfcs_time["ics_start"]
+                            rec_csv_start = cka_time["csv_end"]
+                            rec_csv_end = lfcs_time["csv_start"]
+                            rec_label = f"{cka_time['label'].split('-')[-1]}-{lfcs_time['label'].split('-')[0]}"
+                            events.append({
+                                "uid": f"recovery-w{day['week']}d{placed+1}@{ds}",
+                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
+                                "start_dt": f"{ds}T{rec_ics_start}",
+                                "end_dt": f"{ds}T{rec_ics_end}",
+                                "csv_date": csv_date,
+                                "csv_start": rec_csv_start,
+                                "csv_end": rec_csv_end,
+                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious meal & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Terminal & desk prep for LFCS",
+                                "type": "RECOVERY"
+                            })
 
                 # LFCS Event
                 if track in ("both", "lfcs"):
                     events.append({
                         "uid": f"lfcs-w{day['week']}d{placed+1}@{ds}",
-                        "subject": f"[LFCS] 3pm-6pm: {day['lfcs_title']}",
-                        "start_dt": f"{ds}T150000",
-                        "end_dt": f"{ds}T180000",
+                        "subject": f"[LFCS] {lfcs_time['label']}: {day['lfcs_title']}",
+                        "start_dt": f"{ds}T{lfcs_time['ics_start']}",
+                        "end_dt": f"{ds}T{lfcs_time['ics_end']}",
                         "csv_date": csv_date,
-                        "csv_start": "03:00 PM",
-                        "csv_end": "06:00 PM",
-                        "desc": f"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)\nTopic: {day['lfcs_title']}\n\nSchedule:\n{day['lfcs_desc']}",
+                        "csv_start": lfcs_time["csv_start"],
+                        "csv_end": lfcs_time["csv_end"],
+                        "desc": format_event_description("LFCS", lfcs_time, day["lfcs_title"], day["lfcs_desc"]),
                         "type": "LFCS"
                     })
 
@@ -763,11 +899,15 @@ def generate_csv(events: list, output_path: Path):
 
 
 # ── Execution Orchestrator ────────────────────────────────────────────────
-def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses: list, output_dir: Path = None):
+def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses: list, output_dir: Path = None, cka_time: dict = None, lfcs_time: dict = None):
     if output_dir is None:
         output_dir = REPO_ROOT
+    if cka_time is None:
+        cka_time = parse_time_window("", "08:00 AM", "12:00 PM")
+    if lfcs_time is None:
+        lfcs_time = parse_time_window("", "03:00 PM", "06:00 PM")
 
-    events = build_events(start_date, duration_weeks, track, pauses)
+    events = build_events(start_date, duration_weeks, track, pauses, cka_time=cka_time, lfcs_time=lfcs_time)
     written_files = []
 
     track_title = {
@@ -823,6 +963,10 @@ def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses:
     print(f"Start Date:          {start_date.strftime('%A, %B %d, %Y')}")
     print(f"Target Finish:       {end_str}")
     print(f"Duration:            {duration_weeks} Weeks ({len(events)} calendar events)")
+    if track in ("both", "cka"):
+        print(f"CKA Study Block:     {cka_time['csv_start']} - {cka_time['csv_end']} ({cka_time['label']})")
+    if track in ("both", "lfcs"):
+        print(f"LFCS Study Block:    {lfcs_time['csv_start']} - {lfcs_time['csv_end']} ({lfcs_time['label']})")
     print()
     print("Exported Files:")
     for f in written_files:
@@ -837,6 +981,9 @@ def main():
     parser.add_argument("-w", "--weeks", "--duration", dest="duration_weeks", type=str, help="Duration in weeks (e.g. 8 or 4)")
     parser.add_argument("-t", "--track", choices=["both", "cka", "lfcs"], default=None, help="Certification track")
     parser.add_argument("-p", "--pause", dest="pauses", default="", help="Scheduled pause weeks, comma-separated (e.g. '2,3')")
+    parser.add_argument("--cka-time", dest="cka_time", default="", help="Preferred CKA study hours (e.g. '4am to 12pm')")
+    parser.add_argument("--lfcs-time", dest="lfcs_time", default="", help="Preferred LFCS study hours (e.g. '6pm to 8pm')")
+    parser.add_argument("--time", "--study-time", dest="time_window", default="", help="Preferred daily study hours")
     parser.add_argument("-i", "--interactive", action="store_true", help="Force interactive prompt")
     parser.add_argument("-y", "--yes", "--non-interactive", dest="non_interactive", action="store_true", help="Non-interactive batch mode")
 
@@ -846,14 +993,18 @@ def main():
     is_interactive = (sys.stdin.isatty() and not args.non_interactive and not (args.start_date and args.duration_weeks)) or args.interactive
 
     if is_interactive:
-        start_date, duration_weeks, track, pauses = prompt_user_inputs(default_track=args.track)
+        start_date, duration_weeks, track, pauses, cka_time, lfcs_time = prompt_user_inputs(default_track=args.track)
     else:
         start_date = resolve_start_date(args.start_date or "")
         duration_weeks = resolve_duration(args.duration_weeks or "8")
         track = args.track or "both"
         pauses = resolve_pause_weeks(args.pauses or "")
+        cka_val = args.cka_time or (args.time_window if track in ("cka", "both") else "")
+        lfcs_val = args.lfcs_time or (args.time_window if track == "lfcs" else "")
+        cka_time = parse_time_window(cka_val, "08:00 AM", "12:00 PM")
+        lfcs_time = parse_time_window(lfcs_val, "03:00 PM", "06:00 PM")
 
-    run_generator(start_date, duration_weeks, track, pauses)
+    run_generator(start_date, duration_weeks, track, pauses, cka_time=cka_time, lfcs_time=lfcs_time)
 
 
 if __name__ == "__main__":

@@ -314,12 +314,13 @@ cd lfcs && python3 generate_calendar.py  # Tailored for LFCS (3 hrs/day)
    - Custom: Any number of weeks between 1 and 16.
 3. **Certification Track**: Choose between `Both (Dual Track)`, `CKA Only`, or `LFCS Only`.
 4. **Planned Pauses**: Optionally insert scheduled recovery/pause weeks (e.g. for travel, family, or work commitments) which automatically shifts all remaining modules without disrupting the syllabus flow.
+5. **Custom Daily Study Hours**: Specify your exact preferred study hours for each track (e.g. `4am to 12 pm` for early-bird/morning CKA, `6pm to 8pm` for evening LFCS, `18:00 - 21:00`, or press Enter to keep standard defaults `08:00 AM - 12:00 PM` and `03:00 PM - 06:00 PM`).
 
 <a id="calendar-outputs"></a>
 ### Private Local Calendar Outputs:
-When you run the generator, your customized calendar files are generated locally for your private use (and excluded from Git tracking via `.gitignore` so your personal dates are never committed):
-- **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (morning blocks 08:00 - 12:00)
-- **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (afternoon blocks 15:00 - 18:00)
+When you run the generator, your customized calendar files are generated locally for your private use (and excluded from Git tracking via `.gitignore` so your personal dates and custom hours are never committed):
+- **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (tailored to your chosen hours, e.g. 04:00 AM - 12:00 PM)
+- **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (tailored to your chosen hours, e.g. 06:00 PM - 08:00 PM)
 - **Dual-Track Calendar**: `cka_lfcs_schedule.ics` & `cka_lfcs_schedule.csv` (when scheduling both)
 
 Importable directly into Google Calendar, Apple Calendar, Microsoft Outlook, Thunderbird, and mobile calendar apps.
