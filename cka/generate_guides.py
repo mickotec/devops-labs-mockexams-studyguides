@@ -2,7 +2,7 @@
 """
 CKA Master Daily Study Guide Generator
 Dedicated generator for the Certified Kubernetes Administrator (CKA) track.
-Outputs: cka/guides/CKA_Daily_Study_Guide_W{w}D{d}_{date}.html
+Outputs: cka/guides/CKA_Daily_Study_Guide_W{w}D{d}.html
 """
 
 import os

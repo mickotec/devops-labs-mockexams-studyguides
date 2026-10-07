@@ -2,8 +2,8 @@
 """
 CKA & LFCS Master Daily Study Guide Generator (Track-Separated)
 Generates separate, publication-grade daily study guides for CKA and LFCS:
-- CKA Daily Study Guides -> cka/guides/CKA_Daily_Study_Guide_W{w}D{d}_{date}.html
-- LFCS Daily Study Guides -> lfcs/guides/LFCS_Daily_Study_Guide_W{w}D{d}_{date}.html
+- CKA Daily Study Guides -> cka/guides/CKA_Daily_Study_Guide_W{w}D{d}.html
+- LFCS Daily Study Guides -> lfcs/guides/LFCS_Daily_Study_Guide_W{w}D{d}.html
 
 Features:
 - Track-specific agendas (CKA Morning 08:00-12:00, LFCS Afternoon 15:00-18:00)
@@ -746,8 +746,8 @@ def generate_single_day(week: int, day: int, schedule_data: dict, track: str = "
     # CKA Guide
     if track in ["both", "cka"]:
         cka_html = build_cka_html_for_day(week, day, schedule_data)
-        out_html = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}_{date_key}.html"
-        out_pdf = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}_{date_key}.pdf"
+        out_html = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}.html"
+        out_pdf = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}.pdf"
         out_html.write_text(cka_html, encoding="utf-8")
         compile_pdf(out_html, out_pdf)
         generated.append(out_html)
@@ -758,8 +758,8 @@ def generate_single_day(week: int, day: int, schedule_data: dict, track: str = "
     # LFCS Guide
     if track in ["both", "lfcs"]:
         lfcs_html = build_lfcs_html_for_day(week, day, schedule_data)
-        out_html = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}_{date_key}.html"
-        out_pdf = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}_{date_key}.pdf"
+        out_html = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}.html"
+        out_pdf = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}.pdf"
         out_html.write_text(lfcs_html, encoding="utf-8")
         compile_pdf(out_html, out_pdf)
         generated.append(out_html)

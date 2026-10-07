@@ -2,7 +2,7 @@
 """
 LFCS Master Daily Study Guide Generator
 Dedicated generator for the Linux Foundation Certified System Administrator (LFCS) track.
-Outputs: lfcs/guides/LFCS_Daily_Study_Guide_W{w}D{d}_{date}.html
+Outputs: lfcs/guides/LFCS_Daily_Study_Guide_W{w}D{d}.html
 """
 
 import os
