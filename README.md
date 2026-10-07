@@ -38,6 +38,7 @@ Designed with **complete track modularity**: Whether you are studying exclusivel
 devops-labs-mockexams-studyguides/
 │
 ├── cka/                            # ☸ STANDALONE CKA TRACK
+│   ├── lab                         # Dedicated CKA Lab CLI orchestrator (start, check, solve, reset, vm)
 │   ├── webapp/                     # Dedicated CKA web dashboard & killer.sh exam simulator (Port 5051)
 │   ├── pomodoro-extension/         # Dedicated CKA Pomodoro timer Chrome extension (links to 5051)
 │   ├── generate_calendar.py        # Dedicated CKA study calendar generator (prompts start date & duration)
@@ -52,6 +53,7 @@ devops-labs-mockexams-studyguides/
 │   └── w1d1-cka/ ... w8d6-cka/     # 48 Calendar-aligned hands-on Kubernetes lab scenarios
 │
 ├── lfcs/                           # 🐧 STANDALONE LFCS TRACK
+│   ├── lab                         # Dedicated LFCS Lab CLI orchestrator (start, check, solve, reset, vm)
 │   ├── webapp/                     # Dedicated LFCS web dashboard & PSI exam simulator (Port 5052)
 │   ├── pomodoro-extension/         # Dedicated LFCS Pomodoro timer Chrome extension (links to 5052)
 │   ├── generate_calendar.py        # Dedicated LFCS study calendar generator (prompts start date & duration)
@@ -78,7 +80,7 @@ devops-labs-mockexams-studyguides/
 │   ├── study_todo.py               # Dual-track curses progress tracker
 │   └── start_simulator.sh          # Terminal mock exam launcher
 │
-├── lab                             # 🚀 Master CLI Orchestrator (start, check, solve, reset, vm)
+├── lab                             # 🚀 Master CLI Launcher & Forwarder (dispatches to cka/lab or lfcs/lab)
 ├── LICENSE                         # MIT Open Source License
 ├── .gitignore                      # Ignores personal/generated schedules (*.ics, *.csv, *.json)
 └── README.md
@@ -97,22 +99,31 @@ You can work entirely inside the `cka/` folder without touching LFCS:
 ```bash
 cd cka
 
-# 1. Run the terminal progress tracker & daily checklist
+# 1. Dedicated CKA Lab CLI (manage, grade, and solve Kubernetes scenarios)
+./lab list                  # List all 48 CKA daily labs and 2 killer.sh mock exams
+./lab start w1d1-cka        # Inject scenario into K8s cluster (controlplane, node01, node02)
+./lab show w1d1-cka         # View scenario objectives & tasks
+./lab check w1d1-cka        # Automatically grade your work
+./lab solve w1d1-cka        # Reveal step-by-step solutions
+./lab reset w1d1-cka        # Reset scenario to clean state
+./lab vm status             # Check cluster VM status
+
+# 2. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 2. Customize your study calendar (asks when you start & for how long)
+# 3. Customize your study calendar (asks when you start & for how long)
 python3 generate_calendar.py
 
-# 3. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
+# 4. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
 bash webapp/start.sh
 
-# 4. Generate or update all 48 CKA daily HTML study guides
+# 5. Generate or update all 48 CKA daily HTML study guides
 python3 generate_guides.py
 
-# 5. Generate or rebuild all 48 CKA labs and killer.sh mock exams
+# 6. Generate or rebuild all 48 CKA labs and killer.sh mock exams
 python3 generate_labs.py
 
-# 6. Import cka/schedule.ics into Google Calendar or Thunderbird
+# 7. Import cka/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for CKA:**
@@ -131,22 +142,31 @@ You can work entirely inside the `lfcs/` folder without touching CKA:
 ```bash
 cd lfcs
 
-# 1. Run the terminal progress tracker & daily checklist
+# 1. Dedicated LFCS Lab CLI (manage, grade, and solve Linux scenarios)
+./lab list                  # List all 48 LFCS daily labs and 4 PSI mock exams
+./lab start w1d1-lfcs       # Inject scenario into LFCS target VM
+./lab show w1d1-lfcs        # View scenario objectives & tasks
+./lab check w1d1-lfcs       # Automatically grade your work
+./lab solve w1d1-lfcs       # Reveal step-by-step solutions
+./lab reset w1d1-lfcs       # Reset scenario to clean state
+./lab vm status             # Check LFCS VM status
+
+# 2. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 2. Customize your study calendar (asks when you start & for how long)
+# 3. Customize your study calendar (asks when you start & for how long)
 python3 generate_calendar.py
 
-# 3. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
+# 4. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
 bash webapp/start.sh
 
-# 4. Generate or update all 48 LFCS daily HTML study guides
+# 5. Generate or update all 48 LFCS daily HTML study guides
 python3 generate_guides.py
 
-# 5. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
+# 6. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
 python3 generate_labs.py
 
-# 6. Import lfcs/schedule.ics into Google Calendar or Thunderbird
+# 7. Import lfcs/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for LFCS:**
@@ -233,15 +253,22 @@ vagrant up LFCS
 ---
 
 <a id="unified-lab-cli"></a>
-## 🛠 Unified Lab CLI (`./lab`)
+## 🛠 Lab CLI Orchestrators (`./lab`)
 
-The repository root includes a master CLI orchestrator for administering scenarios and grading across all VMs:
+Each certification track includes its own **standalone, decoupled CLI runner** (`cka/lab` and `lfcs/lab`), while the repository root provides an intelligent launcher that forwards commands to the appropriate track:
+
+### Standalone Track Usage (Recommended for Single-Track Study):
+- **CKA Track**: `cd cka && ./lab list` (manages only K8s scenarios and `controlplane`/`node01`/`node02` nodes)
+- **LFCS Track**: `cd lfcs && ./lab list` (manages only Linux scenarios and the `LFCS` VM)
+
+### Dual-Track & Root Launcher:
+When working from the repository root, `./lab` automatically routes your commands:
 
 ```bash
-# List all scenarios
+# List all scenarios across both tracks
 ./lab list
 
-# Filter scenarios
+# Filter scenarios by exam track
 ./lab list cka
 ./lab list lfcs
 ./lab list w2
