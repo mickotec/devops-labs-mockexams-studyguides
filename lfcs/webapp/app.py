@@ -21,6 +21,8 @@ import termios
 import threading
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
+
 DIR = Path(__file__).resolve().parent
 LFCS_DIR = DIR.parent
 REPO_DIR = LFCS_DIR.parent

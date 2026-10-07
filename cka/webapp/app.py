@@ -21,6 +21,8 @@ import termios
 import threading
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
+
 DIR = Path(__file__).resolve().parent
 CKA_DIR = DIR.parent
 REPO_DIR = CKA_DIR.parent
