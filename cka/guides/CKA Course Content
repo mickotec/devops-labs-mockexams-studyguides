@@ -1,0 +1,680 @@
+CKA Course Content
+
+
+Collapse All
+
+Introduction
+4 Lessons
+
+Module Content
+
+0% Complete
+
+0/4 Lessons
+
+Course Introduction
+03:03
+Certification
+02:58
+Discount & Certification Details
+How to Reach Out to KodeKloud and Engage with the Community
+
+Core Concepts
+42 Lessons
+
+Module Content
+
+0% Complete
+
+0/42 Lessons
+
+Core Concepts - Section Introduction
+00:31
+Cluster Architecture
+08:48
+Docker-vs-ContainerD
+12:58
+A Note on Docker Deprecation
+02:13
+etcd for Beginners
+07:02
+etcd in Kubernetes
+03:14
+etcd – Commands (Optional)
+Kube API Server
+04:51
+Kube Controller Manager
+04:15
+Kube Scheduler
+03:53
+Kubelet
+01:42
+Kube Proxy
+03:41
+Pods
+09:04
+Pods With YAML
+06:44
+Demo - Pods With YAML
+06:17
+Practice Test Introduction
+05:45
+Lab - Pods
+Lab Solution - Pods (optional)
+11:32
+ReplicaSets
+16:09
+Lab - ReplicaSets
+Lab Solution - ReplicaSets (optional)
+14:09
+Deployments
+04:21
+Certification Tip!
+Lab- Deployments
+Lab Solution: Deployment(optional)
+07:08
+Services
+13:33
+Services Cluster IP
+04:02
+Services - Loadbalancer
+03:42
+Lab - Services
+Lab Solution: Services (optional)
+09:28
+Namespaces
+08:23
+Lab - Namespaces
+Solution: Namespaces (optional)
+05:03
+Imperative vs Declarative
+13:06
+Certification Tips - Imperative Commands With Kubectl
+Kubectl Explain Command
+01:51
+Lab - Imperative Commands
+Lab Solution: Imperative Commands (optional)
+13:25
+Kubectl Apply Command
+04:38
+A Quick Reminder
+01:10
+Notes available at KodeKloud Notes
+Reference Notes for lectures and labs
+
+Scheduling
+38 Lessons
+
+Module Content
+
+0% Complete
+
+0/38 Lessons
+
+Scheduling - Section Introduction
+00:54
+Manual Scheduling
+02:31
+Lab - Manual Scheduling
+Lab Solution: Manual Scheduling (optional)
+06:53
+Labels and Selectors
+05:47
+Lab - Labels and Selectors
+Lab Solution: Labels and Selectors
+05:34
+Taints and Tolerations
+09:42
+Lab - Taints and Tolerations
+Lab Solution - Taints and Toleration (Optional)
+10:10
+Node Selectors
+03:19
+Node Affinity
+07:16
+Lab - Node Affinity
+Lab Solution - Node Affinity (Optional)
+10:13
+Taints and Tolerations vs Node Affinity
+02:32
+Resource Requirements
+14:51
+A Quick Note on editing Pods and Deployments
+Lab - Resource Limits
+Lab Solution: Resource Limits
+05:22
+DaemonSets
+04:08
+Lab - DaemonSets
+Lab Solution: DaemonSets (optional)
+05:45
+Static Pods
+08:45
+Lab - Static Pods
+Lab Solution - Static Pods (Optional)
+14:36
+🆕 Priority Classes
+06:13
+🆕 Lab - Priority Classes
+Multiple Schedulers
+09:32
+Lab - Multiple Schedulers
+Lab Solution - Multiple Scheduler
+06:36
+Configuring Scheduler Profiles
+09:53
+References
+🆕 (2025 Updates) Admission Controllers
+07:54
+🆕 (2025 Updates) Lab - Admission Controllers
+🆕 (2025 Updates) Lab Solution: Admission Controllers
+06:41
+🆕 (2025 Updates) Validating and Mutating Admission Controllers
+10:08
+🆕 (2025 Updates) Lab - Validating and Mutating Admission Controllers
+🆕 (2025 Updates) Lab Solution: Validating and Mutating Admission Controllers
+07:39
+
+Logging & Monitoring
+7 Lessons
+
+Module Content
+
+0% Complete
+
+0/7 Lessons
+
+Logging and Monitoring - Section Introduction
+00:29
+Monitoring Cluster Components
+03:50
+Lab - Monitoring Cluster Components
+Lab Solution: Monitor Cluster Components
+04:22
+Managing Application Logs
+02:16
+Lab - Managing Application Logs
+Lab Solution: Logging : (Optional)
+02:48
+
+Application Lifecycle Management
+34 Lessons
+
+Module Content
+
+0% Complete
+
+0/34 Lessons
+
+Application Lifecycle Management - Section Introduction
+00:42
+Rolling Updates and Rollbacks
+06:43
+Lab - Rolling Updates and Rollbacks
+Lab Solution: Rolling update
+09:05
+Configure Applications
+Commands and Arguments in Docker
+07:20
+Commands and Arguments in Kubernetes
+02:39
+Lab - Commands and Arguments
+Lab Solution - Commands and Arguments (Optional)
+19:32
+Configuring Environment Variables in Applications
+01:06
+Configuring ConfigMaps in Applications
+05:10
+Lab - Env Variables
+Lab Solution - Env Variables (Optional)
+09:00
+Secrets
+05:37
+Lab - Secrets
+Additional Resource
+Lab Solution - Secrets (Optional)
+09:53
+Demo: Encrypting Secret Data at Rest
+18:47
+A note on Secrets
+Multi-Container Pods
+02:15
+Multi-Container Pods Design Patterns
+06:04
+Lab - Multi Container Pods
+Init Containers
+Lab - Init Containers
+Lab Solution - Init Containers (Optional)
+10:57
+Self-Healing Applications
+🆕Introduction to Autoscaling (2025 Updates)
+05:21
+🆕 Horizontal Pod Autoscaler (HPA) (2025 Updates)
+05:29
+Lab - Manual Scaling
+Lab - HPA
+🆕 In-place Resize of Pods (2025 Updates)
+03:30
+🆕Vertical Pod Autoscaling (VPA) (2025 Updates)
+09:22
+Lab - Install VPA
+Lab - Modifying CPU resources in VPA
+
+Cluster Maintenance
+15 Lessons
+
+Module Content
+
+0% Complete
+
+0/15 Lessons
+
+Cluster Maintenance - Section Introduction
+01:16
+OS Upgrades
+03:49
+Lab - OS Upgrades
+Lab Solution - OS Upgrades (optional)
+10:50
+Kubernetes Releases
+02:24
+References
+Cluster Upgrade Introduction
+11:11
+Demo - Cluster Upgrade
+19:00
+Lab - Cluster Upgrade Process
+Lab Solution: Cluster Upgrade Process
+16:46
+Backup and Restore Methods
+06:18
+Working with ETCDCTL and ETCDUTL
+Lab - Backup and Restore Methods
+Certification Exam Tip!
+References
+
+Security
+45 Lessons
+
+Module Content
+
+0% Complete
+
+0/45 Lessons
+
+Security - Section Introduction
+02:15
+Kubernetes Security Primitives
+03:18
+Authentication
+05:34
+TLS Introduction
+01:29
+TLS Basics
+20:03
+TLS in Kubernetes
+07:48
+TLS in Kubernetes - Certificate Creation
+10:55
+View Certificate Details
+04:31
+Certificate Health Check Spreadsheet
+Lab - View Certificate Details
+Lab Solution - View Certification Details
+21:29
+Certificates API
+06:07
+Lab - Certificates API
+Lab Solution - Certificates API
+07:37
+KubeConfig
+08:32
+Lab - KubeConfig
+Lab Solution - KubeConfig
+08:08
+API Groups
+05:52
+Authorization
+07:30
+Role-Based Access Controls
+04:24
+Lab - Role-Based Access Controls
+Lab - Role-Based Access Controls
+13:28
+Cluster Roles
+04:33
+Lab - Cluster Roles
+Lab Solution - Cluster Roles
+11:13
+Service Accounts
+08:27
+Lab - Service Accounts
+Lab Solution- Service Accounts
+07:19
+Image Security
+04:43
+Lab - Image Security
+Lab Solution - Image Security
+06:53
+Prerequisite - Security in Docker
+05:33
+Security Contexts
+01:52
+Lab - Security Contexts
+Lab Solution - Security Contexts
+05:11
+Network Policies
+08:25
+Developing Network Policies
+10:55
+Lab - Network Policies
+Lab Solution - Network Policies (optional)
+14:11
+Kubectx and Kubens – Command line Utilities
+🆕 (2025 Updates) Custom Resource Definition (CRD)
+11:01
+🆕 Lab: Custom Resource Definition (2025 Updates)
+🆕(2025 Updates) Custom Controllers
+03:57
+🆕(2025 Updates) Operator Framework
+03:00
+Optional Resource: External Secrets Operator
+
+Storage
+14 Lessons
+
+Module Content
+
+0% Complete
+
+0/14 Lessons
+
+Storage - Section Introduction
+00:45
+Docker Storage - Introduction
+00:54
+Storage in Docker
+12:32
+Volume Driver Plugins in Docker
+01:53
+Container Storage Interface
+03:44
+Volumes
+04:30
+Persistent Volumes
+03:01
+Persistent Volume Claims
+04:05
+Using PVC in Pods
+Lab - Persistent Volume Claims
+Lab Solution - Persistent Volumes and Persistent Volume Claims (optional)
+18:12
+Storage Class
+03:59
+Lab - Storage Class
+Lab Solution - Storage Class
+10:28
+
+Networking
+35 Lessons
+
+Module Content
+
+0% Complete
+
+0/35 Lessons
+
+Networking - Introduction
+02:04
+Prerequisite Switching, Routing, Gateways CNI in kubernetes
+12:12
+Prerequisite DNS
+14:24
+Prerequisite - CoreDNS
+Prerequisite Network Namespaces
+15:09
+FAQ
+Prerequisite Docker Networking
+07:15
+Prerequisite CNI
+06:10
+Cluster Networking
+02:11
+Important Note about CNI and CKA Exam
+Lab - Explore Environment
+Lab Solution - Explore Environment (optional)
+08:29
+Pod Networking
+09:03
+CNI in kubernetes
+03:06
+Lab - Test CNI
+Lab Solution - Explore CNI (optional)
+02:12
+ipam
+02:25
+🆕 Lab - Networking CNIs
+Service Networking
+08:51
+Lab - Service Networking
+Lab Solution - Service Networking (optional)
+05:12
+DNS in kubernetes
+05:39
+CoreDNS in Kubernetes
+06:41
+Lab - CoreDNS in Kubernetes
+Lab Solution - Explore DNS (optional)
+15:57
+Ingress
+22:34
+Article: Ingress
+Ingress - Annotations and rewrite-target
+Lab - CKA - Ingress Networking - 1
+Lab Solution - Ingress Networking - 1 (optional)
+15:46
+Lab - CKA Ingress Networking - 2
+Lab Solution - Ingress Networking - 2 (optional)
+14:34
+🆕 Introduction to Gateway API (2025 Updates)
+08:23
+🆕 Practical Guide to Gateway API (2025 Updates)
+🆕 Lab - Gateway API (2025 Updates)
+
+Design and Install a Kubernetes Cluster
+5 Lessons
+
+Module Content
+
+0% Complete
+
+0/5 Lessons
+
+Designing a Kubernetes Cluster
+05:44
+Choosing Kubernetes Infrastructure
+05:52
+Configuring High Availability
+07:44
+etcd in HA
+12:16
+Important Update: Kubernetes the Hard Way
+
+Install "Kubernetes the kubeadm way"
+6 Lessons
+
+Module Content
+
+0% Complete
+
+0/6 Lessons
+
+Deployment With kubeadm - Introduction
+02:25
+Resources
+Deployment With Kubeadm - Provision VMs With Vagrant
+05:55
+Demo - Deployment With Kubeadm
+25:51
+Lab - Deploy a Kubernetes Cluster using Kubeadm
+Lab Solution - Install a Kubernetes Cluster using kubeadm
+09:51
+
+Helm Basics (2025 Updates)
+11 Lessons
+
+Module Content
+
+0% Complete
+
+0/11 Lessons
+
+🆕 Helm - Introduction
+06:33
+🆕 Installation and Configuration
+01:25
+🆕 Lab: Installing Helm
+🆕 A quick note about Helm2 vs Helm3
+08:09
+🆕 Helm Components
+07:49
+🆕 Helm charts
+07:24
+🆕 Working with Helm: basics
+06:16
+🆕 Customizing chart parameters
+04:05
+🆕 Lab: using Helm to deploy a chart
+🆕 Lifecycle management with Helm
+07:51
+🆕 Lab: upgrading a helm chart
+
+Kustomize Basics (2025 Updates)
+22 Lessons
+
+Module Content
+
+0% Complete
+
+0/22 Lessons
+
+🆕 Kustomize Problem Statement and Ideology
+08:03
+🆕 Kustomize vs Helm
+04:34
+🆕 Installation/Setup
+01:05
+🆕 The kustomization.yaml File
+03:54
+🆕 Kustomize Output
+02:31
+🆕 Kustomize ApiVersion and Kind
+00:22
+🆕 Managing Directories
+06:18
+🆕 Managing Directories Demo
+09:21
+🆕 Lab: Managing Directories(Kustomize)
+🆕 Common Transformers
+03:27
+🆕 Image Transformers
+02:31
+🆕 Transformers Demo
+11:31
+🆕 Lab: Transformers
+🆕 Patches Intro
+08:29
+🆕 Different Types of Patches
+01:13
+🆕 Patches Dictionary
+06:02
+🆕 Patches List
+06:21
+🆕 Lab: Patches
+🆕 Overlays
+05:41
+🆕 Lab: Overlay
+🆕 Components
+08:44
+🆕 Lab: Components
+
+Troubleshooting
+12 Lessons
+
+Module Content
+
+0% Complete
+
+0/12 Lessons
+
+Troubleshooting - Section Introduction
+00:27
+Application Failure
+02:51
+Lab - Application Failure
+Lab Solution - Application Failure
+28:07
+Control Plane Failure
+01:26
+Lab - Control Plane Failure
+Lab Solution: Control Plane Failure
+15:56
+Worker Node Failure
+01:55
+Lab - Worker Node Failure
+Lab Solutions - Worker Node Failure
+10:22
+Network Troubleshooting
+11:58
+Lab - Troubleshoot Network
+
+Other Topics
+3 Lessons
+
+Module Content
+
+0% Complete
+
+0/3 Lessons
+
+Prerequisites - JSON Path
+JSON Path in Kubernetes
+11:54
+Lab - JSON Path in Kubernetes
+
+Lightning Labs
+2 Lessons
+
+Module Content
+
+0% Complete
+
+0/2 Lessons
+
+Lightning Lab Introduction
+Lightning Lab - 1
+
+Mock Exams
+11 Lessons
+
+Module Content
+
+0% Complete
+
+0/11 Lessons
+
+Mock Exam - Introduction
+🆕 Mock Exam - 1
+🆕 Mock Exam-1: Step-by-Step Solutions
+32:08
+🆕 Mock Exam - 2
+🆕 Mock Exam-2: Step-by-Step Solutions
+55:38
+🆕 Mock Exam - 3
+🆕 Mock Exam-3: Step-by-Step Solutions
+48:06
+What's Next?
+07:23
+All the Best!
+Continue Your Preparation with Our Ultimate Mock Exam!
+Kubernetes Update and Project Videos - Your Essential Guide

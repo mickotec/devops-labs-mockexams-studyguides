@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LFCS Master Daily Study Guide — Week 7 Day 1 (Monday, November 09, 2026)</title>
+  <style>
+    
+    @page {
+      size: A4 portrait;
+      margin: 11mm 11mm 11mm 11mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Adwaita Sans', 'Liberation Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 9.3pt;
+      line-height: 1.45;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .page-break { page-break-before: always; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+    .header-banner {
+      background: linear-gradient(135deg, #1c1917 0%, #78350f 50%, #d97706 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 9px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      border-bottom: 4px solid #f59e0b;
+    }
+    .header-banner h1 {
+      margin: 0 0 4px 0;
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header-banner .subtitle {
+      font-size: 10.5pt;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background-color: #d97706; color: #ffffff; }
+    .badge-rec { background-color: #059669; color: #ffffff; }
+    .badge-date { background-color: #334155; color: #f1f5f9; }
+    .badge-cal { background-color: #475569; color: #ffffff; }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title { border-bottom-color: #d97706; color: #d97706; }
+
+    h3 {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    .callout {
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin: 8px 0;
+      font-size: 8.6pt;
+      line-height: 1.4;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .callout-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0369a1; }
+    .callout-warning { background-color: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+    .callout-tip { background-color: #ecfdf5; border-left: 4px solid #10b981; color: #065f46; }
+    .callout-exam { background-color: #fdf2f8; border-left: 4px solid #ec4899; color: #9d174d; }
+    .callout-title {
+      font-weight: bold;
+      font-size: 9pt;
+      margin-bottom: 4px;
+    }
+
+    .diagram-container {
+      text-align: center;
+      margin: 10px 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .diagram-svg {
+      width: 100%;
+      max-height: 290px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 8px 11px;
+      border-radius: 6px;
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 7.8pt;
+      line-height: 1.36;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 5px 0 7px 0;
+      border: 1px solid #334155;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    code {
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 8.1pt;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 3px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+    }
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 7px 0;
+      font-size: 8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    th, td {
+      padding: 5px 7px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7pt;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .task-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-size: 9.2pt;
+    }
+    .section-subhead {
+      font-weight: bold;
+      color: #d97706;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+    }
+    .doc-list {
+      margin: 3px 0 6px 18px;
+      padding: 0;
+    }
+    .doc-list li {
+      margin-bottom: 3px;
+    }
+
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 7.2pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER BANNER ==================== -->
+  <div class="header-banner">
+    <div class="badges-row">
+      <span class="badge badge-cal">📅 Week 7 Day 1</span>
+      <span class="badge badge-date">Monday, November 09, 2026</span>
+      <span class="badge badge-primary">🐧 LFCS Track</span>
+      <span class="badge badge-rec">Afternoon Session</span>
+    </div>
+    <h1>LFCS Master Daily Study Guide</h1>
+    <div class="subtitle">Linux Networking Configuration (IP &amp; Routing)</div>
+    <div style="font-size: 8.4pt; opacity: 0.95; line-height: 1.35;">
+      <strong>Target:</strong> VirtualBox Linux Machine (<code>LFCS</code>)<br>
+      <strong>Orchestrator:</strong> <code>./lab start w7d1-lfcs</code> • <code>./lab check w7d1-lfcs</code> • <code>./lab solve w7d1-lfcs</code>
+    </div>
+  </div>
+
+  <h2>📅 Afternoon Time-Blocked Schedule (from cka_lfcs_schedule.ics)</h2>
+  <p>
+    Structured afternoon 3-hour Linux administration deep dive. Begin with cognitive integration review.
+  </p>
+
+  
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-rec">Cognitive Recovery & Integration</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 12:00 PM - 03:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">12:00 PM</span>
+          <span style="color: #1e293b;">01:00 PM: Nutritious lunch & total screen detachment</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">01:00 PM</span>
+          <span style="color: #1e293b;">02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:00 PM</span>
+          <span style="color: #1e293b;">02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:45 PM</span>
+          <span style="color: #1e293b;">03:00 PM: Terminal & desk prep for LFCS</span>
+        </div>
+        
+    </div>
+    
+  
+    <div style="background-color: #fffbeb; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-primary">LFCS Afternoon Mastery</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 03:00 PM - 06:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">03:00 PM</span>
+          <span style="color: #1e293b;">03:20 PM: ip command speedrun (ip addr, ip link, ip route)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">03:20 PM</span>
+          <span style="color: #1e293b;">04:20 PM: Theory: Static vs DHCP IP configuration, routing tables, default gateway, hostname resolution (/etc/hosts, /etc/resolv.conf)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">04:20 PM</span>
+          <span style="color: #1e293b;">04:35 PM: Walk & reset</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">04:35 PM</span>
+          <span style="color: #1e293b;">05:35 PM: KodeKloud Labs: Configure IPv4 & IPv6 Networking and Hostname Resolution</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">05:35 PM</span>
+          <span style="color: #1e293b;">06:00 PM: Synthesis: Configuring network interfaces via nmcli and ip commands</span>
+        </div>
+        
+    </div>
+    
+
+  <!-- ==================== CORE CONCEPTS DEEP DIVE ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🐧 LFCS Core Concepts Deep Dive: Linux Networking Configuration (IP &amp; Routing)</h2>
+  
+  
+    <p>
+      The <code>iproute2</code> suite (<code>ip</code> command) replaces legacy <code>net-tools</code>.
+    </p>
+    <ul>
+      <li>Configure persistent static IP via Netplan (<code>/etc/netplan/*.yaml</code>) or NetworkManager (<code>nmcli</code>).</li>
+    </ul>
+    
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arrowSky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#34d399" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#fbbf24" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#c084fc" />
+    </marker>
+    <marker id="arrowRose" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#f43f5e" />
+    </marker>
+    <marker id="arrowWhite" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#ffffff" />
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+
+  
+        <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+        <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">Figure 1.2: Linux Iproute2 Network Configuration Architecture</text>
+        
+
+  
+    
+    <g filter="url(#shadow)">
+      <rect x="30" y="50" width="840" height="190" rx="9" fill="url(#cardDark)" stroke="#0f172a" stroke-width="1.5"/>
+      <rect x="30" y="50" width="840" height="28" rx="9" fill="#0f172a" opacity="0.18"/>
+      <text x="44" y="70" fill="#10b981" font-size="12" font-weight="bold" font-family="-apple-system, sans-serif">LINUX NETWORKING STACK: IP COMMAND & ROUTING TABLE</text>
+      <text x="44" y="90" fill="#94a3b8" font-size="9.5" font-family="-apple-system, sans-serif">Modern Iproute2 Architecture: ip link, ip addr, ip route</text>
+    </g>
+    
+    <rect x="50" y="90" width="240" height="135" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="170" y="115" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">LINK LAYER (ip link)</text>
+    <text x="65" y="140" fill="#4ade80" font-size="8.5" font-family="monospace">ip link show</text>
+    <text x="65" y="160" fill="#4ade80" font-size="8.5" font-family="monospace">ip link set eth0 up/down</text>
+    <text x="65" y="180" fill="#4ade80" font-size="8.5" font-family="monospace">ip link set mtu 1450 eth0</text>
+    <text x="65" y="200" fill="#94a3b8" font-size="8" font-family="sans-serif">Physical / virtual interface status</text>
+
+    <rect x="310" y="90" width="260" height="135" rx="6" fill="#1e293b" stroke="#34d399"/>
+    <text x="440" y="115" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">ADDRESS LAYER (ip addr)</text>
+    <text x="325" y="140" fill="#34d399" font-size="8.5" font-family="monospace">ip addr show dev eth0</text>
+    <text x="325" y="160" fill="#34d399" font-size="8.5" font-family="monospace">ip addr add 192.168.1.50/24 \</text>
+    <text x="325" y="175" fill="#34d399" font-size="8.5" font-family="monospace">  dev eth0</text>
+    <text x="325" y="195" fill="#fde047" font-size="8.5" font-family="monospace">ip addr del ... dev eth0</text>
+    <text x="325" y="210" fill="#94a3b8" font-size="8" font-family="sans-serif">Replaces deprecated ifconfig</text>
+
+    <rect x="590" y="90" width="260" height="135" rx="6" fill="#1e293b" stroke="#fbbf24"/>
+    <text x="720" y="115" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">ROUTING TABLE (ip route)</text>
+    <text x="605" y="140" fill="#fde047" font-size="8.5" font-family="monospace">ip route show</text>
+    <text x="605" y="160" fill="#fde047" font-size="8.5" font-family="monospace">ip route add default via \</text>
+    <text x="605" y="175" fill="#fde047" font-size="8.5" font-family="monospace">  192.168.1.1 dev eth0</text>
+    <text x="605" y="195" fill="#fde047" font-size="8.5" font-family="monospace">ip route add 10.0.0.0/8 via ...</text>
+    <text x="605" y="210" fill="#a7f3d0" font-size="8" font-family="sans-serif">Directs egress IP packets</text>
+    
+</svg>
+  </div>
+
+  <!-- ==================== HANDS-ON LAB WALKTHROUGH ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🛠 Hands-on Lab Walkthrough: w7d1-lfcs</h2>
+  
+  <div class="callout callout-warning avoid-break">
+    <div class="callout-title">🎯 Lab Scenario Objectives &amp; Tasks</div>
+    <div class="section-subhead">📋 Scenario Overview</div>
+<p>Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.</p>
+<div class="section-subhead">🎯 Candidate Tasks</div>
+<div class="task-title">📌 Task 1: Create Dummy Network Interface</div>
+<ol class="doc-list">
+<li>Create a dummy network interface named <code>dummy0</code> using <code>ip link</code>:</li>
+</ol>
+<p><code>sudo ip link add dummy0 type dummy</code></p>
+<ol class="doc-list">
+<li>Bring the interface UP:</li>
+</ol>
+<p><code>sudo ip link set dummy0 up</code></p>
+<div class="task-title">📌 Task 2: Assign Static IP Address</div>
+<ol class="doc-list">
+<li>Assign secondary static IP <code>10.10.20.50/24</code> to interface <code>dummy0</code>:</li>
+</ol>
+<p><code>sudo ip addr add 10.10.20.50/24 dev dummy0</code></p>
+<div class="task-title">📌 Task 3: Static Route Configuration</div>
+<ol class="doc-list">
+<li>Add a static route for destination subnet <code>10.200.0.0/16</code> routed via device <code>dummy0</code>:</li>
+</ol>
+<p><code>sudo ip route add 10.200.0.0/16 dev dummy0</code></p>
+<div class="task-title">📌 Task 4: Network Diagnostic Audit Script</div>
+<ol class="doc-list">
+<li>Create an executable bash script <code>/usr/local/bin/network_audit.sh</code>.</li>
+<li>The script must write:</li>
+</ol>
+<ul class="doc-list">
+<li>The default routing line (<code>ip route show default</code>)</li>
+<li>All active nameserver entries from <code>/etc/resolv.conf</code> (<code>grep nameserver /etc/resolv.conf</code>)</li>
+</ul>
+<p>into <code>/var/log/network_audit.log</code>.</p>
+<ol class="doc-list">
+<li>Set executable permissions on <code>/usr/local/bin/network_audit.sh</code> and run it once to initialize the log.</li>
+</ol>
+<div class="section-subhead">🔍 Validation</div>
+<p>Run the automated grader:</p>
+<pre><code>./lab check w7d1-lfcs</code></pre>
+  </div>
+
+  <div class="callout callout-tip avoid-break">
+    <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
+    <div class="task-title">📌 Tasks &amp; Official Solution</div>
+<ol class="doc-list">
+<li>Create interface dummy0 and bring UP:</li>
+</ol>
+<p><code>sudo ip link add dummy0 type dummy</code></p>
+<p><code>sudo ip link set dummy0 up</code></p>
+<ol class="doc-list">
+<li>Assign IP:</li>
+</ol>
+<p><code>sudo ip addr add 10.10.20.50/24 dev dummy0</code></p>
+<ol class="doc-list">
+<li>Add route:</li>
+</ol>
+<p><code>sudo ip route add 10.200.0.0/16 dev dummy0</code></p>
+<ol class="doc-list">
+<li>Create script <code>/usr/local/bin/network_audit.sh</code>:</li>
+</ol>
+<pre><code>sudo bash -c &#x27;cat &lt;&lt; &quot;EOF&quot; &gt; /usr/local/bin/network_audit.sh
+#!/usr/bin/env bash
+ip route show default &gt; /var/log/network_audit.log
+grep nameserver /etc/resolv.conf &gt;&gt; /var/log/network_audit.log
+EOF&#x27;
+sudo chmod +x /usr/local/bin/network_audit.sh
+sudo /usr/local/bin/network_audit.sh</code></pre>
+  </div>
+
+  <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">⚡ LFCS Speed Drills &amp; Daily Readiness Matrix</h2>
+
+  <div class="callout callout-warning avoid-break">
+    <div class="callout-title">🐧 Essential Linux CLI Shortcuts &amp; Terminal Aliases (.bashrc)</div>
+    <pre><code>alias ipa=&#x27;ip -br -c addr show&#x27;
+alias ipr=&#x27;ip route show&#x27;</code></pre>
+  </div>
+
+  <h3>Daily Self-Assessment Checklist</h3>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 10%;">Track</th>
+        <th style="width: 48%;">Core Competency / Question</th>
+        <th style="width: 30%;">Verification Command</th>
+        <th style="width: 12%;">Mastery</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><span class="badge badge-primary">LFCS</span></td>
+          <td>Can you assign an IP address and default gateway using ip command?</td>
+          <td><code>ip addr add and ip route add default via</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>LFCS Official Preparation Guide • Week 7 Day 1</span>
+    <span>Orchestrator: <code>./lab check w7d1-lfcs</code></span>
+  </div>
+
+</body>
+</html>

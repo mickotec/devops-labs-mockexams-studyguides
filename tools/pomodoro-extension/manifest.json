@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "CKA & LFCS Study Pomodoro",
+  "version": "1.2.0",
+  "description": "Pomodoro study timer for CKA and LFCS exam preparation with audio chimes, settings, history tracking, and notifications.",
+  "permissions": [
+    "alarms",
+    "notifications",
+    "storage",
+    "contextMenus",
+    "offscreen",
+    "tabs"
+  ],
+  "action": {
+    "default_title": "CKA & LFCS Pomodoro Timer",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["audio/*", "offscreen.html", "options.html", "options.js", "history.html", "history.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

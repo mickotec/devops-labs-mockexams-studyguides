@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LFCS Master Daily Study Guide — Week 1 Day 5 (Friday, September 18, 2026)</title>
+  <style>
+    
+    @page {
+      size: A4 portrait;
+      margin: 11mm 11mm 11mm 11mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Adwaita Sans', 'Liberation Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 9.3pt;
+      line-height: 1.45;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .page-break { page-break-before: always; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+    .header-banner {
+      background: linear-gradient(135deg, #1c1917 0%, #78350f 50%, #d97706 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 9px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      border-bottom: 4px solid #f59e0b;
+    }
+    .header-banner h1 {
+      margin: 0 0 4px 0;
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header-banner .subtitle {
+      font-size: 10.5pt;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background-color: #d97706; color: #ffffff; }
+    .badge-rec { background-color: #059669; color: #ffffff; }
+    .badge-date { background-color: #334155; color: #f1f5f9; }
+    .badge-cal { background-color: #475569; color: #ffffff; }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title { border-bottom-color: #d97706; color: #d97706; }
+
+    h3 {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    .callout {
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin: 8px 0;
+      font-size: 8.6pt;
+      line-height: 1.4;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .callout-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0369a1; }
+    .callout-warning { background-color: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+    .callout-tip { background-color: #ecfdf5; border-left: 4px solid #10b981; color: #065f46; }
+    .callout-exam { background-color: #fdf2f8; border-left: 4px solid #ec4899; color: #9d174d; }
+    .callout-title {
+      font-weight: bold;
+      font-size: 9pt;
+      margin-bottom: 4px;
+    }
+
+    .diagram-container {
+      text-align: center;
+      margin: 10px 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .diagram-svg {
+      width: 100%;
+      max-height: 290px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 8px 11px;
+      border-radius: 6px;
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 7.8pt;
+      line-height: 1.36;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 5px 0 7px 0;
+      border: 1px solid #334155;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    code {
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 8.1pt;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 3px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+    }
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 7px 0;
+      font-size: 8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    th, td {
+      padding: 5px 7px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7pt;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .task-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-size: 9.2pt;
+    }
+    .section-subhead {
+      font-weight: bold;
+      color: #d97706;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+    }
+    .doc-list {
+      margin: 3px 0 6px 18px;
+      padding: 0;
+    }
+    .doc-list li {
+      margin-bottom: 3px;
+    }
+
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 7.2pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER BANNER ==================== -->
+  <div class="header-banner">
+    <div class="badges-row">
+      <span class="badge badge-cal">📅 Week 1 Day 5</span>
+      <span class="badge badge-date">Friday, September 18, 2026</span>
+      <span class="badge badge-primary">🐧 LFCS Track</span>
+      <span class="badge badge-rec">Afternoon Session</span>
+    </div>
+    <h1>LFCS Master Daily Study Guide</h1>
+    <div class="subtitle">gers, Vim Mastery &amp; Terminal Editing</div>
+    <div style="font-size: 8.4pt; opacity: 0.95; line-height: 1.35;">
+      <strong>Target:</strong> VirtualBox Linux Machine (<code>LFCS</code>)<br>
+      <strong>Orchestrator:</strong> <code>./lab start w1d5-lfcs</code> • <code>./lab check w1d5-lfcs</code> • <code>./lab solve w1d5-lfcs</code>
+    </div>
+  </div>
+
+  <h2>📅 Afternoon Time-Blocked Schedule (from cka_lfcs_schedule.ics)</h2>
+  <p>
+    Structured afternoon 3-hour Linux administration deep dive. Begin with cognitive integration review.
+  </p>
+
+  
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-rec">Cognitive Recovery & Integration</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 12:00 PM - 03:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">12:00 PM</span>
+          <span style="color: #1e293b;">01:00 PM: Nutritious lunch & total screen detachment</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">01:00 PM</span>
+          <span style="color: #1e293b;">02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:00 PM</span>
+          <span style="color: #1e293b;">02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:45 PM</span>
+          <span style="color: #1e293b;">03:00 PM: Terminal & desk prep for LFCS</span>
+        </div>
+        
+    </div>
+    
+  
+    <div style="background-color: #fffbeb; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-primary">LFCS Afternoon Mastery</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 03:00 PM - 06:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">03:00 PM</span>
+          <span style="color: #1e293b;">03:20 PM: Vim navigation warm-up (hjkl, w, b, gg, G, 0, $)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">03:20 PM</span>
+          <span style="color: #1e293b;">04:20 PM: Theory: Vim command vs insert mode, visual selection, yanking, search/replace (:s/old/new/g)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">04:20 PM</span>
+          <span style="color: #1e293b;">04:35 PM: Movement break</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">04:35 PM</span>
+          <span style="color: #1e293b;">05:35 PM: KodeKloud Labs: Pagers and VI</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">05:35 PM</span>
+          <span style="color: #1e293b;">06:00 PM: Error Ledger review & personal ~/.vimrc configuration</span>
+        </div>
+        
+    </div>
+    
+
+  <!-- ==================== CORE CONCEPTS DEEP DIVE ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🐧 LFCS Core Concepts Deep Dive: gers, Vim Mastery &amp; Terminal Editing</h2>
+  
+  
+    <p>
+      Efficient terminal editing using Vim and pager mastery (<code>less</code>) prevents getting bogged down when reviewing config files:
+    </p>
+    <ul>
+      <li>Set YAML formatting in <code>~/.vimrc</code>: <code>set tabstop=2 shiftwidth=2 expandtab</code>.</li>
+      <li>In <code>less</code>: <code>/keyword</code> searches forward; <code>?keyword</code> searches backward; <code>n</code> / <code>N</code> cycles matches; <code>G</code> goes to EOF.</li>
+    </ul>
+    
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arrowSky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#34d399" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#fbbf24" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#c084fc" />
+    </marker>
+    <marker id="arrowRose" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#f43f5e" />
+    </marker>
+    <marker id="arrowWhite" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#ffffff" />
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+
+  
+        <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+        <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">Figure 5.2: Vim Modal State Architecture & High-Speed Keyboard Navigation</text>
+        
+
+  
+    
+    <g filter="url(#shadow)">
+      <rect x="30" y="50" width="840" height="190" rx="9" fill="url(#cardDark)" stroke="#0f172a" stroke-width="1.5"/>
+      <rect x="30" y="50" width="840" height="28" rx="9" fill="#0f172a" opacity="0.18"/>
+      <text x="44" y="70" fill="#10b981" font-size="12" font-weight="bold" font-family="-apple-system, sans-serif">VIM MODAL ARCHITECTURE & TERMINAL NAVIGATION</text>
+      <text x="44" y="90" fill="#94a3b8" font-size="9.5" font-family="-apple-system, sans-serif">Modes, Motion Vectors & Productivity Shortcuts</text>
+    </g>
+    
+    <rect x="50" y="90" width="180" height="135" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="140" y="115" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">NORMAL MODE</text>
+    <text x="65" y="140" fill="#e2e8f0" font-size="8.5" font-family="monospace">dd: delete line</text>
+    <text x="65" y="160" fill="#e2e8f0" font-size="8.5" font-family="monospace">yy / p: yank / paste</text>
+    <text x="65" y="180" fill="#e2e8f0" font-size="8.5" font-family="monospace">u / Ctrl-r: undo / redo</text>
+    <text x="65" y="200" fill="#e2e8f0" font-size="8.5" font-family="monospace">/pattern: search</text>
+
+    <rect x="250" y="90" width="180" height="135" rx="6" fill="#1e293b" stroke="#34d399"/>
+    <text x="340" y="115" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">INSERT MODE</text>
+    <text x="265" y="140" fill="#e2e8f0" font-size="8.5" font-family="monospace">i: insert before cursor</text>
+    <text x="265" y="160" fill="#e2e8f0" font-size="8.5" font-family="monospace">a: append after cursor</text>
+    <text x="265" y="180" fill="#e2e8f0" font-size="8.5" font-family="monospace">o: open new line below</text>
+    <text x="265" y="200" fill="#e2e8f0" font-size="8.5" font-family="monospace">Esc: return to Normal</text>
+
+    <rect x="450" y="90" width="180" height="135" rx="6" fill="#1e293b" stroke="#c084fc"/>
+    <text x="540" y="115" fill="#c084fc" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">VISUAL MODE</text>
+    <text x="465" y="140" fill="#e2e8f0" font-size="8.5" font-family="monospace">v: character selection</text>
+    <text x="465" y="160" fill="#e2e8f0" font-size="8.5" font-family="monospace">V: line selection</text>
+    <text x="465" y="180" fill="#e2e8f0" font-size="8.5" font-family="monospace">Ctrl-v: block select</text>
+    <text x="465" y="200" fill="#e2e8f0" font-size="8.5" font-family="monospace">&gt; / &lt;: indent / unindent</text>
+
+    <rect x="650" y="90" width="200" height="135" rx="6" fill="#1e293b" stroke="#fbbf24"/>
+    <text x="750" y="115" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="middle" font-family="sans-serif">COMMAND MODE (:)</text>
+    <text x="665" y="140" fill="#e2e8f0" font-size="8.5" font-family="monospace">:w / :q!: save / quit</text>
+    <text x="665" y="160" fill="#e2e8f0" font-size="8.5" font-family="monospace">:%s/old/new/g: replace</text>
+    <text x="665" y="180" fill="#e2e8f0" font-size="8.5" font-family="monospace">:set tabstop=2 shiftwidth=2 expandtab</text>
+    <text x="665" y="200" fill="#e2e8f0" font-size="8.5" font-family="monospace">:set nu: line numbers</text>
+    
+</svg>
+  </div>
+
+  <!-- ==================== HANDS-ON LAB WALKTHROUGH ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🛠 Hands-on Lab Walkthrough: w1d5-lfcs</h2>
+  
+  <div class="callout callout-warning avoid-break">
+    <div class="callout-title">🎯 Lab Scenario Objectives &amp; Tasks</div>
+    <div class="section-subhead">📋 Scenario Overview</div>
+<p>Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.</p>
+<div class="section-subhead">🎯 Candidate Tasks</div>
+<div class="task-title">📌 Task 1: Engineer Vim Profile Configuration</div>
+<p>Configure your user&#x27;s <code>~/.vimrc</code> with:</p>
+<ul class="doc-list">
+<li>Line numbering (<code>set number</code>)</li>
+<li>Syntax highlighting (<code>syntax on</code>)</li>
+<li>4-space indentation (<code>set tabstop=4</code>, <code>set shiftwidth=4</code>, <code>set expandtab</code>)</li>
+<li>Incremental search highlighting (<code>set hlsearch</code>, <code>set incsearch</code>)</li>
+</ul>
+<div class="task-title">📌 Task 2: In-place Refactoring of Legacy Configuration</div>
+<p>A configuration file <code>/var/tmp/app_legacy.conf</code> requires updating:</p>
+<ol class="doc-list">
+<li>Replace all occurrences of <code>PORT = 8080</code> with <code>PORT = 8443</code>.</li>
+<li>Uncomment the line <code># SSL_ENABLED = true</code> to <code>SSL_ENABLED = true</code>.</li>
+<li>Delete all lines containing <code>DEPRECATED</code>.</li>
+</ol>
+<div class="task-title">📌 Task 3: Text Pipeline Analysis</div>
+<p>Analyze <code>/var/tmp/sample_audit.log</code>:</p>
+<ol class="doc-list">
+<li>Extract all unique status code fields (<code>STATUS: &lt;CODE&gt;</code>).</li>
+<li>Count occurrences of each status and output the sorted counts to <code>/var/tmp/status_summary.txt</code>.</li>
+</ol>
+<div class="section-subhead">🔍 Validation</div>
+<p>Run the automated grader:</p>
+<pre><code>./lab check w1d5-lfcs</code></pre>
+  </div>
+
+  <div class="callout callout-tip avoid-break">
+    <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
+    <div class="task-title">📌 Tasks &amp; Official Solution</div>
+<ol class="doc-list">
+<li>Setup <code>~/.vimrc</code>:</li>
+</ol>
+<pre><code>cat &lt;&lt; &#x27;EOF&#x27; &gt;&gt; ~/.vimrc
+set number
+syntax on
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set hlsearch
+set incsearch
+EOF</code></pre>
+<ol class="doc-list">
+<li>Refactor configuration:</li>
+</ol>
+<pre><code>sed -i &#x27;s/PORT = 8080/PORT = 8443/&#x27; /var/tmp/app_legacy.conf
+sed -i &#x27;s/^# SSL_ENABLED = true/SSL_ENABLED = true/&#x27; /var/tmp/app_legacy.conf
+sed -i &#x27;/DEPRECATED/d&#x27; /var/tmp/app_legacy.conf</code></pre>
+<ol class="doc-list">
+<li>Pipeline extraction:</li>
+</ol>
+<pre><code>grep -oE &quot;STATUS: [0-9]+&quot; /var/tmp/sample_audit.log | sort | uniq -c &gt; /var/tmp/status_summary.txt</code></pre>
+  </div>
+
+  <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">⚡ LFCS Speed Drills &amp; Daily Readiness Matrix</h2>
+
+  <div class="callout callout-warning avoid-break">
+    <div class="callout-title">🐧 Essential Linux CLI Shortcuts &amp; Terminal Aliases (.bashrc)</div>
+    <pre><code>echo &#x27;set ts=2 sw=2 et&#x27; &gt;&gt; ~/.vimrc</code></pre>
+  </div>
+
+  <h3>Daily Self-Assessment Checklist</h3>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 10%;">Track</th>
+        <th style="width: 48%;">Core Competency / Question</th>
+        <th style="width: 30%;">Verification Command</th>
+        <th style="width: 12%;">Mastery</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><span class="badge badge-primary">LFCS</span></td>
+          <td>Can you configure ~/.vimrc for optimal 2-space YAML editing?</td>
+          <td><code>set tabstop=2 shiftwidth=2 expandtab</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+        <tr>
+          <td><span class="badge badge-primary">LFCS</span></td>
+          <td>Can you execute search and replace globally across an open file in vim?</td>
+          <td><code>:%s/foo/bar/g</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>LFCS Official Preparation Guide • Week 1 Day 5</span>
+    <span>Orchestrator: <code>./lab check w1d5-lfcs</code></span>
+  </div>
+
+</body>
+</html>

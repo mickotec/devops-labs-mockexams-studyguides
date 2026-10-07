@@ -1,0 +1,263 @@
+LFCS Course Content
+
+
+Collapse All
+
+Introduction
+6 Lessons
+Module Content
+
+100% Complete
+
+6/6 Lessons
+
+Course Introduction
+03:31
+Course Structure
+01:53
+Prerequisites, Exam Objectives and Details
+01:31
+Discount & Certification Details
+LFCS Command Cheat Sheet
+How to Reach Out to KodeKloud and Engage with the Community
+
+Essential Commands
+30 Lessons
+
+Module Content
+
+0% Complete
+
+0/30 Lessons
+
+Log in to Local & Remote Graphical and Text Mode Consoles
+07:18
+Log in to Local & Remote Graphical and Text Mode Consoles
+02:30
+Read and Use System Documentation
+08:05
+Lab - Logging in and System Documentation
+Create, Delete, Copy, and Move Files and Directories
+11:09
+Create and Manage Hard Links
+07:05
+Create and Manage Soft Links
+03:14
+Lab - Files, Directories, Hard and Soft Links
+List, Set, and Change Standard File Permissions
+13:48
+SUID, SGID, and Sticky Bit
+07:18
+Search for Files
+12:33
+Lab - File Permissions, Search for Files
+Compare and Manipulate File Content
+09:12
+Pagers and VI
+05:56
+Search File Using Grep
+05:17
+Analyze Text Using Basic Regular Expressions
+07:46
+Extended Regular Expressions
+10:03
+Lab - File Content, Regular Expressions
+Archive, Back Up, Compress, Unpack, and Uncompress Files (Optional)
+05:03
+Compress and Uncompress Files (Optional)
+03:52
+Back Up Files to a Remote System (Optional)
+03:52
+Use Input-Output Redirection (e.g. >, >>, |, 2>)
+12:47
+Lab - Archive, Back Up, Compress, IO Redirection
+Work With SSL Certificates
+17:30
+Git - Basic Operations
+08:02
+Git - Staging and Committing Changes
+09:30
+Git - Branches and Remote Repositories
+18:27
+Lab - Git & SSL Certificates
+Course Resources
+Notes available at KodeKloud Notes
+
+Operations Deployment
+26 Lessons
+
+Module Content
+
+0% Complete
+
+0/26 Lessons
+
+Boot, Reboot, and Shutdown a System Safely
+03:12
+Boot or Change System Into Different Operating Modes (Optional)
+03:38
+Use Scripting to Automate System Maintenance Tasks
+11:42
+Manage Startup Process and Services (In Services Configuration)
+11:32
+Create systemd Services
+15:21
+Lab - Scripting, Manage Startup Process and Services
+Diagnose and Manage Processes
+21:53
+Locate and Analyze System Log Files
+10:52
+Lab - Manage Processes and Analyze Log Files
+Schedule Tasks to Run at a Set Date and Time
+13:27
+Lab - Schedule Tasks
+Manage Software with the Package Manager
+05:48
+Configure the Repositories of Package Manager
+09:37
+Install Software by Compiling Source Code
+06:54
+Lab: Manage Software, Repositories & Install Software from Source
+Verify Integrity and Availability of Resources and Processes
+10:28
+Lab - Verify Integrity and Availability of Resources and Key Processes
+Change Kernel Runtime Parameters, Persistent and Non-Persistent
+05:46
+List and Identify SELinux File and Process Contexts
+09:01
+Create and Enforce MAC Using SELinux
+27:55
+Lab - Kernel Runtime Parameters and SELinux/AppArmor
+Create and Manage Containers
+23:55
+Manage and Configure Virtual Machines
+08:35
+Create and Boot a Virtual Machine
+10:42
+Installing an Operating System on a Virtual Machine
+04:05
+Lab - Manage Containers and VMs
+
+Users and Groups
+11 Lessons
+
+Module Content
+
+0% Complete
+
+0/11 Lessons
+
+Create, Delete, and Modify Local User Accounts
+08:56
+Create, Delete, and Modify Local Groups and Group Memberships
+05:15
+Lab - Manage User Accounts and Groups
+Manage System-Wide Environment Profiles
+03:57
+Manage Template User Environment
+01:29
+Lab - Manage System-Wide Environment Profiles and Template User Environments
+Configure User Resource Limits
+06:03
+Manage User Privileges
+05:12
+Lab - Configure User Resource Limits and User Privileges
+Manage Access to Root Account
+02:37
+Configure the System to Use LDAP User and Group Accounts
+13:57
+
+Networking
+13 Lessons
+
+Module Content
+
+0% Complete
+
+0/13 Lessons
+
+Configure IPv4 and IPv6 Networking and Hostname Resolution - Theory
+06:57
+Configure IPv4 and IPv6 Networking and Hostname Resolution - Demo
+22:50
+Start, Stop, and Check Status of Network Services
+05:30
+Lab - Configure Networking, Start/Stop/Check Status of Network Services
+Configure Bridge and Bonding Devices - Theory
+07:30
+Configure Bridge and Bonding Devices - Demo
+14:35
+Configure Packet Filtering (Firewall)
+21:54
+Lab - Packet Filtering
+Port Redirection and Network Address Translation (NAT)
+20:21
+Implement Reverse Proxies and Load Balancers
+14:07
+Set and Synchronize System Time Using Time Servers
+06:39
+Configure SSH Servers and Clients
+18:57
+Lab - Configure SSH Servers and Clients
+
+Storage
+16 Lessons
+
+Module Content
+
+0% Complete
+
+0/16 Lessons
+
+List, Create, Delete, and Modify Physical Storage Partitions
+10:12
+Configure and Manage Swap Space
+05:32
+Lab - Manage Partitions and Swap Space
+Create and Configure File Systems
+09:19
+Configure Systems to Mount Filesystems at or During Boot
+07:19
+Lab - Create Filesystems and Mount Them at Boot
+Filesystem and Mount Options
+05:56
+Lab - Filesystem Features and Mount Options
+Use Remote Filesystems: NFS
+12:09
+Lab - Remote File Systems: NFS
+Use Network Block Devices: NBD
+11:09
+Manage and Configure LVM Storage
+10:38
+Lab - Manage LVM
+Monitor Storage Performance
+15:47
+Create, Manage, and Diagnose Advanced Filesystem Permissions
+11:07
+Lab - Advanced Permissions
+
+Conclusion
+1 Lesson
+
+Module Content
+
+0% Complete
+
+0/1 Lessons
+
+Conclusion
+02:22
+
+Mock Exams
+4 Lessons
+
+Module Content
+
+0% Complete
+
+0/4 Lessons
+
+LFCS Mock Exam 1
+LFCS Mock Exam 2
+LFCS Mock Exam 3
+LFCS Mock Exam 4

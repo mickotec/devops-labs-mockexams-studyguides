@@ -1,0 +1,37 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.env.local
+
+# Vagrant and VM state
+.vagrant/
+*.box
+*.vdi
+*.vbox
+hosts.tmp
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime and temporary data
+*.log
+/tmp/
+Temp/
+.kilo/
+.cache/
+
+# OS and Editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CKA Master Daily Study Guide — Week 1 Day 1 (Monday, September 14, 2026)</title>
+  <style>
+    
+    @page {
+      size: A4 portrait;
+      margin: 11mm 11mm 11mm 11mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Adwaita Sans', 'Liberation Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 9.3pt;
+      line-height: 1.45;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .page-break { page-break-before: always; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+    .header-banner {
+      background: linear-gradient(135deg, #0b192c 0%, #1e3a8a 50%, #0284c7 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 9px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      border-bottom: 4px solid #38bdf8;
+    }
+    .header-banner h1 {
+      margin: 0 0 4px 0;
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header-banner .subtitle {
+      font-size: 10.5pt;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background-color: #0284c7; color: #ffffff; }
+    .badge-rec { background-color: #059669; color: #ffffff; }
+    .badge-date { background-color: #334155; color: #f1f5f9; }
+    .badge-cal { background-color: #475569; color: #ffffff; }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title { border-bottom-color: #0284c7; color: #0284c7; }
+
+    h3 {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    .callout {
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin: 8px 0;
+      font-size: 8.6pt;
+      line-height: 1.4;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .callout-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0369a1; }
+    .callout-warning { background-color: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+    .callout-tip { background-color: #ecfdf5; border-left: 4px solid #10b981; color: #065f46; }
+    .callout-exam { background-color: #fdf2f8; border-left: 4px solid #ec4899; color: #9d174d; }
+    .callout-title {
+      font-weight: bold;
+      font-size: 9pt;
+      margin-bottom: 4px;
+    }
+
+    .diagram-container {
+      text-align: center;
+      margin: 10px 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .diagram-svg {
+      width: 100%;
+      max-height: 290px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 8px 11px;
+      border-radius: 6px;
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 7.8pt;
+      line-height: 1.36;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 5px 0 7px 0;
+      border: 1px solid #334155;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    code {
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 8.1pt;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 3px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+    }
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 7px 0;
+      font-size: 8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    th, td {
+      padding: 5px 7px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7pt;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .task-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-size: 9.2pt;
+    }
+    .section-subhead {
+      font-weight: bold;
+      color: #0284c7;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+    }
+    .doc-list {
+      margin: 3px 0 6px 18px;
+      padding: 0;
+    }
+    .doc-list li {
+      margin-bottom: 3px;
+    }
+
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 7.2pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER BANNER ==================== -->
+  <div class="header-banner">
+    <div class="badges-row">
+      <span class="badge badge-cal">📅 Week 1 Day 1</span>
+      <span class="badge badge-date">Monday, September 14, 2026</span>
+      <span class="badge badge-primary">☸ CKA Track</span>
+      <span class="badge badge-rec">Morning Session</span>
+    </div>
+    <h1>CKA Master Daily Study Guide</h1>
+    <div class="subtitle">Kubernetes Architecture &amp; Container Runtimes</div>
+    <div style="font-size: 8.4pt; opacity: 0.95; line-height: 1.35;">
+      <strong>Target:</strong> VirtualBox Kubernetes Cluster (<code>controlplane</code>, <code>node01</code>, <code>node02</code>)<br>
+      <strong>Orchestrator:</strong> <code>./lab start w1d1-cka</code> • <code>./lab check w1d1-cka</code> • <code>./lab solve w1d1-cka</code>
+    </div>
+  </div>
+
+  <h2>📅 Morning Time-Blocked Schedule (from cka_lfcs_schedule.ics)</h2>
+  <p>
+    Adhere strictly to the morning 4-hour block for maximum focus and muscle memory retention on the terminal. Followed by midday cognitive recovery.
+  </p>
+
+  
+    <div style="background-color: #f0f9ff; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-primary">CKA Morning Deep Dive</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 08:00 AM - 12:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">08:00 AM</span>
+          <span style="color: #1e293b;">08:20 AM: Warm-up: Sketch Kubernetes control plane components from memory</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">08:20 AM</span>
+          <span style="color: #1e293b;">09:30 AM: Theory: API Server, Controller Manager, Scheduler, Kubelet, Kube-proxy, ContainerD vs Docker</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">09:30 AM</span>
+          <span style="color: #1e293b;">09:45 AM: Movement & Hydration break</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">09:45 AM</span>
+          <span style="color: #1e293b;">11:15 AM: KodeKloud Labs: Explore cluster components & ContainerD</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">11:15 AM</span>
+          <span style="color: #1e293b;">11:30 AM: Eye rest & mobility</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">11:30 AM</span>
+          <span style="color: #1e293b;">12:00 PM: Exploratory: Inspect running static pod manifests in /etc/kubernetes/manifests</span>
+        </div>
+        
+    </div>
+    
+  
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-rec">Cognitive Recovery & Integration</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 12:00 PM - 03:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">12:00 PM</span>
+          <span style="color: #1e293b;">01:00 PM: Nutritious lunch & total screen detachment</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">01:00 PM</span>
+          <span style="color: #1e293b;">02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:00 PM</span>
+          <span style="color: #1e293b;">02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">02:45 PM</span>
+          <span style="color: #1e293b;">03:00 PM: Terminal & desk prep for LFCS</span>
+        </div>
+        
+    </div>
+    
+
+  <!-- ==================== ARCHITECTURAL DEEP DIVE ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">☸ CKA Architectural Deep Dive: Kubernetes Architecture &amp; Container Runtimes</h2>
+  
+  
+    <p>
+      The Certified Kubernetes Administrator (CKA) exam heavily tests <strong>Cluster Architecture, Installation &amp; Configuration</strong>. Real-world troubleshooting requires mastering how control plane static pods coordinate, how <code>kube-scheduler</code> assigns unscheduled pods, and how the node agent (<code>kubelet</code>) manages container runtimes via the Container Runtime Interface (CRI).
+    </p>
+    <ul>
+      <li><strong>kube-apiserver:</strong> The central REST hub. All reads and mutations pass through Authn, Authz (RBAC/Node), and Admission Control. Only the apiserver connects directly to etcd.</li>
+      <li><strong>etcd:</strong> Distributed Raft key-value database storing all cluster state under <code>/registry/</code>. Listens on <code>2379</code> (clients) and <code>2380</code> (peers).</li>
+      <li><strong>kube-scheduler:</strong> Watches for pods with empty <code>spec.nodeName</code>. Uses Filter (Predicates) and Score (Priorities) to bind pods to optimal nodes.</li>
+      <li><strong>kubelet &amp; Static Pods:</strong> Kubelet scans <code>/etc/kubernetes/manifests</code> via Linux <code>inotify</code>. It launches static pods autonomously and creates read-only Mirror Pods in the API server.</li>
+    </ul>
+    
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 900 310" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arrowSky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#34d399" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#fbbf24" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#c084fc" />
+    </marker>
+    <marker id="arrowRose" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#f43f5e" />
+    </marker>
+    <marker id="arrowWhite" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#ffffff" />
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Base Canvas -->
+  <rect x="0" y="0" width="900" height="310" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+
+  
+        <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+        <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">Figure 1.1: Kubernetes Control Plane Architecture & CRI Node Execution Pipeline</text>
+        
+
+  
+    
+    <g filter="url(#shadow)">
+      <rect x="30" y="50" width="400" height="240" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+      <rect x="30" y="50" width="400" height="28" rx="9" fill="#38bdf8" opacity="0.18"/>
+      <text x="44" y="70" fill="#38bdf8" font-size="12" font-weight="bold" font-family="-apple-system, sans-serif">CONTROL PLANE NODE (controlplane)</text>
+      <text x="44" y="90" fill="#94a3b8" font-size="9.5" font-family="-apple-system, sans-serif">Core Cluster Brain</text>
+    </g>
+    
+    <rect x="50" y="90" width="160" height="70" rx="6" fill="#0284c7" stroke="#38bdf8"/>
+    <text x="130" y="118" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">kube-apiserver</text>
+    <text x="130" y="136" fill="#bae6fd" font-size="8.8" text-anchor="middle" font-family="sans-serif">REST API &amp; Auth (:6443)</text>
+
+    <rect x="240" y="90" width="165" height="70" rx="6" fill="#059669" stroke="#34d399"/>
+    <text x="322" y="118" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">etcd (Raft KV)</text>
+    <text x="322" y="136" fill="#a7f3d0" font-size="8.8" text-anchor="middle" font-family="sans-serif">Cluster State (:2379)</text>
+
+    <rect x="50" y="180" width="160" height="90" rx="6" fill="#7c3aed" stroke="#c084fc"/>
+    <text x="130" y="205" fill="#ffffff" font-size="11.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">kube-scheduler</text>
+    <text x="130" y="224" fill="#e9d5ff" font-size="8.5" text-anchor="middle" font-family="sans-serif">1. Filter (Predicates)</text>
+    <text x="130" y="240" fill="#e9d5ff" font-size="8.5" text-anchor="middle" font-family="sans-serif">2. Score (Priorities)</text>
+
+    <rect x="240" y="180" width="165" height="90" rx="6" fill="#d97706" stroke="#fbbf24"/>
+    <text x="322" y="205" fill="#ffffff" font-size="11.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">kube-controller-mgr</text>
+    <text x="322" y="224" fill="#fef3c7" font-size="8.5" text-anchor="middle" font-family="sans-serif">Node, ReplicaSet, Endpoints</text>
+    <text x="322" y="240" fill="#fef3c7" font-size="8.5" text-anchor="middle" font-family="sans-serif">Reconciliation Loops</text>
+
+    
+    <g filter="url(#shadow)">
+      <rect x="470" y="50" width="400" height="240" rx="9" fill="url(#cardDark)" stroke="#10b981" stroke-width="1.5"/>
+      <rect x="470" y="50" width="400" height="28" rx="9" fill="#10b981" opacity="0.18"/>
+      <text x="484" y="70" fill="#34d399" font-size="12" font-weight="bold" font-family="-apple-system, sans-serif">WORKER NODE (node01)</text>
+      <text x="484" y="90" fill="#94a3b8" font-size="9.5" font-family="-apple-system, sans-serif">Workload Execution Host</text>
+    </g>
+    
+    <rect x="495" y="90" width="350" height="50" rx="6" fill="#1e3a8a" stroke="#60a5fa"/>
+    <text x="670" y="112" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">kubelet (Node Agent)</text>
+    <text x="670" y="128" fill="#bfdbfe" font-size="8.5" text-anchor="middle" font-family="sans-serif">PLEG Loop &amp; Pod Lifecycle Sync</text>
+
+    <rect x="495" y="155" width="350" height="50" rx="6" fill="#0e7490" stroke="#22d3ee"/>
+    <text x="670" y="177" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">CRI Runtime (containerd)</text>
+    <text x="670" y="193" fill="#a5f3fc" font-size="8.5" text-anchor="middle" font-family="sans-serif">gRPC Socket: /run/containerd/containerd.sock</text>
+
+    <rect x="495" y="220" width="165" height="50" rx="6" fill="#065f46" stroke="#34d399"/>
+    <text x="577" y="244" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">App Container</text>
+    <text x="577" y="258" fill="#a7f3d0" font-size="8" text-anchor="middle" font-family="sans-serif">Target Process</text>
+
+    <rect x="680" y="220" width="165" height="50" rx="6" fill="#065f46" stroke="#34d399"/>
+    <text x="762" y="244" fill="#ffffff" font-size="10.5" font-weight="bold" text-anchor="middle" font-family="sans-serif">Pause Container</text>
+    <text x="762" y="258" fill="#a7f3d0" font-size="8" text-anchor="middle" font-family="sans-serif">Network &amp; IPC NS</text>
+
+    
+    <line x1="210" y1="125" x2="238" y2="125" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    
+    
+    
+    <line x1="430" y1="115" x2="493" y2="115" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowSky)"/>
+    <text x="461" y="110" fill="#38bdf8" font-size="8.8" font-weight="bold" text-anchor="middle" font-family="-apple-system, sans-serif">HTTPS</text>
+    
+    
+    <line x1="670" y1="140" x2="670" y2="153" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowSky)"/>
+    <text x="670" y="141" fill="#38bdf8" font-size="8.8" font-weight="bold" text-anchor="middle" font-family="-apple-system, sans-serif">gRPC</text>
+    
+    
+    <line x1="670" y1="205" x2="670" y2="218" stroke="#34d399" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    <text x="670" y="206" fill="#34d399" font-size="8.8" font-weight="bold" text-anchor="middle" font-family="-apple-system, sans-serif">runc</text>
+    
+    
+</svg>
+  </div>
+
+  <!-- ==================== HANDS-ON LAB WALKTHROUGH ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🛠 Hands-on Lab Walkthrough: w1d1-cka</h2>
+  
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">🎯 Lab Scenario Objectives &amp; Tasks</div>
+    <div class="section-subhead">📋 Scenario Overview</div>
+<p>Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.</p>
+<div class="section-subhead">🎯 Candidate Tasks</div>
+<div class="task-title">📌 Task 1: Troubleshoot Control Plane Static Pod</div>
+<ol class="doc-list">
+<li>Inspect the control plane static pod manifests located in <code>/etc/kubernetes/manifests/</code> on node <code>controlplane</code>.</li>
+<li>Determine why <code>kube-scheduler</code> is failing to start. (Check <code>/var/log/pods</code> or kubelet journal on <code>controlplane</code>).</li>
+<li>Correct the error in <code>/etc/kubernetes/manifests/kube-scheduler.yaml</code> without breaking other parameters.</li>
+<li>Verify that the static pod <code>kube-scheduler-controlplane</code> is in <code>Running</code> state (1/1 Ready) and that the test pod <code>w1d1-pending-test</code> in namespace <code>default</code> transitions from <code>Pending</code> to <code>Running</code>.</li>
+</ol>
+<div class="task-title">📌 Task 2: CRI Runtime Inspection &amp; Rogue Container Termination</div>
+<ol class="doc-list">
+<li>SSH into worker node <code>node01</code>.</li>
+<li>Using the CRI CLI utility (<code>crictl</code>), inspect the running containers managed by runtime <code>containerd</code>.</li>
+<li>Locate the rogue container named <code>rogue-crypto-miner</code> that was started directly on the node bypassing the API server.</li>
+<li>Stop and remove the rogue container using <code>crictl</code>.</li>
+</ol>
+<div class="task-title">📌 Task 3: Create a Worker Static Pod</div>
+<ol class="doc-list">
+<li>On worker node <code>node01</code>, configure a static pod manifest named <code>node01-monitor.yaml</code> in kubelet&#x27;s static pod manifest directory (<code>/etc/kubernetes/manifests/</code>).</li>
+<li>The pod specification must satisfy:</li>
+</ol>
+<ul class="doc-list">
+<li>Pod Name: <code>node01-monitor</code></li>
+<li>Image: <code>busybox:1.36</code></li>
+<li>Command: <code>[&quot;sh&quot;, &quot;-c&quot;, &quot;while true; do date &gt;&gt; /var/log/node-heartbeat.log; sleep 10; done&quot;]</code></li>
+<li>Volume: Mount host directory <code>/var/log</code> into container directory <code>/var/log</code>.</li>
+</ul>
+<ol class="doc-list">
+<li>Verify from <code>controlplane</code> that <code>node01-monitor-node01</code> appears in <code>kubectl get pods -A</code> and is in <code>Running</code> state.</li>
+</ol>
+<div class="section-subhead">🔍 Validation</div>
+<p>Run the automated grader:</p>
+<pre><code>./lab check w1d1-cka</code></pre>
+  </div>
+
+  <div class="callout callout-tip avoid-break">
+    <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
+    <div class="task-title">📌 Tasks &amp; Official Solution</div>
+<div class="task-title">📌 Task 1: Fix kube-scheduler</div>
+<ol class="doc-list">
+<li>SSH into <code>controlplane</code>:</li>
+</ol>
+<p><code>ssh controlplane</code></p>
+<ol class="doc-list">
+<li>Inspect the manifest:</li>
+</ol>
+<p><code>sudo vim /etc/kubernetes/manifests/kube-scheduler.yaml</code></p>
+<ol class="doc-list">
+<li>Fix the first line:</li>
+</ol>
+<p>Change <code>apiVersion: v1.0</code> back to <code>apiVersion: v1</code></p>
+<ol class="doc-list">
+<li>Wait 10 seconds for kubelet to reload the static pod. Check:</li>
+</ol>
+<p><code>kubectl get pods -n kube-system -l component=kube-scheduler</code></p>
+<p><code>kubectl get pod w1d1-pending-test</code></p>
+<div class="task-title">📌 Task 2: Terminate Rogue Container on node01</div>
+<ol class="doc-list">
+<li>SSH into <code>node01</code>:</li>
+</ol>
+<p><code>ssh node01</code></p>
+<ol class="doc-list">
+<li>Find the rogue container:</li>
+</ol>
+<p><code>sudo crictl ps -a | grep rogue-crypto-miner</code></p>
+<ol class="doc-list">
+<li>Stop and remove it:</li>
+</ol>
+<p><code>sudo crictl stop &lt;CONTAINER_ID&gt;</code></p>
+<p><code>sudo crictl rm &lt;CONTAINER_ID&gt;</code></p>
+<div class="task-title">📌 Task 3: Create Static Pod on node01</div>
+<ol class="doc-list">
+<li>On <code>node01</code>:</li>
+</ol>
+<p><code>sudo vim /etc/kubernetes/manifests/node01-monitor.yaml</code></p>
+<pre><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: node01-monitor
+spec:
+  containers:
+  - name: monitor
+    image: busybox:1.36
+    command: [&quot;sh&quot;, &quot;-c&quot;, &quot;while true; do date &gt;&gt; /var/log/node-heartbeat.log; sleep 10; done&quot;]
+    volumeMounts:
+    - name: log-dir
+      mountPath: /var/log
+  volumes:
+  - name: log-dir
+    hostPath:
+      path: /var/log</code></pre>
+  </div>
+
+  <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">⚡ CKA Speed Drills &amp; Daily Readiness Matrix</h2>
+
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">☸ Essential Kubectl Shortcuts &amp; Terminal Aliases (.bashrc)</div>
+    <pre><code>alias k=&#x27;kubectl&#x27;
+export do=&#x27;--dry-run=client -o yaml&#x27;
+export now=&#x27;--grace-period=0 --force&#x27;</code></pre>
+  </div>
+
+  <h3>Daily Self-Assessment Checklist</h3>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 10%;">Track</th>
+        <th style="width: 48%;">Core Competency / Question</th>
+        <th style="width: 30%;">Verification Command</th>
+        <th style="width: 12%;">Mastery</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><span class="badge badge-primary">CKA</span></td>
+          <td>Can you identify why a static pod is failing on a control plane node?</td>
+          <td><code>crictl ps -a &amp;&amp; crictl logs &lt;id&gt;</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+        <tr>
+          <td><span class="badge badge-primary">CKA</span></td>
+          <td>Do you understand why kubectl delete pod won't terminate a static pod?</td>
+          <td><code>kubectl delete pod &lt;name&gt; (kubelet recreates it)</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+        <tr>
+          <td><span class="badge badge-primary">CKA</span></td>
+          <td>Can you terminate unmanaged containers directly via CRI/containerd?</td>
+          <td><code>sudo ctr -n k8s.io tasks kill &lt;id&gt;</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>CKA Official Preparation Guide • Week 1 Day 1</span>
+    <span>Orchestrator: <code>./lab check w1d1-cka</code></span>
+  </div>
+
+</body>
+</html>

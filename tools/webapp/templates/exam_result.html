@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ exam.title }} — Official Exam Scorecard</title>
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #111827;
+      --bg-card-alt: #1f2937;
+      --border-color: #374151;
+      --border-light: #4b5563;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --color-pass: #10b981;
+      --color-pass-bg: rgba(16, 185, 129, 0.12);
+      --color-pass-border: rgba(16, 185, 129, 0.4);
+      --color-fail: #ef4444;
+      --color-fail-bg: rgba(239, 68, 68, 0.12);
+      --color-fail-border: rgba(239, 68, 68, 0.4);
+      --color-accent: #38bdf8;
+      --color-indigo: #6366f1;
+      --color-indigo-hover: #4f46e5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding-bottom: 4rem;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      background-color: #0f172a;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-badge {
+      background: #1e293b;
+      border: 1px solid var(--color-accent);
+      color: var(--color-accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--color-indigo);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--color-indigo-hover);
+    }
+
+    .btn-restart {
+      background: #0284c7;
+      color: #fff;
+    }
+    .btn-restart:hover {
+      background: #0369a1;
+    }
+
+    .btn-outline {
+      background: #1e293b;
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+    .btn-outline:hover {
+      background: #334155;
+      border-color: var(--border-light);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Hero Banner */
+    .result-hero {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2.25rem 2.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .result-hero.pass {
+      border-color: var(--color-pass-border);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, var(--bg-card) 65%);
+    }
+
+    .result-hero.fail {
+      border-color: var(--color-fail-border);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, var(--bg-card) 65%);
+    }
+
+    .hero-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .verdict-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .verdict-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .verdict-icon.pass {
+      background: var(--color-pass-bg);
+      color: var(--color-pass);
+      border: 2px solid var(--color-pass);
+    }
+
+    .verdict-icon.fail {
+      background: var(--color-fail-bg);
+      color: var(--color-fail);
+      border: 2px solid var(--color-fail);
+    }
+
+    .verdict-text-group h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .verdict-text-group h1.pass {
+      color: var(--color-pass);
+    }
+
+    .verdict-text-group h1.fail {
+      color: var(--color-fail);
+    }
+
+    .verdict-sub {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+      max-width: 650px;
+    }
+
+    .hero-meta {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta strong {
+      color: var(--text-secondary);
+    }
+
+    /* Key Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1.75rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+
+    .stat-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .stat-val.pass {
+      color: var(--color-pass);
+    }
+
+    .stat-val.fail {
+      color: var(--color-fail);
+    }
+
+    .stat-val.time {
+      color: #38bdf8;
+    }
+
+    .stat-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    /* Action Control Bar */
+    .actions-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Domain Breakdown */
+    .domain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .domain-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 2fr 80px;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    .domain-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .domain-weight-badge {
+      font-size: 0.8rem;
+      color: var(--color-accent);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+
+    .domain-count {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: #334155;
+      border-radius: 5px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-bar-fill.good {
+      background: var(--color-pass);
+    }
+
+    .progress-bar-fill.poor {
+      background: var(--color-fail);
+    }
+
+    .domain-score-pct {
+      text-align: right;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Questions Breakdown Table */
+    .question-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .question-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .question-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+      vertical-align: top;
+    }
+
+    .question-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .q-badge {
+      display: inline-block;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+    }
+
+    .status-badge {
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .status-badge.pass {
+      background: var(--color-pass-bg);
+      color: var(--color-pass);
+      border: 1px solid var(--color-pass-border);
+    }
+
+    .status-badge.fail {
+      background: var(--color-fail-bg);
+      color: var(--color-fail);
+      border: 1px solid var(--color-fail-border);
+    }
+
+    .btn-toggle-sol {
+      background: transparent;
+      border: 1px solid #6366f1;
+      color: #818cf8;
+      padding: 0.3rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .btn-toggle-sol:hover {
+      background: #6366f1;
+      color: #fff;
+    }
+
+    /* Accordion Solution Box */
+    .solution-details-box {
+      margin-top: 1rem;
+      background: #0f172a;
+      border: 1px solid #6366f1;
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: none;
+    }
+
+    .solution-details-box.open {
+      display: block;
+    }
+
+    .sol-header {
+      color: #a5b4fc;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .context-pill {
+      font-family: monospace;
+      font-size: 0.8rem;
+      background: #1e293b;
+      color: var(--color-accent);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+
+    pre {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      margin: 0.5rem 0;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+      font-size: 0.85rem;
+      color: #f472b6;
+      background: rgba(244, 114, 182, 0.1);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    pre code {
+      color: #e2e8f0;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Modal / Overlay */
+    .restart-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .restart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 460px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--color-accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .domain-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      .actions-bar {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-navbar">
+    <div class="brand-group">
+      <span class="brand-badge">PSI / killer.sh</span>
+      <span class="brand-title">Linux Foundation Official Exam Scorecard</span>
+    </div>
+    <div class="nav-actions">
+      <a href="/" class="btn btn-outline">🏠 Dashboard</a>
+      <a href="/exam/{{ exam.exam_id }}/solutions" class="btn btn-primary">📖 Full Solutions Guide</a>
+      <button class="btn btn-restart" onclick="restartExam()">🔄 Restart Exam</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- 1. Hero Pass/Fail Result Banner -->
+    <div class="result-hero {% if result.passed %}pass{% else %}fail{% endif %}">
+      <div class="hero-top-row">
+        <div class="verdict-badge-group">
+          <div class="verdict-icon {% if result.passed %}pass{% else %}fail{% endif %}">
+            {% if result.passed %}✓{% else %}✕{% endif %}
+          </div>
+          <div class="verdict-text-group">
+            <h1 class="{% if result.passed %}pass{% else %}fail{% endif %}">
+              {% if result.passed %}EXAM PASSED{% else %}DID NOT PASS{% endif %}
+            </h1>
+            <div class="verdict-sub">
+              {% if result.passed %}
+                Congratulations! You achieved a final weighted score of <strong>{{ result.total_pct }}%</strong>, exceeding the official Linux Foundation passing threshold of <strong>{{ result.threshold }}%</strong>.
+              {% else %}
+                Your final weighted score was <strong>{{ result.total_pct }}%</strong>, which is below the official Linux Foundation passing threshold of <strong>{{ result.threshold }}%</strong>. Review the domain breakdown and official solution steps below before restarting.
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-meta">
+          <div>Exam: <strong>{{ exam.title }}</strong></div>
+          <div>Track: <strong>{{ result.track }} Certification</strong></div>
+          <div>Submitted: <strong>{{ result.submitted_at or 'Just now' }}</strong></div>
+        </div>
+      </div>
+
+      <!-- Key Performance Metrics Grid -->
+      <div class="stats-grid">
+        <!-- Metric 1: Final Weighted Score -->
+        <div class="stat-card">
+          <div class="stat-label">Final Weighted Score</div>
+          <div class="stat-val {% if result.passed %}pass{% else %}fail{% endif %}">
+            {{ result.total_pct }}%
+          </div>
+          <div class="stat-desc">
+            Passing Threshold: <strong>{{ result.threshold }}%</strong>
+            ({% if result.passed %}+{{ (result.total_pct - result.threshold)|round(1) }}%{% else %}-{{ (result.threshold - result.total_pct)|round(1) }}%{% endif %})
+          </div>
+        </div>
+
+        <!-- Metric 2: Time Took to Take Exam -->
+        <div class="stat-card">
+          <div class="stat-label">Time Taken</div>
+          <div class="stat-val time">
+            {{ result.time_spent_formatted }}
+          </div>
+          <div class="stat-desc">
+            Allocated Limit: <strong>{{ exam.time_limit }} (120m)</strong>
+          </div>
+        </div>
+
+        <!-- Metric 3: Questions Solved -->
+        <div class="stat-card">
+          <div class="stat-label">Questions Completed</div>
+          <div class="stat-val">
+            {{ result.passed_questions }} / {{ result.total_questions }}
+          </div>
+          <div class="stat-desc">
+            {% if result.total_questions > 0 %}
+              {{ (result.passed_questions / result.total_questions * 100)|round(1) }}% questions passed
+            {% else %}
+              0%
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Metric 4: Result Verdict -->
+        <div class="stat-card">
+          <div class="stat-label">Status Evaluation</div>
+          <div class="stat-val {% if result.passed %}pass{% else %}fail{% endif %}" style="font-size: 1.35rem; padding-top: 0.35rem;">
+            {% if result.passed %}CERTIFIED PASS{% else %}NEEDS REVIEW{% endif %}
+          </div>
+          <div class="stat-desc">
+            Automated Linux Foundation grading
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Action Control Bar -->
+    <div class="actions-bar">
+      <button class="btn btn-restart" onclick="restartExam()" style="font-size: 0.95rem; padding: 0.65rem 1.4rem;">
+        🔄 Restart This Exam
+      </button>
+      <a href="/exam/{{ exam.exam_id }}/solutions" class="btn btn-primary" style="font-size: 0.95rem; padding: 0.65rem 1.4rem;">
+        📖 Official Solutions & Walkthrough Page
+      </a>
+      <button class="btn btn-outline" onclick="toggleAllInlineSolutions()">
+        📑 Expand / Collapse All Solutions Here
+      </button>
+      <a href="/" class="btn btn-outline">
+        🏠 Return to Dashboard
+      </a>
+      {% if exam.exam_id == 'mock-cka-1' %}
+        <a href="/exam/mock-cka-2" class="btn btn-outline">
+          ⏭️ Switch to Mock Exam 2 (CKA)
+        </a>
+      {% elif exam.exam_id == 'mock-lfcs-1' %}
+        <a href="/exam/mock-lfcs-2" class="btn btn-outline">
+          ⏭️ Switch to Mock Exam 2 (LFCS)
+        </a>
+      {% elif exam.exam_id == 'mock-lfcs-2' %}
+        <a href="/exam/mock-lfcs-3" class="btn btn-outline">
+          ⏭️ Switch to Mock Exam 3 (LFCS)
+        </a>
+      {% elif exam.exam_id == 'mock-lfcs-3' %}
+        <a href="/exam/mock-lfcs-4" class="btn btn-outline">
+          ⏭️ Switch to Mock Exam 4 (LFCS Final)
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- 3. Linux Foundation Weighted Domains Breakdown -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>📊 Linux Foundation Domain Competency Scorecard</span>
+        </h2>
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">
+          Official weighting breakdown for {{ result.track }}
+        </span>
+      </div>
+
+      <div class="domain-list">
+        {% for d in result.domain_scores %}
+        <div class="domain-row">
+          <div class="domain-name">
+            {{ d.domain }}
+            <span class="domain-weight-badge">{{ d.max_pct }}% Weight</span>
+          </div>
+          <div class="domain-count">
+            {{ d.passed_count }} of {{ d.total_count }} questions passed
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill {% if d.score_pct >= (d.max_pct * 0.66) %}good{% else %}poor{% endif %}"
+                 style="width: {{ (d.score_pct / d.max_pct) * 100 }}%;"></div>
+          </div>
+          <div class="domain-score-pct" style="color: {% if d.score_pct >= (d.max_pct * 0.66) %}var(--color-pass){% else %}var(--color-fail){% endif %};">
+            {{ d.score_pct }}%
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- 4. Question Breakdown & Diagnostic Details -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>📋 Question-by-Question Technical Audit</span>
+        </h2>
+        <span style="font-size: 0.85rem; color: var(--text-secondary);">
+          Verified directly against cluster nodes & resources
+        </span>
+      </div>
+
+      <table class="question-table">
+        <thead>
+          <tr>
+            <th style="width: 80px;">ID</th>
+            <th style="width: 140px;">Status</th>
+            <th style="width: 250px;">Domain & Weight</th>
+            <th>Diagnostic Details & Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for q in result.question_results %}
+          <tr class="question-row" id="row-{{ q.id }}">
+            <td>
+              <span class="q-badge">{{ q.id }}</span>
+            </td>
+            <td>
+              <span class="status-badge {% if q.status == 'PASS' %}pass{% else %}fail{% endif %}">
+                {% if q.status == 'PASS' %}✓ PASS{% else %}✕ FAIL{% endif %}
+              </span>
+            </td>
+            <td>
+              <div style="font-weight: 600; font-size: 0.85rem;">{{ q.domain }}</div>
+              <div style="color: var(--color-accent); font-size: 0.75rem;">Weight: {{ q.weight }}</div>
+            </td>
+            <td>
+              <div style="margin-bottom: 0.5rem; color: {% if q.status == 'PASS' %}#a7f3d0{% else %}#fca5a5{% endif %}; font-weight: 500;">
+                {{ q.detail }}
+              </div>
+              {% if q.text %}
+              <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.65rem; background: #0b0f19; padding: 0.5rem 0.75rem; border-radius: 6px; border-left: 3px solid var(--border-light);">
+                <strong>Task:</strong> {{ q.text }}
+              </div>
+              {% endif %}
+
+              {% if q.solution %}
+              <button class="btn-toggle-sol" onclick="toggleSolution('sol-{{ q.id }}')">
+                💡 View Official Solution & YAML
+              </button>
+              <div class="solution-details-box" id="sol-{{ q.id }}">
+                <div class="sol-header">
+                  <span>Official Solution & Walkthrough for {{ q.id }}</span>
+                  <button class="btn-toggle-sol" style="border:none; color: var(--text-muted);" onclick="toggleSolution('sol-{{ q.id }}')">Close</button>
+                </div>
+                {% if q.context_cmd %}
+                <div class="context-pill">Context: {{ q.context_cmd }}</div>
+                {% endif %}
+                <div class="markdown-body" data-markdown="{{ q.solution|e }}"></div>
+              </div>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Restart Loading Overlay -->
+  <div class="restart-overlay" id="restartOverlay">
+    <div class="restart-card">
+      <div class="spinner"></div>
+      <h2 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Resetting Exam Environment...</h2>
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">
+        Re-initializing cluster state and static pods via <code>./lab start {{ exam.exam_id }}</code>.
+        Your new 120-minute timed session is loading...
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Simple markdown renderer for solutions
+    function renderMarkdownElements() {
+      document.querySelectorAll(".markdown-body").forEach(el => {
+        const raw = el.getAttribute("data-markdown") || "";
+        let out = raw
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/^### (.*$)/gim, '<h3 style="color:#38bdf8; margin:0.75rem 0 0.35rem 0;">$1</h3>')
+          .replace(/^## (.*$)/gim, '<h2 style="color:#38bdf8; margin:0.9rem 0 0.4rem 0;">$1</h2>')
+          .replace(/^# (.*$)/gim, '<h1 style="color:#38bdf8; margin:1rem 0 0.5rem 0;">$1</h1>')
+          .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n\n/g, '<p style="margin: 0.5rem 0;"></p>')
+          .replace(/\n/g, '<br/>');
+        el.innerHTML = out;
+      });
+    }
+
+    renderMarkdownElements();
+
+    function toggleSolution(id) {
+      const box = document.getElementById(id);
+      if (box) {
+        box.classList.toggle("open");
+      }
+    }
+
+    let allOpen = false;
+    function toggleAllInlineSolutions() {
+      allOpen = !allOpen;
+      document.querySelectorAll(".solution-details-box").forEach(b => {
+        if (allOpen) {
+          b.classList.add("open");
+        } else {
+          b.classList.remove("open");
+        }
+      });
+    }
+
+    function restartExam() {
+      if (confirm("Are you sure you want to restart this exam? This will re-initialize the scenario environment and start a fresh timed session.")) {
+        try {
+          localStorage.removeItem("exam_end_time_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_timer_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_flags_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_ans_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_notes_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_current_q_{{ exam.exam_id }}");
+        } catch(e) {}
+        document.getElementById("restartOverlay").style.display = "flex";
+        fetch("/api/exam/{{ exam.exam_id }}/restart", { method: "POST" })
+          .then(res => res.json())
+          .then(data => {
+            window.location.href = data.redirect_url || "/exam/{{ exam.exam_id }}?restart=1";
+          })
+          .catch(err => {
+            alert("Error restarting exam: " + err.message);
+            window.location.href = "/exam/{{ exam.exam_id }}?restart=1";
+          });
+      }
+    }
+  </script>
+
+</body>
+</html>
