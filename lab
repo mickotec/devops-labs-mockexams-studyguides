@@ -43,6 +43,7 @@ function usage() {
   echo "  ./lab reset <lab-id>       Clean up lab artifacts and restore clean state"
   echo "  ./lab exam [mock-id]       Launch interactive killer.sh / PSI exam simulator (browser + terminal)"
   echo "  ./lab guide [day-id]       Generate colorful daily study guide PDF (e.g. w1d1)"
+  echo "  ./lab calendar             Interactively customize study start date & duration (8w/4w)"
   echo "  ./lab vm [status|start|stop] Manage VirtualBox lab VMs"
   echo "  ./lab ssh <target>         Connect to controlplane, node01, node02, or lfcs"
   echo ""
@@ -289,6 +290,10 @@ case "$CMD" in
     else
       bash "${SCRIPT_DIR}/start_simulator.sh" "${1:-}"
     fi
+    ;;
+  calendar|schedule)
+    shift || true
+    python3 "${SCRIPT_DIR}/tools/generate_calendar.py" "$@"
     ;;
   help|*)
     usage

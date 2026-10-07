@@ -18,10 +18,11 @@ devops-labs-mockexams-studyguides/
 ├── cka/                            # ☸ STANDALONE CKA TRACK
 │   ├── webapp/                     # Dedicated CKA web dashboard & killer.sh exam simulator (Port 5051)
 │   ├── pomodoro-extension/         # Dedicated CKA Pomodoro timer Chrome extension (links to 5051)
+│   ├── generate_calendar.py        # Dedicated CKA study calendar generator (prompts start date & duration)
 │   ├── generate_labs.py            # Dedicated CKA lab & mock exam generator script
 │   ├── generate_guides.py          # Dedicated CKA daily study guide generator script
 │   ├── study_todo.py               # Dedicated CKA terminal progress tracker & checklist
-│   ├── schedule.csv / .ics         # Dedicated CKA 8-week daily study schedule & calendar
+│   ├── schedule.csv / .ics         # Dedicated CKA daily study schedule & calendar
 │   ├── guides/                     # 48 Track-specific CKA daily study guides & architectural theory
 │   ├── kodekloud_cka/              # KodeKloud CKA course notes and references
 │   ├── mock-cka-1/                 # Full-scale CKA timed mock exam 1 (17 killer.sh questions)
@@ -31,10 +32,11 @@ devops-labs-mockexams-studyguides/
 ├── lfcs/                           # 🐧 STANDALONE LFCS TRACK
 │   ├── webapp/                     # Dedicated LFCS web dashboard & PSI exam simulator (Port 5052)
 │   ├── pomodoro-extension/         # Dedicated LFCS Pomodoro timer Chrome extension (links to 5052)
+│   ├── generate_calendar.py        # Dedicated LFCS study calendar generator (prompts start date & duration)
 │   ├── generate_labs.py            # Dedicated LFCS lab & mock exam generator script
 │   ├── generate_guides.py          # Dedicated LFCS daily study guide generator script
 │   ├── study_todo.py               # Dedicated LFCS terminal progress tracker & checklist
-│   ├── schedule.csv / .ics         # Dedicated LFCS 8-week daily study schedule & calendar
+│   ├── schedule.csv / .ics         # Dedicated LFCS daily study schedule & calendar
 │   ├── guides/                     # 48 Track-specific LFCS daily study guides & system concepts
 │   ├── mock-lfcs-1/ ... 4/         # 4 Full-scale LFCS timed mock exams (20 PSI questions each)
 │   └── w1d1-lfcs/ ... w8d6-lfcs/   # 48 Calendar-aligned hands-on Linux lab scenarios
@@ -49,6 +51,7 @@ devops-labs-mockexams-studyguides/
 │   ├── webapp/                     # Dual-track unified Flask web dashboard (Port 5050)
 │   ├── pomodoro-extension/         # Unified Pomodoro extension
 │   ├── curriculum/                 # Syllabus data definitions & question bank
+│   ├── generate_calendar.py        # Interactive study calendar generator (start date, duration & track)
 │   ├── generate_daily_guide.py     # Master parallel study guide generator
 │   ├── study_todo.py               # Dual-track curses progress tracker
 │   └── start_simulator.sh          # Terminal mock exam launcher
@@ -74,16 +77,19 @@ cd cka
 # 1. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 2. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
+# 2. Customize your study calendar (asks when you start & for how long)
+python3 generate_calendar.py
+
+# 3. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
 bash webapp/start.sh
 
-# 3. Generate or update all 48 CKA daily HTML study guides
+# 4. Generate or update all 48 CKA daily HTML study guides
 python3 generate_guides.py
 
-# 4. Generate or rebuild all 48 CKA labs and killer.sh mock exams
+# 5. Generate or rebuild all 48 CKA labs and killer.sh mock exams
 python3 generate_labs.py
 
-# 5. Import cka/schedule.ics into Google Calendar or Thunderbird
+# 6. Import cka/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for CKA:**
@@ -104,16 +110,19 @@ cd lfcs
 # 1. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 2. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
+# 2. Customize your study calendar (asks when you start & for how long)
+python3 generate_calendar.py
+
+# 3. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
 bash webapp/start.sh
 
-# 3. Generate or update all 48 LFCS daily HTML study guides
+# 4. Generate or update all 48 LFCS daily HTML study guides
 python3 generate_guides.py
 
-# 4. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
+# 5. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
 python3 generate_labs.py
 
-# 5. Import lfcs/schedule.ics into Google Calendar or Thunderbird
+# 6. Import lfcs/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for LFCS:**
@@ -185,9 +194,10 @@ vagrant up LFCS
    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
    sudo chown $(id -u):$(id -g) $HOME/.kube/config
    ```
-4. Install CNI (Flannel):
+4. Install CNI (Project Calico):
    ```bash
-   kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+   # Project Calico provides full NetworkPolicy enforcement required for CKA exam objectives
+   kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/calico.yaml
    ```
 5. Join `node01` and `node02` using the `kubeadm join` command produced by step 2.
 
@@ -250,14 +260,34 @@ Realistic, timed exam environments simulating the exact interface and constraint
 
 ---
 
-## 📅 Schedule Synchronization
+## 📅 Schedule Synchronization & Customization
 
-Both tracks follow structured, calendar-aligned syllabi with pause/recovery blocks:
-- **CKA Calendar**: `cka/schedule.ics` (morning intensive blocks 08:00 - 12:00)
-- **LFCS Calendar**: `lfcs/schedule.ics` (afternoon intensive blocks 15:00 - 18:00)
-- **Master Combined Calendar**: `cka_lfcs_schedule.ics`
+The study suite includes an **interactive calendar generator** that asks you when you want to start studying and for how long, allowing you to tailor the pacing to your availability:
 
-Compatible with Google Calendar, Apple Calendar, Thunderbird, and mobile calendar apps.
+```bash
+# Run the interactive calendar wizard from repository root:
+./lab calendar
+
+# Or run track-specific calendar generators:
+cd cka && python3 generate_calendar.py   # Tailored for CKA (4 hrs/day)
+cd lfcs && python3 generate_calendar.py  # Tailored for LFCS (3 hrs/day)
+```
+
+### Interactive Customization Prompts:
+1. **When do you start?**: Enter any date (`YYYY-MM-DD`), `'today'`, `'tomorrow'`, or press Enter to default to the upcoming Monday.
+2. **For how long?**:
+   - `8 Weeks`: Standard comprehensive pacing (6 study days/week, ~48 days) [Recommended]
+   - `4 Weeks`: Accelerated intensive sprint (condensed double-pace, ~24 days)
+   - Custom: Any number of weeks between 1 and 16.
+3. **Certification Track**: Choose between `Both (Dual Track)`, `CKA Only`, or `LFCS Only`.
+4. **Planned Pauses**: Optionally insert scheduled recovery/pause weeks (e.g. for travel, family, or work commitments) which automatically shifts all remaining modules without disrupting the syllabus flow.
+
+### Calendar Outputs:
+- **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (morning intensive blocks 08:00 - 12:00)
+- **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (afternoon intensive blocks 15:00 - 18:00)
+- **Master Combined Calendar**: `cka_lfcs_schedule.ics` & `cka_lfcs_schedule.csv`
+
+Compatible with Google Calendar, Apple Calendar, Microsoft Outlook, Thunderbird, and mobile calendar apps.
 
 ---
 

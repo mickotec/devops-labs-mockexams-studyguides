@@ -1,8 +1,4 @@
 Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
-"[PAUSE] Study Paused: Family Matters (Week 1 of 2)",09/21/2026,08:00 AM,09/21/2026,06:00 PM,False,"Study paused due to family matters.
-Scheduled to resume on Monday, October 5, 2026 with Week 2.",,False
-"[PAUSE] Study Paused: Family Matters (Week 2 of 2)",09/28/2026,08:00 AM,09/28/2026,06:00 PM,False,"Study paused due to family matters.
-Resumes Monday, October 5, 2026 with Week 2 (ReplicaSets & Self-Healing Controllers).",,False
 "[CKA] 8am-12pm: Kubernetes Architecture & Container Runtimes",09/14/2026,08:00 AM,09/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Kubernetes Architecture & Container Runtimes
 
@@ -144,7 +140,24 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: VimGolf / openvim speed challenge
 05:30 PM - 06:00 PM: Milestone Assessment 1: System permissions verification",,False
-"[CKA] 8am-12pm: ReplicaSets & Self-Healing Controllers",10/05/2026,08:00 AM,10/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[REST] Full Recovery & Memory Consolidation (Week 1)",09/20/2026,08:00 AM,09/20/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/21/2026,08:00 AM,09/21/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/22/2026,08:00 AM,09/22/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/23/2026,08:00 AM,09/23/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/24/2026,08:00 AM,09/24/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/25/2026,08:00 AM,09/25/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/26/2026,08:00 AM,09/26/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 2)",09/27/2026,08:00 AM,09/27/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[CKA] 8am-12pm: ReplicaSets & Self-Healing Controllers",09/28/2026,08:00 AM,09/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: ReplicaSets & Self-Healing Controllers
 
 Schedule:
@@ -154,12 +167,12 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: ReplicaSets
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Deleting pods to witness reconciliation loop in real time",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/05/2026,12:00 PM,10/05/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",09/28/2026,12:00 PM,09/28/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: File Searching with Find and Locate",10/05/2026,03:00 PM,10/05/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: File Searching with Find and Locate",09/28/2026,03:00 PM,09/28/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: File Searching with Find and Locate
 
 Schedule:
@@ -168,7 +181,7 @@ Schedule:
 04:20 PM - 04:35 PM: Walk & mental reset
 04:35 PM - 05:35 PM: KodeKloud Labs: Search for Files
 05:35 PM - 06:00 PM: Synthesis: Complex find -exec chmod/rm one-liners",,False
-"[CKA] 8am-12pm: Deployments, Rollouts & Revisions",10/06/2026,08:00 AM,10/06/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Deployments, Rollouts & Revisions",09/29/2026,08:00 AM,09/29/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Deployments, Rollouts & Revisions
 
 Schedule:
@@ -178,12 +191,12 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Deployments & Rollout Updates
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Rollout undo to a specific previous revision (--to-revision)",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/06/2026,12:00 PM,10/06/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",09/29/2026,12:00 PM,09/29/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: Text Processing: Grep & Regular Expressions",10/06/2026,03:00 PM,10/06/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: Text Processing: Grep & Regular Expressions",09/29/2026,03:00 PM,09/29/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: Text Processing: Grep & Regular Expressions
 
 Schedule:
@@ -192,7 +205,7 @@ Schedule:
 04:20 PM - 04:35 PM: Movement break
 04:35 PM - 05:35 PM: KodeKloud Labs: Search File Using Grep & Regex
 05:35 PM - 06:00 PM: Cheat sheet update: High-yield regex pattern catalog",,False
-"[CKA] 8am-12pm: Services: ClusterIP, NodePort & LoadBalancer",10/07/2026,08:00 AM,10/07/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Services: ClusterIP, NodePort & LoadBalancer",09/30/2026,08:00 AM,09/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Services: ClusterIP, NodePort & LoadBalancer
 
 Schedule:
@@ -202,12 +215,12 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Services (ClusterIP & NodePort)
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Exploratory: Inspecting cluster iptables rules generated for a Service",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/07/2026,12:00 PM,10/07/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",09/30/2026,12:00 PM,09/30/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: Advanced Stream Analysis: Sed & Awk Fundamentals",10/07/2026,03:00 PM,10/07/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: Advanced Stream Analysis: Sed & Awk Fundamentals",09/30/2026,03:00 PM,09/30/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: Advanced Stream Analysis: Sed & Awk Fundamentals
 
 Schedule:
@@ -216,7 +229,7 @@ Schedule:
 04:20 PM - 04:35 PM: Walk & reset
 04:35 PM - 05:35 PM: Practical Terminal Drills: Parse /etc/passwd and /etc/group using awk and sed
 05:35 PM - 06:00 PM: Synthesis: Formatting system metrics with awk",,False
-"[CKA] 8am-12pm: Namespaces & DNS Resolution Inside Clusters",10/08/2026,08:00 AM,10/08/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Namespaces & DNS Resolution Inside Clusters",10/01/2026,08:00 AM,10/01/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Namespaces & DNS Resolution Inside Clusters
 
 Schedule:
@@ -226,12 +239,12 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Namespaces & CoreDNS Exploration
 11:15 AM - 11:30 AM: Micro-break
 11:30 AM - 12:00 PM: Exploratory: Launch temporary busybox pod for nslookup and curl tests",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/08/2026,12:00 PM,10/08/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/01/2026,12:00 PM,10/01/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: I/O Redirection & Stream Multiplexing",10/08/2026,03:00 PM,10/08/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: I/O Redirection & Stream Multiplexing",10/01/2026,03:00 PM,10/01/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: I/O Redirection & Stream Multiplexing
 
 Schedule:
@@ -240,7 +253,7 @@ Schedule:
 04:20 PM - 04:35 PM: Posture break
 04:35 PM - 05:35 PM: KodeKloud Labs: Use Input-Output Redirection
 05:35 PM - 06:00 PM: Terminal drill: Redirecting output and errors to separate log files",,False
-"[CKA] 8am-12pm: Kubectl Explain & Declarative Workflow",10/09/2026,08:00 AM,10/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Kubectl Explain & Declarative Workflow",10/02/2026,08:00 AM,10/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Kubectl Explain & Declarative Workflow
 
 Schedule:
@@ -250,12 +263,12 @@ Schedule:
 09:45 AM - 11:15 AM: KodeKloud Labs: Kubectl Apply Command & Imperative vs Declarative
 11:15 AM - 11:30 AM: Eye rest
 11:30 AM - 12:00 PM: Synthesis: Constructing a complete 3-tier app manifest declaratively",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/09/2026,12:00 PM,10/09/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/02/2026,12:00 PM,10/02/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: Archiving, Compression & Remote Backups",10/09/2026,03:00 PM,10/09/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: Archiving, Compression & Remote Backups",10/02/2026,03:00 PM,10/02/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: Archiving, Compression & Remote Backups
 
 Schedule:
@@ -264,7 +277,7 @@ Schedule:
 04:20 PM - 04:35 PM: Movement break
 04:35 PM - 05:35 PM: KodeKloud Labs: Archive, Back Up, Compress, Unpack
 05:35 PM - 06:00 PM: Synthesis: Automated incremental tar backup script",,False
-"[CKA] 8am-12pm: Week 2 Speed Drills & Controller Triathlon",10/10/2026,08:00 AM,10/10/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+"[CKA] 8am-12pm: Week 2 Speed Drills & Controller Triathlon",10/03/2026,08:00 AM,10/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Week 2 Speed Drills & Controller Triathlon
 
 Schedule:
@@ -272,12 +285,12 @@ Schedule:
 09:30 AM - 09:45 AM: Physical reset
 09:45 AM - 11:00 AM: Rolling update failure scenario & rollback under pressure
 11:00 AM - 12:00 PM: Milestone 2 Assessment: Multi-tier deployment with namespace routing",,False
-"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/10/2026,12:00 PM,10/10/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
+"[RECOVERY] 12pm-3pm: Cognitive Reset & Physical Regeneration",10/03/2026,12:00 PM,10/03/2026,03:00 PM,False,"COGNITIVE RECOVERY & INTEGRATION (12:00 PM - 3:00 PM)
 12:00 PM - 01:00 PM: Nutritious lunch & total screen detachment
 01:00 PM - 02:00 PM: Aerobic exercise / brisk walk outside (BDNF boost)
 02:00 PM - 02:45 PM: Power nap or Non-Sleep Deep Rest (NSDR)
 02:45 PM - 03:00 PM: Terminal & desk prep for LFCS",,False
-"[LFCS] 3pm-6pm: Week 2 Speed Drills & Git Version Control",10/10/2026,03:00 PM,10/10/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+"[LFCS] 3pm-6pm: Week 2 Speed Drills & Git Version Control",10/03/2026,03:00 PM,10/03/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
 Topic: Week 2 Speed Drills & Git Version Control
 
 Schedule:
@@ -285,6 +298,23 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Fast text stream filtering marathon (parse 10,000 log lines with grep/sed/awk)
 05:30 PM - 06:00 PM: Milestone 2 Assessment: Text processing & archive verification",,False
+"[REST] Full Recovery & Memory Consolidation (Week 2)",10/04/2026,08:00 AM,10/04/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/05/2026,08:00 AM,10/05/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/06/2026,08:00 AM,10/06/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/07/2026,08:00 AM,10/07/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/08/2026,08:00 AM,10/08/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/09/2026,08:00 AM,10/09/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/10/2026,08:00 AM,10/10/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
+"[PAUSE] Scheduled Break (Week 3)",10/11/2026,08:00 AM,10/11/2026,06:00 PM,False,"Scheduled rest and recovery week.
+Detached from terminal to recharge cognitive endurance.",,False
 "[CKA] 8am-12pm: Manual Scheduling, Labels & Selectors",10/12/2026,08:00 AM,10/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Manual Scheduling, Labels & Selectors
 
@@ -426,6 +456,9 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Process troubleshooting under memory/CPU stress (stress/stress-ng drills)
 05:30 PM - 06:00 PM: Milestone 3 Assessment: Service & process resilience",,False
+"[REST] Full Recovery & Memory Consolidation (Week 3)",10/18/2026,08:00 AM,10/18/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
 "[CKA] 8am-12pm: Commands & Arguments (Docker vs Kubernetes)",10/19/2026,08:00 AM,10/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Commands & Arguments (Docker vs Kubernetes)
 
@@ -567,6 +600,9 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Package troubleshooting and repository recovery drill
 05:30 PM - 06:00 PM: Milestone 4 Assessment: Scripting and service automation",,False
+"[REST] Full Recovery & Memory Consolidation (Week 4)",10/25/2026,08:00 AM,10/25/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
 "[CKA] 8am-12pm: Node Maintenance: Cordon, Drain & Uncordon",10/26/2026,08:00 AM,10/26/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Node Maintenance: Cordon, Drain & Uncordon
 
@@ -708,6 +744,9 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Troubleshoot and fix web server blocked by SELinux context
 05:30 PM - 06:00 PM: Milestone 5 Assessment: Security & access audit verification",,False
+"[REST] Full Recovery & Memory Consolidation (Week 5)",11/01/2026,08:00 AM,11/01/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
 "[CKA] 8am-12pm: Certificates API & KubeConfig Management",11/02/2026,08:00 AM,11/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Certificates API & KubeConfig Management
 
@@ -849,6 +888,9 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Configure NFS share and mount persistently from client VM
 05:30 PM - 06:00 PM: Milestone 6 Assessment: Storage integrity and LVM expansion",,False
+"[REST] Full Recovery & Memory Consolidation (Week 6)",11/08/2026,08:00 AM,11/08/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
 "[CKA] 8am-12pm: Cluster & Pod Networking Prerequisites",11/09/2026,08:00 AM,11/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Cluster & Pod Networking Prerequisites
 
@@ -990,6 +1032,9 @@ Schedule:
 04:15 PM - 04:30 PM: Stretch break
 04:30 PM - 05:30 PM: Timed network troubleshooting (broken default route, DNS resolver failure)
 05:30 PM - 06:00 PM: Milestone 7 Assessment: Network configuration and firewall lockdown",,False
+"[REST] Exam Ready! Full Rest & Mental Grounding",11/15/2026,08:00 AM,11/15/2026,06:00 PM,False,"Complete detachment from code and terminal.
+Engage in physical movement, outdoor activities, social time, and restorative sleep.
+Allows long-term synaptic consolidation of weekly concepts.",,False
 "[CKA] 8am-12pm: Troubleshooting: Control Plane & Applications",11/16/2026,08:00 AM,11/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
 Topic: Troubleshooting: Control Plane & Applications
 
@@ -1129,27 +1174,3 @@ Schedule:
 04:30 PM - 04:45 PM: Movement break
 04:45 PM - 06:00 PM: Final confidence check across all LFCS exam domains
 Final Milestone Gate cleared!",,False
-"[REST] Full Recovery & Memory Consolidation (Week 1)",09/20/2026,08:00 AM,09/20/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 2)",10/11/2026,08:00 AM,10/11/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 3)",10/18/2026,08:00 AM,10/18/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 4)",10/25/2026,08:00 AM,10/25/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 5)",11/01/2026,08:00 AM,11/01/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 6)",11/08/2026,08:00 AM,11/08/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Full Recovery & Memory Consolidation (Week 7)",11/15/2026,08:00 AM,11/15/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False
-"[REST] Exam Ready! Full Rest & Mental Grounding",11/22/2026,08:00 AM,11/22/2026,06:00 PM,False,"Complete detachment from code and terminal.
-Engage in physical movement, outdoor activities, social time, and restorative sleep.
-Allows long-term synaptic consolidation of weekly concepts.",,False

@@ -79,9 +79,10 @@ Once the nodes are provisioned, complete the cluster initialization on `controlp
    sudo chown $(id -u):$(id -g) $HOME/.kube/config
    ```
 
-4. Install Calico or Flannel CNI:
+4. Install CNI (Project Calico):
    ```bash
-   kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+   # Calico provides NetworkPolicy enforcement required for CKA objectives
+   kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/calico.yaml
    ```
 
 5. Join worker nodes (`node01`, `node02`) using the `kubeadm join` command printed during init.
