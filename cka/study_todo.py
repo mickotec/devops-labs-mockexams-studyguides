@@ -151,7 +151,17 @@ def build_study_days(schedule_days):
 
     calendar_days = []
     seen = set()
-    start_dt = datetime(2026, 9, 14)
+    valid_dates = []
+    for k in schedule_days.keys():
+        try:
+            valid_dates.append(datetime.strptime(k, "%m/%d/%Y"))
+        except ValueError:
+            pass
+    if valid_dates:
+        start_dt = min(valid_dates)
+    else:
+        today = datetime.today()
+        start_dt = today - timedelta(days=today.weekday())
     cal_day = 0
     while len(calendar_days) < 56:
         dt = start_dt + timedelta(days=cal_day)

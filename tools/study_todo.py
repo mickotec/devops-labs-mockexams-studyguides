@@ -153,7 +153,18 @@ def load_curriculum_checklists():
 # computing dates (Mon-Sat per week, Sun rest) and using curriculum
 # checklist data for study content.
 
-START_DATE = datetime(2026, 9, 14)  # Monday Sep 14 2026
+def get_start_date(csv_days):
+    if csv_days:
+        valid_dates = []
+        for k in csv_days.keys():
+            try:
+                valid_dates.append(datetime.strptime(k, "%m/%d/%Y"))
+            except ValueError:
+                pass
+        if valid_dates:
+            return min(valid_dates)
+    today = datetime.today()
+    return today - timedelta(days=today.weekday())
 
 
 def build_full_schedule():
@@ -183,64 +194,11 @@ def build_full_schedule():
 
     days = {}
     all_dates = []
+    start_dt = get_start_date(csv_days)
 
-    # --- Week 1 (Sep 14 - Sep 20, 2026) ---
-    week_start = START_DATE
-    for day_in_week in range(6):
-        dt = week_start + timedelta(days=day_in_week)
-        date_str = dt.strftime("%m/%d/%Y")
-        all_dates.append(date_str)
-        day_num = day_in_week + 1
-
-        if date_str in csv_days:
-            days[date_str] = csv_days[date_str]
-            cl = checklists.get((1, day_num), [])
-            if cl:
-                _append_checklist_block(days[date_str], cl, 1, day_num)
-        else:
-            cka_topic, lfcs_topic = week_topics.get(
-                (1, day_num), ("CKA Study", "LFCS Study"))
-            days[date_str] = _generate_day_blocks(
-                1, day_num, cka_topic, lfcs_topic,
-                checklists.get((1, day_num), []))
-
-    rest_dt = week_start + timedelta(days=6)
-    rest_str = rest_dt.strftime("%m/%d/%Y")
-    all_dates.append(rest_str)
-    days[rest_str] = [{
-        "type": "REST",
-        "title": "Full Recovery & Memory Consolidation (Week 1)",
-        "time": "All Day",
-        "tasks": [
-            "Complete detachment from code and terminal",
-            "Physical movement, outdoor activities, social time",
-            "Restorative sleep for synaptic consolidation",
-        ]
-    }]
-
-    # --- 2-Week Pause Period (Sep 21 - Oct 04, 2026) ---
-    pause_start = START_DATE + timedelta(weeks=1)
-    for day_offset in range(14):
-        dt = pause_start + timedelta(days=day_offset)
-        date_str = dt.strftime("%m/%d/%Y")
-        all_dates.append(date_str)
-        if date_str in csv_days:
-            days[date_str] = csv_days[date_str]
-        else:
-            days[date_str] = [{
-                "type": "REST",
-                "title": "Study Paused — Family Matters Break",
-                "time": "All Day",
-                "tasks": [
-                    "Study temporarily paused due to family matters.",
-                    "Resumes with Week 2 on Monday, October 5, 2026.",
-                ]
-            }]
-
-    # --- Weeks 2 to 8 (Pushed to start Monday, Oct 05, 2026) ---
-    for week in range(2, 9):
-        # Week 2 starts at week offset 3 (START_DATE + 3 weeks = Oct 05, 2026)
-        week_start = START_DATE + timedelta(weeks=week + 1)
+    # Standard 8-Week Curriculum
+    for week in range(1, 9):
+        week_start = start_dt + timedelta(weeks=week - 1)
         for day_in_week in range(6):  # Mon-Sat = 0-5
             dt = week_start + timedelta(days=day_in_week)
             date_str = dt.strftime("%m/%d/%Y")
