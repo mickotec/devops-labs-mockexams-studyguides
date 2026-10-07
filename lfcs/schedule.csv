@@ -1,0 +1,429 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+[PAUSE] Study Paused: Family Matters (Week 1 of 2),09/21/2026,08:00 AM,09/21/2026,06:00 PM,False,"Study paused due to family matters.
+Scheduled to resume on Monday, October 5, 2026 with Week 2.",,False
+[PAUSE] Study Paused: Family Matters (Week 2 of 2),09/28/2026,08:00 AM,09/28/2026,06:00 PM,False,"Study paused due to family matters.
+Resumes Monday, October 5, 2026 with Week 2 (ReplicaSets & Self-Healing Controllers).",,False
+"[LFCS] 3pm-6pm: Consoles, Navigation & System Documentation",09/14/2026,03:00 PM,09/14/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Consoles, Navigation & System Documentation
+
+Schedule:
+03:00 PM - 03:20 PM: Terminal navigation speed drills (cd, pushd, popd, ls flags)
+03:20 PM - 04:20 PM: Theory: Graphical vs text consoles, man pages (sections 1, 5, 8), info, --help
+04:20 PM - 04:35 PM: Walk & cognitive reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Logging in and System Documentation
+05:35 PM - 06:00 PM: Cheat sheet update: Documentation lookup recipes",,False
+"[LFCS] 3pm-6pm: Files, Directories, Hard & Soft Links",09/15/2026,03:00 PM,09/15/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Files, Directories, Hard & Soft Links
+
+Schedule:
+03:00 PM - 03:20 PM: File operation warm-up (mkdir -p, cp -r, rm -rf safety)
+03:20 PM - 04:20 PM: Theory: Inodes, hard links vs symbolic links (ln vs ln -s), link limits across filesystems
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Files, Directories, Hard and Soft Links
+05:35 PM - 06:00 PM: Synthesis: Inode verification drills with ls -i",,False
+[LFCS] 3pm-6pm: Standard Linux File Permissions,09/16/2026,03:00 PM,09/16/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Standard Linux File Permissions
+
+Schedule:
+03:00 PM - 03:20 PM: Octal permission conversion warm-up (rwx calculations)
+03:20 PM - 04:20 PM: Theory: Owner, group, other (ugo), chmod (numeric vs symbolic), chown, chgrp, umask
+04:20 PM - 04:35 PM: Physical reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Standard File Permissions
+05:35 PM - 06:00 PM: Synthesis: Default umask calculation drills",,False
+"[LFCS] 3pm-6pm: Special Permissions: SUID, SGID & Sticky Bit",09/17/2026,03:00 PM,09/17/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Special Permissions: SUID, SGID & Sticky Bit
+
+Schedule:
+03:00 PM - 03:20 PM: Permission bit calculation drills (4000, 2000, 1000)
+03:20 PM - 04:20 PM: Theory: SUID execution as owner, SGID for shared directories, Sticky bit on /tmp
+04:20 PM - 04:35 PM: Walk break
+04:35 PM - 05:35 PM: KodeKloud Labs: SUID, SGID, and Sticky Bit
+05:35 PM - 06:00 PM: Command ledger update: find / -perm /4000 drills",,False
+"[LFCS] 3pm-6pm: Pagers, Vim Mastery & Terminal Editing",09/18/2026,03:00 PM,09/18/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Pagers, Vim Mastery & Terminal Editing
+
+Schedule:
+03:00 PM - 03:20 PM: Vim navigation warm-up (hjkl, w, b, gg, G, 0, $)
+03:20 PM - 04:20 PM: Theory: Vim command vs insert mode, visual selection, yanking, search/replace (:s/old/new/g)
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Pagers and VI
+05:35 PM - 06:00 PM: Error Ledger review & personal ~/.vimrc configuration",,False
+[LFCS] 3pm-6pm: Week 1 Consolidation & Permission Auditing,09/19/2026,03:00 PM,09/19/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 1 Consolidation & Permission Auditing
+
+Schedule:
+03:00 PM - 04:15 PM: Permissions speed drill: Audit and enforce correct SUID/SGID/Sticky bits across a mock directory tree
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: VimGolf / openvim speed challenge
+05:30 PM - 06:00 PM: Milestone Assessment 1: System permissions verification",,False
+[LFCS] 3pm-6pm: File Searching with Find and Locate,10/05/2026,03:00 PM,10/05/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: File Searching with Find and Locate
+
+Schedule:
+03:00 PM - 03:20 PM: find command warm-up (-name, -type f, -type d)
+03:20 PM - 04:20 PM: Theory: find expressions (-size, -mtime, -user, -perm), -exec vs xargs, locate vs updatedb
+04:20 PM - 04:35 PM: Walk & mental reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Search for Files
+05:35 PM - 06:00 PM: Synthesis: Complex find -exec chmod/rm one-liners",,False
+[LFCS] 3pm-6pm: Text Processing: Grep & Regular Expressions,10/06/2026,03:00 PM,10/06/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Text Processing: Grep & Regular Expressions
+
+Schedule:
+03:00 PM - 03:20 PM: Regex anchors drill (^, $, .)
+03:20 PM - 04:20 PM: Theory: grep flags (-i, -v, -r, -n, -E), Basic Regular Expressions (BRE) vs Extended (ERE)
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Search File Using Grep & Regex
+05:35 PM - 06:00 PM: Cheat sheet update: High-yield regex pattern catalog",,False
+[LFCS] 3pm-6pm: Advanced Stream Analysis: Sed & Awk Fundamentals,10/07/2026,03:00 PM,10/07/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Advanced Stream Analysis: Sed & Awk Fundamentals
+
+Schedule:
+03:00 PM - 03:20 PM: Piping warm-up (cat, cut, sort, uniq -c)
+03:20 PM - 04:20 PM: Theory: sed line replacement (sed 's/foo/bar/g'), awk column extraction (awk '{print $1, $3}')
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: Practical Terminal Drills: Parse /etc/passwd and /etc/group using awk and sed
+05:35 PM - 06:00 PM: Synthesis: Formatting system metrics with awk",,False
+[LFCS] 3pm-6pm: I/O Redirection & Stream Multiplexing,10/08/2026,03:00 PM,10/08/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: I/O Redirection & Stream Multiplexing
+
+Schedule:
+03:00 PM - 03:20 PM: Redirection warm-up (stdout, stderr, &>)
+03:20 PM - 04:20 PM: Theory: File descriptors (0, 1, 2), redirecting stderr (2>), appending (>>), pipelines (|), tee
+04:20 PM - 04:35 PM: Posture break
+04:35 PM - 05:35 PM: KodeKloud Labs: Use Input-Output Redirection
+05:35 PM - 06:00 PM: Terminal drill: Redirecting output and errors to separate log files",,False
+"[LFCS] 3pm-6pm: Archiving, Compression & Remote Backups",10/09/2026,03:00 PM,10/09/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Archiving, Compression & Remote Backups
+
+Schedule:
+03:00 PM - 03:20 PM: Tar flags drill (-czvf, -xzvf, -cjvf, -xpvf)
+03:20 PM - 04:20 PM: Theory: tar, gzip, bzip2, xz compression ratios, preserving permissions (-p), rsync basics
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Archive, Back Up, Compress, Unpack
+05:35 PM - 06:00 PM: Synthesis: Automated incremental tar backup script",,False
+[LFCS] 3pm-6pm: Week 2 Speed Drills & Git Version Control,10/10/2026,03:00 PM,10/10/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 2 Speed Drills & Git Version Control
+
+Schedule:
+03:00 PM - 04:15 PM: Git operations: init, stage, commit, branch, merge, diff, remote tracking
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Fast text stream filtering marathon (parse 10,000 log lines with grep/sed/awk)
+05:30 PM - 06:00 PM: Milestone 2 Assessment: Text processing & archive verification",,False
+[LFCS] 3pm-6pm: Linux Boot Architecture & GRUB2,10/12/2026,03:00 PM,10/12/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Linux Boot Architecture & GRUB2
+
+Schedule:
+03:00 PM - 03:20 PM: Boot sequence recall (BIOS/UEFI -> MBR/GPT -> GRUB2 -> Kernel -> Init)
+03:20 PM - 04:20 PM: Theory: GRUB2 configuration (/etc/default/grub, grub2-mkconfig), kernel parameters at boot
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Boot, Reboot, and Shutdown a System Safely
+05:35 PM - 06:00 PM: Synthesis: Interrupting boot to access emergency/rescue target",,False
+[LFCS] 3pm-6pm: Systemd Targets & Runlevel Management,10/13/2026,03:00 PM,10/13/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Systemd Targets & Runlevel Management
+
+Schedule:
+03:00 PM - 03:20 PM: Runlevel to systemd target mapping drills (3=multi-user, 5=graphical)
+03:20 PM - 04:20 PM: Theory: systemctl get-default, set-default, isolate, emergency.target vs rescue.target
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Boot or Change System Into Different Operating Modes
+05:35 PM - 06:00 PM: Summary notes & recovery workflows",,False
+[LFCS] 3pm-6pm: Creating & Managing Systemd Services,10/14/2026,03:00 PM,10/14/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Creating & Managing Systemd Services
+
+Schedule:
+03:00 PM - 03:20 PM: systemctl status/start/stop/restart/reload warm-up
+03:20 PM - 04:20 PM: Theory: Unit file layout (/etc/systemd/system/), [Unit], [Service] (ExecStart, Restart), [Install]
+04:20 PM - 04:35 PM: Walk & posture check
+04:35 PM - 05:35 PM: KodeKloud Labs: Create systemd Services
+05:35 PM - 06:00 PM: Synthesis: Write a custom Python/Bash background service from scratch",,False
+[LFCS] 3pm-6pm: Process Diagnostics & Signal Management,10/15/2026,03:00 PM,10/15/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Process Diagnostics & Signal Management
+
+Schedule:
+03:00 PM - 03:20 PM: ps aux / pgrep warm-up
+03:20 PM - 04:20 PM: Theory: Process states (R, S, D, Z), signals (SIGTERM 15, SIGKILL 9, SIGHUP 1), nice & renice
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Diagnose and Manage Processes
+05:35 PM - 06:00 PM: Synthesis: Killing runaway processes and identifying zombie processes",,False
+"[LFCS] 3pm-6pm: System Integrity, Resource Monitoring & Top",10/16/2026,03:00 PM,10/16/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: System Integrity, Resource Monitoring & Top
+
+Schedule:
+03:00 PM - 03:20 PM: top / htop interactive shortcut drills (P, M, k, r)
+03:20 PM - 04:20 PM: Theory: System load averages (1, 5, 15 min), uptime, free -m, vmstat, iostat, lsof
+04:20 PM - 04:35 PM: Physical walk
+04:35 PM - 05:35 PM: KodeKloud Labs: Verify Integrity and Availability of Resources and Processes
+05:35 PM - 06:00 PM: Error Ledger analysis",,False
+[LFCS] 3pm-6pm: Week 3 Systemd & Process Orchestration,10/17/2026,03:00 PM,10/17/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 3 Systemd & Process Orchestration
+
+Schedule:
+03:00 PM - 04:15 PM: Build custom systemd service with automated restart on failure and log output
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Process troubleshooting under memory/CPU stress (stress/stress-ng drills)
+05:30 PM - 06:00 PM: Milestone 3 Assessment: Service & process resilience",,False
+[LFCS] 3pm-6pm: Journald & System Log File Analysis,10/19/2026,03:00 PM,10/19/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Journald & System Log File Analysis
+
+Schedule:
+03:00 PM - 03:20 PM: journalctl flag speedrun (-u, -f, -p err, --since)
+03:20 PM - 04:20 PM: Theory: Systemd journal storage (volatile vs persistent /var/log/journal), rsyslog, /var/log/auth.log
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Locate and Analyze System Log Files
+05:35 PM - 06:00 PM: Synthesis: Log auditing with journalctl and logrotate review",,False
+[LFCS] 3pm-6pm: Task Scheduling with Cron and At,10/20/2026,03:00 PM,10/20/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Task Scheduling with Cron and At
+
+Schedule:
+03:00 PM - 03:20 PM: Cron 5-field syntax drill (minute, hour, day, month, weekday)
+03:20 PM - 04:20 PM: Theory: crontab -e, crontab -l, /etc/crontab, /etc/cron.*, at, atq, atrm, batch
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Schedule Tasks to Run at a Set Date and Time
+05:35 PM - 06:00 PM: Synthesis: Setting up automated disk monitoring cron job",,False
+"[LFCS] 3pm-6pm: Package Managers (APT, DNF/YUM & RPM)",10/21/2026,03:00 PM,10/21/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Package Managers (APT, DNF/YUM & RPM)
+
+Schedule:
+03:00 PM - 03:20 PM: Package manager command comparison drills
+03:20 PM - 04:20 PM: Theory: apt update/install/purge, dpkg -i/-l, dnf/yum install/remove, rpm -ivh/-qa, repo configs
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Manage Software with Package Manager & Repositories
+05:35 PM - 06:00 PM: Synthesis: Adding third-party repository and verifying GPG keys",,False
+[LFCS] 3pm-6pm: Compiling Software from Source Code,10/22/2026,03:00 PM,10/22/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Compiling Software from Source Code
+
+Schedule:
+03:00 PM - 03:20 PM: Tar extraction & build tools warm-up (gcc, make)
+03:20 PM - 04:20 PM: Theory: ./configure flags (--prefix), make compilation, make install, managing shared libraries (ldconfig)
+04:20 PM - 04:35 PM: Posture break
+04:35 PM - 05:35 PM: KodeKloud Labs: Install Software by Compiling Source Code
+05:35 PM - 06:00 PM: Synthesis: Custom compile and install of a utility tool",,False
+[LFCS] 3pm-6pm: Bash Automation & Maintenance Scripting,10/23/2026,03:00 PM,10/23/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Bash Automation & Maintenance Scripting
+
+Schedule:
+03:00 PM - 03:20 PM: Bash syntax warm-up (variables, conditionals [ ], exit codes $?)
+03:20 PM - 04:20 PM: Theory: Positional parameters ($1, $@), loops (for, while), functions, error handling (set -e)
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: Practical Scripting Lab: Write an automated log rotation and cleanup maintenance script
+05:35 PM - 06:00 PM: Script review and execution",,False
+[LFCS] 3pm-6pm: Week 4 System Automation & Maintenance Triathlon,10/24/2026,03:00 PM,10/24/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 4 System Automation & Maintenance Triathlon
+
+Schedule:
+03:00 PM - 04:15 PM: Automate system backup and log cleanup using custom cron and bash script
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Package troubleshooting and repository recovery drill
+05:30 PM - 06:00 PM: Milestone 4 Assessment: Scripting and service automation",,False
+[LFCS] 3pm-6pm: Local User Management & /etc/passwd,10/26/2026,03:00 PM,10/26/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Local User Management & /etc/passwd
+
+Schedule:
+03:00 PM - 03:20 PM: useradd / usermod flag drills (-u, -g, -G, -d, -s)
+03:20 PM - 04:20 PM: Theory: User IDs, system users vs regular users, /etc/passwd fields, /etc/shadow fields, userdel
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Create, Delete, and Modify Local User Accounts
+05:35 PM - 06:00 PM: Synthesis: User account expiration and password policy enforcement (chage)",,False
+"[LFCS] 3pm-6pm: Groups, Sudo Privileges & Visudo",10/27/2026,03:00 PM,10/27/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Groups, Sudo Privileges & Visudo
+
+Schedule:
+03:00 PM - 03:20 PM: groupadd / groupmod drills
+03:20 PM - 04:20 PM: Theory: /etc/group, group passwords, /etc/sudoers format (User Host=(Runas) Commands), visudo safety
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Groups & Sudo Privileges
+05:35 PM - 06:00 PM: Synthesis: Granting passwordless sudo to specific administrative commands",,False
+"[LFCS] 3pm-6pm: Profiles, Template Environments & User Limits",10/28/2026,03:00 PM,10/28/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Profiles, Template Environments & User Limits
+
+Schedule:
+03:00 PM - 03:20 PM: Login vs non-login shell startup file drills
+03:20 PM - 04:20 PM: Theory: /etc/profile, /etc/bashrc, ~/.bash_profile, /etc/skel skeleton files, /etc/security/limits.conf
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Manage Profiles & User Resource Limits
+05:35 PM - 06:00 PM: Synthesis: Restricting max user processes (nproc) and open files (nofile)",,False
+[LFCS] 3pm-6pm: Kernel Runtime Tuning with Sysctl,10/29/2026,03:00 PM,10/29/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Kernel Runtime Tuning with Sysctl
+
+Schedule:
+03:00 PM - 03:20 PM: sysctl inspection drills (sysctl -a | grep ip_forward)
+03:20 PM - 04:20 PM: Theory: /proc/sys filesystem, ephemeral tuning (sysctl -w), persistent configuration (/etc/sysctl.conf)
+04:20 PM - 04:35 PM: Posture break
+04:35 PM - 05:35 PM: KodeKloud Labs: Change Kernel Runtime Parameters
+05:35 PM - 06:00 PM: Synthesis: Enabling IP forwarding and adjusting virtual memory swappiness",,False
+[LFCS] 3pm-6pm: Mandatory Access Control: SELinux & AppArmor,10/30/2026,03:00 PM,10/30/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Mandatory Access Control: SELinux & AppArmor
+
+Schedule:
+03:00 PM - 03:20 PM: SELinux mode check (getenforce, sestatus)
+03:20 PM - 04:20 PM: Theory: DAC vs MAC, SELinux contexts (user:role:type:level), semanage, restorecon, chcon, /etc/selinux/config
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: SELinux Contexts & Policy Enforcement
+05:35 PM - 06:00 PM: Error Ledger review: SELinux denial analysis (ausearch, audit2why)",,False
+"[LFCS] 3pm-6pm: Security Audit, User Quarantine & Recovery",10/31/2026,03:00 PM,10/31/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Security Audit, User Quarantine & Recovery
+
+Schedule:
+03:00 PM - 04:15 PM: Lock down compromised user accounts, audit root privileges, repair corrupted sudoers file
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Troubleshoot and fix web server blocked by SELinux context
+05:30 PM - 06:00 PM: Milestone 5 Assessment: Security & access audit verification",,False
+[LFCS] 3pm-6pm: Storage Partitions (MBR vs GPT) & Swap,11/02/2026,03:00 PM,11/02/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Storage Partitions (MBR vs GPT) & Swap
+
+Schedule:
+03:00 PM - 03:20 PM: Storage listing drills (lsblk, blkid, fdisk -l)
+03:20 PM - 04:20 PM: Theory: MBR vs GPT partition tables, fdisk, gdisk, parted, creating and activating swap (mkswap, swapon)
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Manage Partitions and Swap Space
+05:35 PM - 06:00 PM: Synthesis: Permanent swap configuration in /etc/fstab",,False
+[LFCS] 3pm-6pm: Filesystems & Boot Mounting (/etc/fstab),11/03/2026,03:00 PM,11/03/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Filesystems & Boot Mounting (/etc/fstab)
+
+Schedule:
+03:00 PM - 03:20 PM: Filesystem creation commands (mkfs.ext4, mkfs.xfs)
+03:20 PM - 04:20 PM: Theory: Ext4 vs XFS features, mount options (ro, rw, noexec, nodev), /etc/fstab 6-field layout, UUID mounting
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Create Filesystems and Mount Them at Boot
+05:35 PM - 06:00 PM: Synthesis: Safe mounting tests with mount -a",,False
+[LFCS] 3pm-6pm: Logical Volume Management (LVM) Architecture,11/04/2026,03:00 PM,11/04/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Logical Volume Management (LVM) Architecture
+
+Schedule:
+03:00 PM - 03:20 PM: LVM hierarchy recall (Physical Devices -> PV -> VG -> LV -> Filesystem)
+03:20 PM - 04:20 PM: Theory: pvcreate, vgcreate, lvcreate, Volume Groups, Logical Volumes, PE (Physical Extents)
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Manage and Configure LVM Storage
+05:35 PM - 06:00 PM: Synthesis: Creating and formatting a 2GB LVM volume",,False
+[LFCS] 3pm-6pm: Dynamic LVM Volume Expansion,11/05/2026,03:00 PM,11/05/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Dynamic LVM Volume Expansion
+
+Schedule:
+03:00 PM - 03:20 PM: lvextend flag speedrun (-L +1G, -r, resize2fs, xfs_growfs)
+03:20 PM - 04:20 PM: Theory: Non-destructive volume expansion, resizing Ext4 vs XFS filesystems while mounted
+04:20 PM - 04:35 PM: Posture break
+04:35 PM - 05:35 PM: Practical Terminal Lab: Extend an active LVM volume by 500MB without unmounting or data loss
+05:35 PM - 06:00 PM: Synthesis: Extending a Volume Group with a new physical disk (vgextend)",,False
+[LFCS] 3pm-6pm: Remote Filesystems: NFS & Storage Monitoring,11/06/2026,03:00 PM,11/06/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Remote Filesystems: NFS & Storage Monitoring
+
+Schedule:
+03:00 PM - 03:20 PM: NFS export syntax drills (/etc/exports)
+03:20 PM - 04:20 PM: Theory: NFS server configuration, exportfs -r, NFS client mounting, storage performance monitoring (df -h, du -sh, iostat)
+04:20 PM - 04:35 PM: Walk break
+04:35 PM - 05:35 PM: KodeKloud Labs: Remote Filesystems (NFS) & Monitor Storage Performance
+05:35 PM - 06:00 PM: Error Ledger review",,False
+[LFCS] 3pm-6pm: Week 6 Storage Mastery & LVM Drill,11/07/2026,03:00 PM,11/07/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 6 Storage Mastery & LVM Drill
+
+Schedule:
+03:00 PM - 04:15 PM: Complete storage marathon: Partition disk, create LVM, format XFS, mount in /etc/fstab, expand online
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Configure NFS share and mount persistently from client VM
+05:30 PM - 06:00 PM: Milestone 6 Assessment: Storage integrity and LVM expansion",,False
+[LFCS] 3pm-6pm: Linux Networking Configuration (IP & Routing),11/09/2026,03:00 PM,11/09/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Linux Networking Configuration (IP & Routing)
+
+Schedule:
+03:00 PM - 03:20 PM: ip command speedrun (ip addr, ip link, ip route)
+03:20 PM - 04:20 PM: Theory: Static vs DHCP IP configuration, routing tables, default gateway, hostname resolution (/etc/hosts, /etc/resolv.conf)
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Configure IPv4 & IPv6 Networking and Hostname Resolution
+05:35 PM - 06:00 PM: Synthesis: Configuring network interfaces via nmcli and ip commands",,False
+[LFCS] 3pm-6pm: Network Bonding & Bridging,11/10/2026,03:00 PM,11/10/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Network Bonding & Bridging
+
+Schedule:
+03:00 PM - 03:20 PM: Bonding modes recall (round-robin, active-backup, 802.3ad LACP)
+03:20 PM - 04:20 PM: Theory: Network device bonding for redundancy/throughput, Linux bridge devices for VM/container networks
+04:20 PM - 04:35 PM: Movement break
+04:35 PM - 05:35 PM: KodeKloud Labs: Configure Bridge and Bonding Devices
+05:35 PM - 06:00 PM: Synthesis: Creating a software bridge interface",,False
+[LFCS] 3pm-6pm: Packet Filtering with Firewalld & Iptables,11/11/2026,03:00 PM,11/11/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Packet Filtering with Firewalld & Iptables
+
+Schedule:
+03:00 PM - 03:20 PM: firewall-cmd speedrun (--add-port, --permanent, --reload)
+03:20 PM - 04:20 PM: Theory: Netfilter architecture, firewalld zones, services, rich rules, basic iptables chains (INPUT, OUTPUT, FORWARD)
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Configure Packet Filtering (Firewall)
+05:35 PM - 06:00 PM: Synthesis: Hardening server to allow only SSH and HTTPS",,False
+"[LFCS] 3pm-6pm: NAT, Port Redirection & Reverse Proxies",11/12/2026,03:00 PM,11/12/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: NAT, Port Redirection & Reverse Proxies
+
+Schedule:
+03:00 PM - 03:20 PM: NAT terminology (SNAT, DNAT, Masquerading)
+03:20 PM - 04:20 PM: Theory: Port forwarding via firewall, configuring reverse proxy / load balancer (HAProxy/Nginx fundamentals)
+04:20 PM - 04:35 PM: Posture break
+04:35 PM - 05:35 PM: KodeKloud Labs: Port Redirection and NAT & Reverse Proxies
+05:35 PM - 06:00 PM: Synthesis: Port forwarding local port 8080 to internal backend port 80",,False
+"[LFCS] 3pm-6pm: SSH Hardening, Key Auth & Time Sync",11/13/2026,03:00 PM,11/13/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: SSH Hardening, Key Auth & Time Sync
+
+Schedule:
+03:00 PM - 03:20 PM: ssh-keygen and ssh-copy-id speed drills
+03:20 PM - 04:20 PM: Theory: /etc/ssh/sshd_config hardening (Disable root login, password auth, custom port), chrony / timedatectl time sync
+04:20 PM - 04:35 PM: Walk break
+04:35 PM - 05:35 PM: KodeKloud Labs: Configure SSH Servers/Clients & Time Servers
+05:35 PM - 06:00 PM: Synthesis: Setting up SSH key-based access with passphrase",,False
+[LFCS] 3pm-6pm: Week 7 Linux Networking & Firewall Marathon,11/14/2026,03:00 PM,11/14/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Week 7 Linux Networking & Firewall Marathon
+
+Schedule:
+03:00 PM - 04:15 PM: Build bridge network, configure static IP, set up firewalld port redirection and harden SSH
+04:15 PM - 04:30 PM: Stretch break
+04:30 PM - 05:30 PM: Timed network troubleshooting (broken default route, DNS resolver failure)
+05:30 PM - 06:00 PM: Milestone 7 Assessment: Network configuration and firewall lockdown",,False
+[LFCS] 3pm-6pm: Containers & Virtual Machines on Linux,11/16/2026,03:00 PM,11/16/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Containers & Virtual Machines on Linux
+
+Schedule:
+03:00 PM - 03:20 PM: Podman/Docker command speedrun (run, ps, images, exec)
+03:20 PM - 04:20 PM: Theory: Container isolation (namespaces & cgroups), KVM/QEMU, virsh CLI for VM management
+04:20 PM - 04:35 PM: Walk & reset
+04:35 PM - 05:35 PM: KodeKloud Labs: Create and Manage Containers & VMs
+05:35 PM - 06:00 PM: Synthesis: Deploying a containerized web server and binding ports",,False
+[LFCS] 3pm-6pm: Timed Mock Exam 1 (Strict Exam Conditions),11/17/2026,03:00 PM,11/17/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Timed Mock Exam 1 (Strict Exam Conditions)
+
+Schedule:
+03:00 PM - 03:10 PM: Terminal setup and mental grounding
+03:10 PM - 04:25 PM: KodeKloud LFCS Mock Exam 1 (Strict timed conditions, no external help)
+04:25 PM - 04:45 PM: Walk break & cognitive decompression
+04:45 PM - 05:45 PM: Mock Exam 1 Error Analysis: Review mistakes and document in Error Ledger
+05:45 PM - 06:00 PM: Redo missed questions immediately",,False
+[LFCS] 3pm-6pm: Timed Mock Exam 2 (Strict Exam Conditions),11/18/2026,03:00 PM,11/18/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Timed Mock Exam 2 (Strict Exam Conditions)
+
+Schedule:
+03:00 PM - 03:10 PM: Setup & deep breathing
+03:10 PM - 04:25 PM: KodeKloud LFCS Mock Exam 2 (Strict timed conditions)
+04:25 PM - 04:45 PM: Movement & posture reset
+04:45 PM - 05:45 PM: Mock Exam 2 Error Analysis & deep dive on missed topics
+05:45 PM - 06:00 PM: Redo failed tasks from scratch",,False
+[LFCS] 3pm-6pm: Timed Mock Exam 3 (Strict Exam Conditions),11/19/2026,03:00 PM,11/19/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Timed Mock Exam 3 (Strict Exam Conditions)
+
+Schedule:
+03:00 PM - 03:10 PM: Setup & focus
+03:10 PM - 04:25 PM: KodeKloud LFCS Mock Exam 3 (Strict timed conditions)
+04:25 PM - 04:45 PM: Physical walk
+04:45 PM - 05:45 PM: Mock Exam 3 Error Analysis & command refinement
+05:45 PM - 06:00 PM: Redo missed questions",,False
+[LFCS] 3pm-6pm: Timed Mock Exam 4 & Final Speed Marathon,11/20/2026,03:00 PM,11/20/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Timed Mock Exam 4 & Final Speed Marathon
+
+Schedule:
+03:00 PM - 03:10 PM: Final exam setup
+03:10 PM - 04:25 PM: KodeKloud LFCS Mock Exam 4 (Strict timed conditions)
+04:25 PM - 04:45 PM: Walk break
+04:45 PM - 05:45 PM: 20-Question Rapid Linux Admin Scenario Sprint
+05:45 PM - 06:00 PM: Final Error Ledger consolidation",,False
+[LFCS] 3pm-6pm: Certification Gate Review & Readiness Audit,11/21/2026,03:00 PM,11/21/2026,06:00 PM,False,"LFCS STUDY BLOCK (3:00 PM - 6:00 PM)
+Topic: Certification Gate Review & Readiness Audit
+
+Schedule:
+03:00 PM - 04:30 PM: Comprehensive review of personal command cheat sheets (LVM, systemd, networking, permissions, regex)
+04:30 PM - 04:45 PM: Movement break
+04:45 PM - 06:00 PM: Final confidence check across all LFCS exam domains
+Final Milestone Gate cleared!",,False

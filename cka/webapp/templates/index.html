@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CKA Study Todo & killer.sh Simulator</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #334155;
+    --border: #475569;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --cka: #3b82f6;
+    --cka-bg: #1e3a5f;
+    --lfcs: #a855f7;
+    --lfcs-bg: #3b1f5e;
+    --recovery: #eab308;
+    --recovery-bg: #422006;
+    --rest: #22c55e;
+    --rest-bg: #14532d;
+    --check: #06b6d4;
+    --check-bg: #164e63;
+    --done: #22c55e;
+    --accent: #38bdf8;
+    --danger: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ──────────────────────── */
+  .header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .header h1 span { opacity: 0.7; font-weight: 400; }
+  .overall-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-size: 0.85rem;
+  }
+  .overall-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .overall-bar-fill {
+    height: 100%;
+    background: var(--done);
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  /* ── Week tabs ───────────────────── */
+  .week-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 2rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .week-tabs::-webkit-scrollbar { display: none; }
+  .week-tab {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 80px;
+  }
+  .week-tab:hover { background: var(--surface2); }
+  .week-tab.active {
+    background: var(--surface2);
+    border-color: var(--accent);
+    border-bottom-color: var(--surface2);
+    color: var(--accent);
+  }
+  .week-tab .pct {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+  .week-tab .mini-bar {
+    width: 50px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .week-tab .mini-bar-fill {
+    height: 100%;
+    background: var(--done);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  /* ── Layout ──────────────────────── */
+  .main {
+    display: flex;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 120px);
+  }
+
+  /* ── Day sidebar ─────────────────── */
+  .sidebar {
+    width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .day-item {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .day-item:hover { background: var(--surface2); }
+  .day-item.active {
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  .day-item.today { border-left-color: var(--done); }
+  .day-item.rest { opacity: 0.6; }
+  .day-info { flex: 1; min-width: 0; }
+  .day-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .day-sub {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+  .day-check {
+    font-size: 0.7rem;
+    color: var(--done);
+    white-space: nowrap;
+  }
+  .day-check.incomplete { color: var(--text-dim); }
+
+  /* ── Content panel ───────────────── */
+  .content {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    overflow-y: auto;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .day-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .day-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .notif-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .notif-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .notif-select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.78rem;
+    outline: none;
+  }
+  .btn {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--surface2); border-color: var(--accent); }
+  .btn.done-all { border-color: var(--done); color: var(--done); }
+  .btn.undo-all { border-color: var(--danger); color: var(--danger); }
+
+  .day-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .day-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.3s;
+    background: linear-gradient(90deg, var(--cka), var(--lfcs));
+  }
+
+  /* ── Blocks ──────────────────────── */
+  .block {
+    margin-bottom: 1.25rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .block-header {
+    padding: 0.7rem 1rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .block-header .badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 99px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .block-header .time-badge {
+    margin-left: auto;
+    font-weight: 400;
+    font-size: 0.73rem;
+    opacity: 0.7;
+  }
+  .block.cka .block-header { background: var(--cka-bg); border-bottom: 1px solid var(--cka); }
+  .block.cka .badge { background: var(--cka); color: #fff; }
+  .block.lfcs .block-header { background: var(--lfcs-bg); border-bottom: 1px solid var(--lfcs); }
+  .block.lfcs .badge { background: var(--lfcs); color: #fff; }
+  .block.recovery .block-header { background: var(--recovery-bg); border-bottom: 1px solid var(--recovery); }
+  .block.recovery .badge { background: var(--recovery); color: #000; }
+  .block.rest .block-header { background: var(--rest-bg); border-bottom: 1px solid var(--rest); }
+  .block.rest .badge { background: var(--rest); color: #000; }
+  .block.check .block-header { background: var(--check-bg); border-bottom: 1px solid var(--check); }
+  .block.check .badge { background: var(--check); color: #000; }
+
+  .task-list { padding: 0.25rem 0; }
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid rgba(71,85,105,0.3);
+  }
+  .task-item:last-child { border-bottom: none; }
+  .task-item:hover { background: rgba(56,189,248,0.05); }
+  .task-item.done { opacity: 0.5; }
+  .task-item.done .task-text { text-decoration: line-through; }
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-size: 11px;
+  }
+  .task-item.done .checkbox {
+    background: var(--done);
+    border-color: var(--done);
+    color: #fff;
+  }
+  .task-text {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .task-track {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .task-track.cka { background: var(--cka); color: #fff; }
+  .task-track.lfcs { background: var(--lfcs); color: #fff; }
+
+  /* ── Filter pills ────────────────── */
+  .filters {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .filter-pill {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-size: 0.73rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text-dim);
+    background: transparent;
+  }
+  .filter-pill:hover { border-color: var(--accent); color: var(--text); }
+  .filter-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── Responsive ──────────────────── */
+  @media (max-width: 768px) {
+    .main { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      max-height: 180px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+    .day-item { min-width: 140px; flex-shrink: 0; }
+    .content { padding: 1rem; }
+  }
+
+  /* ── Loading spinner ─────────────── */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--text-dim);
+  }
+  .spinner {
+    width: 24px; height: 24px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 0.75rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Keyboard nav hint ───────────── */
+  .kbd-hint {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    z-index: 50;
+  }
+  .kbd-hint kbd {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0 0.3rem;
+    font-size: 0.68rem;
+    font-family: monospace;
+  }
+
+  /* ── Exam Simulator Dropdown Menu ─────────────────────────────────────── */
+  .exam-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .exam-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+    min-width: 360px;
+    z-index: 2000;
+    overflow: hidden;
+  }
+  .exam-dropdown-menu.show {
+    display: block !important;
+  }
+  .dropdown-menu-header {
+    background: #1e293b;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #334155;
+  }
+  .dropdown-menu-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .dropdown-menu-subtitle {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-top: 0.15rem;
+  }
+  .dropdown-exam-list {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .dropdown-exam-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: all 0.15s ease;
+  }
+  .dropdown-exam-card:hover {
+    border-color: #38bdf8;
+    background: #243248;
+  }
+  .dropdown-exam-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.35rem;
+  }
+  .dropdown-exam-name {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: #f8fafc;
+  }
+  .dropdown-track-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+  }
+  .dropdown-track-pill.cka {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+  }
+  .dropdown-track-pill.lfcs {
+    background: rgba(192, 132, 252, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(192, 132, 252, 0.35);
+  }
+  .dropdown-exam-meta {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-bottom: 0.6rem;
+  }
+  .dropdown-exam-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+  .dropdown-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+  }
+  .dropdown-btn.primary {
+    background: #2563eb;
+    color: #fff;
+  }
+  .dropdown-btn.primary:hover {
+    background: #1d4ed8;
+  }
+  .dropdown-btn.secondary {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+  }
+  .dropdown-btn.secondary:hover {
+    background: #1e293b;
+    border-color: #475569;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <h1>☸ CKA <span>Study Todo & Simulator</span></h1>
+    <div class="overall-progress" id="overall">
+      <div class="overall-bar"><div class="overall-bar-fill" id="overall-bar"></div></div>
+      <span id="overall-text">Loading...</span>
+    </div>
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <div class="exam-dropdown">
+        <button class="btn" id="btnExamDropdown" style="background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; font-weight: 700; border: none; padding: 0.45rem 0.9rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; box-shadow: 0 4px 12px rgba(37,99,235,0.3);" onclick="toggleExamDropdown(event)">
+          🎯 killer.sh Simulator ▾
+        </button>
+        <div id="examDropdownMenu" class="exam-dropdown-menu">
+          <div class="dropdown-menu-header">
+            <div class="dropdown-menu-title">
+              <span>🎯</span> killer.sh & Linux Foundation Real Exam Simulators
+            </div>
+            <div class="dropdown-menu-subtitle">
+              Authentic PSI remote desktop with interactive terminal & documentation browser
+            </div>
+          </div>
+          <div class="dropdown-exam-list">
+            <!-- CKA Mock Exam 1 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">CKA Mock Exam 1</span>
+                <span class="dropdown-track-pill cka">CKA • 66% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">17 Questions • 120m • Storage, Troubleshooting, Workloads</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-cka-1" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-cka-1/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-cka-1/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+
+            <!-- CKA Mock Exam 2 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">CKA Mock Exam 2</span>
+                <span class="dropdown-track-pill cka">CKA • 66% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">17 Questions • 120m • Cluster Arch, Networking, Services</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-cka-2" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-cka-2/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-cka-2/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+
+            <!-- LFCS Mock Exam 1 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">LFCS Mock Exam 1</span>
+                <span class="dropdown-track-pill lfcs">LFCS • 67% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">20 Questions • 120m • Ops, Storage, Networking, Commands</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-lfcs-1" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-lfcs-1/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-lfcs-1/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+
+            <!-- LFCS Mock Exam 2 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">LFCS Mock Exam 2</span>
+                <span class="dropdown-track-pill lfcs">LFCS • 67% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">20 Questions • 120m • Advanced Linux Systems Administration</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-lfcs-2" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-lfcs-2/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-lfcs-2/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+
+            <!-- LFCS Mock Exam 3 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">LFCS Mock Exam 3</span>
+                <span class="dropdown-track-pill lfcs">LFCS • 67% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">20 Questions • 120m • Storage Perf (sar/iostat), Autofs, Nginx LB, Thin LVM</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-lfcs-3" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-lfcs-3/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-lfcs-3/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+
+            <!-- LFCS Mock Exam 4 -->
+            <div class="dropdown-exam-card">
+              <div class="dropdown-exam-top">
+                <span class="dropdown-exam-name">LFCS Mock Exam 4</span>
+                <span class="dropdown-track-pill lfcs">LFCS • 67% PASS</span>
+              </div>
+              <div class="dropdown-exam-meta">20 Questions • 120m • Final Benchmark: HAProxy, Striped LVM, Quotas, SSSD</div>
+              <div class="dropdown-exam-actions">
+                <a href="/exam/mock-lfcs-4" target="_blank" class="dropdown-btn primary">🖥️ Start Exam</a>
+                <a href="/exam/mock-lfcs-4/result" target="_blank" class="dropdown-btn secondary">📊 Scorecard</a>
+                <a href="/exam/mock-lfcs-4/solutions" target="_blank" class="dropdown-btn secondary">📖 Solutions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <select id="notif-mins" class="notif-select" onchange="updateNotifSettings()">
+        <option value="1">1 min before</option>
+        <option value="5" selected>5 mins before</option>
+        <option value="10">10 mins before</option>
+        <option value="15">15 mins before</option>
+      </select>
+      <button id="notif-toggle-btn" class="btn notif-btn" onclick="toggleNotifications()">
+        🔔 Enable Alerts
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="week-tabs" id="week-tabs"></div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar">
+    <div class="loading"><div class="spinner"></div>Loading...</div>
+  </div>
+  <div class="content" id="content">
+    <div class="loading"><div class="spinner"></div>Select a day</div>
+  </div>
+</div>
+
+<div class="kbd-hint">
+  <kbd>←</kbd><kbd>→</kbd> days
+  <kbd>j</kbd><kbd>k</kbd> tasks
+  <kbd>Space</kbd> toggle
+  <kbd>t</kbd> today
+</div>
+
+<script>
+const state = {
+  days: [],
+  weeks: [],
+  todayIndex: 0,
+  currentDay: 0,
+  currentWeek: 1,
+  filter: null,
+  focusedTask: -1,
+};
+
+// ── Init ──────────────────────────────────────────────
+async function init() {
+  const res = await fetch('/api/schedule');
+  const data = await res.json();
+  state.days = data.days;
+  state.weeks = data.weeks;
+  state.todayIndex = data.todayIndex;
+  state.overall = data.overall;
+
+  updateOverall();
+  renderWeekTabs();
+  const todayWeek = state.days[state.todayIndex]?.week || 1;
+  selectWeek(todayWeek);
+  selectDay(state.todayIndex);
+
+  await initNotificationSystem();
+}
+
+// ── Notification System ─────────────────────────────────
+let notifTimer = null;
+const notifQueue = new Set();
+
+async function initNotificationSystem() {
+  try {
+    const res = await fetch('/api/settings');
+    const settings = await res.json();
+    const select = document.getElementById('notif-mins');
+    if (select) select.value = settings.notification_minutes_before || 5;
+  } catch (e) {}
+
+  if ('Notification' in window) {
+    updateNotifBtnState(Notification.permission === 'granted');
+  }
+
+  // Start in-browser client timer check every 15s
+  if (notifTimer) clearInterval(notifTimer);
+  notifTimer = setInterval(checkClientNotifications, 15000);
+  checkClientNotifications();
+}
+
+function updateNotifBtnState(granted) {
+  const btn = document.getElementById('notif-toggle-btn');
+  if (!btn) return;
+  if (granted) {
+    btn.classList.add('active');
+    btn.innerHTML = '🔔 Alerts Active';
+  } else {
+    btn.classList.remove('active');
+    btn.innerHTML = '🔔 Enable Alerts';
+  }
+}
+
+function toggleExamDropdown(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('examDropdownMenu');
+  if (menu) menu.classList.toggle('show');
+}
+
+document.addEventListener('click', (e) => {
+  const dropdown = document.querySelector('.exam-dropdown');
+  const menu = document.getElementById('examDropdownMenu');
+  if (dropdown && menu && !dropdown.contains(e.target)) {
+    menu.classList.remove('show');
+  }
+});
+
+async function toggleNotifications() {
+  if (!('Notification' in window)) {
+    alert('Browser notifications are not supported in this browser. Desktop daemon notifications via notify-send will still work!');
+    return;
+  }
+
+  if (Notification.permission === 'granted') {
+    new Notification('Study Todo Alerts', {
+      body: 'Notifications are already active! You will get alerts before each task.',
+      icon: 'favicon.ico'
+    });
+    fetch('/api/test_notification', { method: 'POST' });
+    return;
+  }
+
+  const perm = await Notification.requestPermission();
+  updateNotifBtnState(perm === 'granted');
+  if (perm === 'granted') {
+    new Notification('Study Todo Alerts', {
+      body: 'Alerts enabled! You will be notified before each scheduled task begins.'
+    });
+    fetch('/api/test_notification', { method: 'POST' });
+  }
+}
+
+async function updateNotifSettings() {
+  const mins = parseInt(document.getElementById('notif-mins').value, 10);
+  await fetch('/api/settings', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ notification_minutes_before: mins })
+  });
+}
+
+async function checkClientNotifications() {
+  if (!state.days || state.days.length === 0) return;
+  const now = new Date();
+  const todayStr = (now.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                   now.getDate().toString().padStart(2, '0') + '/' +
+                   now.getFullYear();
+
+  const currentDayObj = state.days.find(d => d.date === todayStr);
+  if (!currentDayObj) return;
+
+  const minsElem = document.getElementById('notif-mins');
+  const leadMins = minsElem ? parseInt(minsElem.value, 10) : 5;
+
+  try {
+    const res = await fetch(`/api/day/${todayStr}`);
+    const data = await res.json();
+
+    for (const block of data.blocks) {
+      for (const task of block.tasks) {
+        if (task.done) continue;
+        
+        // Parse start time
+        let timeMatch = task.text.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+        let targetHours, targetMinutes;
+
+        if (timeMatch) {
+          targetHours = parseInt(timeMatch[1], 10);
+          targetMinutes = parseInt(timeMatch[2], 10);
+          const ampm = timeMatch[3].toUpperCase();
+          if (ampm === 'PM' && targetHours < 12) targetHours += 12;
+          if (ampm === 'AM' && targetHours === 12) targetHours = 0;
+        } else if (block.time && block.time.includes(' - ')) {
+          const startTimeStr = block.time.split(' - ')[0].trim();
+          const blockMatch = startTimeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+          if (blockMatch) {
+            targetHours = parseInt(blockMatch[1], 10);
+            targetMinutes = parseInt(blockMatch[2], 10);
+            const ampm = blockMatch[3].toUpperCase();
+            if (ampm === 'PM' && targetHours < 12) targetHours += 12;
+            if (ampm === 'AM' && targetHours === 12) targetHours = 0;
+          }
+        }
+
+        if (targetHours !== undefined) {
+          const taskTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), targetHours, targetMinutes, 0);
+          const notifyTime = new Date(taskTime.getTime() - leadMins * 60 * 1000);
+          const diffMs = now.getTime() - notifyTime.getTime();
+
+          // If within a 45-second window
+          if (diffMs >= 0 && diffMs <= 45000) {
+            const notifKey = `${task.key}_${targetHours}_${targetMinutes}_${leadMins}`;
+            if (!notifQueue.has(notifKey)) {
+              notifQueue.add(notifKey);
+
+              const title = `[${block.type}] Starting in ${leadMins}m!`;
+              const options = {
+                body: `${task.text}\nStarts at ${targetHours.toString().padStart(2, '0')}:${targetMinutes.toString().padStart(2, '0')}`,
+                requireInteraction: true
+              };
+
+              if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, options);
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {}
+}
+
+function updateOverall() {
+  const o = state.overall;
+  document.getElementById('overall-bar').style.width = o.pct + '%';
+  document.getElementById('overall-text').textContent =
+    `${o.done}/${o.total} (${o.pct}%)`;
+}
+
+// ── Week tabs ─────────────────────────────────────────
+function renderWeekTabs() {
+  const el = document.getElementById('week-tabs');
+  el.innerHTML = state.weeks.map(w => `
+    <div class="week-tab ${w.week === state.currentWeek ? 'active' : ''}"
+         data-week="${w.week}" onclick="selectWeek(${w.week})">
+      <span>${w.name || 'Week ' + w.week}</span>
+      <div class="mini-bar"><div class="mini-bar-fill" style="width:${w.pct}%"></div></div>
+      <span class="pct">${w.pct}%</span>
+    </div>
+  `).join('');
+}
+
+function selectWeek(wk) {
+  state.currentWeek = wk;
+  renderWeekTabs();
+  renderSidebar();
+}
+
+// ── Sidebar ───────────────────────────────────────────
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  const weekDays = state.days.filter(d => d.week === state.currentWeek);
+  const today = new Date().toLocaleDateString('en-US', {
+    month: '2-digit', day: '2-digit', year: 'numeric'
+  });
+
+  el.innerHTML = weekDays.map(d => {
+    const idx = state.days.indexOf(d);
+    const isActive = idx === state.currentDay;
+    const isToday = d.date === today;
+    const cls = [
+      'day-item',
+      isActive ? 'active' : '',
+      isToday ? 'today' : '',
+      d.isRest ? 'rest' : '',
+    ].filter(Boolean).join(' ');
+
+    const checkCls = d.done === d.total && d.total > 0 ? 'day-check' : 'day-check incomplete';
+    return `
+      <div class="${cls}" onclick="selectDay(${idx})" data-idx="${idx}">
+        <div class="day-info">
+          <div class="day-label">${d.label}${isToday ? ' ●' : ''}</div>
+          <div class="day-sub">${d.formatted}</div>
+        </div>
+        <div class="${checkCls}">${d.done}/${d.total}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── Content ───────────────────────────────────────────
+async function selectDay(idx) {
+  state.currentDay = idx;
+  state.focusedTask = -1;
+  const day = state.days[idx];
+  if (!day) return;
+
+  // Update sidebar highlight
+  document.querySelectorAll('.day-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.idx) === idx);
+  });
+
+  const content = document.getElementById('content');
+  content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+
+  const res = await fetch(`/api/day/${day.date}`);
+  const data = await res.json();
+
+  const pct = day.total > 0 ? Math.round(day.done / day.total * 100) : 0;
+
+  let html = `
+    <div class="day-header">
+      <div class="day-title">${day.label} — ${day.formatted}</div>
+      <div class="day-actions">
+        <button class="btn done-all" onclick="toggleAll('${day.date}', true)">✓ All Done</button>
+        <button class="btn undo-all" onclick="toggleAll('${day.date}', false)">↺ Undo All</button>
+      </div>
+    </div>
+    <div class="day-progress-bar">
+      <div class="day-progress-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="filters">
+      <div class="filter-pill ${!state.filter ? 'active' : ''}" onclick="setFilter(null)">All</div>
+      <div class="filter-pill ${state.filter==='CKA' ? 'active' : ''}" onclick="setFilter('CKA')">CKA</div>
+      <div class="filter-pill ${state.filter==='LFCS' ? 'active' : ''}" onclick="setFilter('LFCS')">LFCS</div>
+    </div>
+  `;
+
+  let taskIndex = 0;
+  for (const block of data.blocks) {
+    const bclass = block.type.toLowerCase();
+    if (state.filter && block.type !== state.filter && block.type !== 'RECOVERY'
+        && block.type !== 'REST' && block.type !== 'CHECK') continue;
+
+    html += `<div class="block ${bclass}">
+      <div class="block-header">
+        <span class="badge">${block.type}</span>
+        ${block.title}
+        <span class="time-badge">${block.time}</span>
+      </div>
+      <div class="task-list">`;
+
+    for (const task of block.tasks) {
+      if (state.filter && task.track !== state.filter
+          && block.type !== 'RECOVERY' && block.type !== 'REST') continue;
+
+      const doneCls = task.done ? 'done' : '';
+      const checkMark = task.done ? '✓' : '';
+      let trackBadge = '';
+      if (block.isChecklist) {
+        const tc = task.track.toLowerCase();
+        trackBadge = `<span class="task-track ${tc}">${task.track}</span>`;
+      }
+
+      html += `
+        <div class="task-item ${doneCls}" data-key="${task.key}" data-tidx="${taskIndex}"
+             onclick="toggleTask('${task.key}', this)">
+          <div class="checkbox">${checkMark}</div>
+          <div class="task-text">${escHtml(task.text)}</div>
+          ${trackBadge}
+        </div>`;
+      taskIndex++;
+    }
+    html += '</div></div>';
+  }
+
+  content.innerHTML = html;
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ── Interactions ──────────────────────────────────────
+async function toggleTask(key, el) {
+  const res = await fetch('/api/toggle', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({key}),
+  });
+  const data = await res.json();
+
+  // Update UI immediately
+  el.classList.toggle('done', data.done);
+  el.querySelector('.checkbox').textContent = data.done ? '✓' : '';
+
+  // Refresh counts
+  await refreshSchedule();
+}
+
+async function toggleAll(date, value) {
+  await fetch('/api/toggle_all', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({date, value}),
+  });
+  await refreshSchedule();
+  selectDay(state.currentDay);
+}
+
+async function refreshSchedule() {
+  const res = await fetch('/api/schedule');
+  const data = await res.json();
+  state.days = data.days;
+  state.weeks = data.weeks;
+  state.overall = data.overall;
+  updateOverall();
+  renderWeekTabs();
+  renderSidebar();
+}
+
+function setFilter(f) {
+  state.filter = f;
+  selectDay(state.currentDay);
+}
+
+// ── Keyboard shortcuts ───────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+  switch(e.key) {
+    case 'ArrowLeft':
+    case 'h':
+      e.preventDefault();
+      if (state.currentDay > 0) {
+        const newIdx = state.currentDay - 1;
+        const newWeek = state.days[newIdx]?.week;
+        if (newWeek !== state.currentWeek) selectWeek(newWeek);
+        selectDay(newIdx);
+      }
+      break;
+    case 'ArrowRight':
+    case 'l':
+      e.preventDefault();
+      if (state.currentDay < state.days.length - 1) {
+        const newIdx = state.currentDay + 1;
+        const newWeek = state.days[newIdx]?.week;
+        if (newWeek !== state.currentWeek) selectWeek(newWeek);
+        selectDay(newIdx);
+      }
+      break;
+    case 'j':
+    case 'ArrowDown':
+      e.preventDefault();
+      moveFocus(1);
+      break;
+    case 'k':
+    case 'ArrowUp':
+      e.preventDefault();
+      moveFocus(-1);
+      break;
+    case ' ':
+      e.preventDefault();
+      toggleFocused();
+      break;
+    case 't':
+      e.preventDefault();
+      const tw = state.days[state.todayIndex]?.week;
+      if (tw !== state.currentWeek) selectWeek(tw);
+      selectDay(state.todayIndex);
+      break;
+  }
+});
+
+function moveFocus(dir) {
+  const items = document.querySelectorAll('.task-item');
+  if (!items.length) return;
+  state.focusedTask = Math.max(0, Math.min(items.length - 1, state.focusedTask + dir));
+  items.forEach((el, i) => {
+    el.style.outline = i === state.focusedTask ? '2px solid var(--accent)' : 'none';
+    el.style.outlineOffset = i === state.focusedTask ? '-2px' : '';
+  });
+  items[state.focusedTask]?.scrollIntoView({block: 'nearest'});
+}
+
+function toggleFocused() {
+  const items = document.querySelectorAll('.task-item');
+  if (state.focusedTask >= 0 && state.focusedTask < items.length) {
+    items[state.focusedTask].click();
+  }
+}
+
+// ── Boot ──────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>

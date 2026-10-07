@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ exam.title }} — Official Solutions & Walkthrough</title>
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #111827;
+      --bg-card-alt: #1f2937;
+      --border-color: #374151;
+      --border-light: #4b5563;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --color-accent: #38bdf8;
+      --color-indigo: #6366f1;
+      --color-indigo-hover: #4f46e5;
+      --color-pass: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    /* Top Navigation Bar */
+    .top-navbar {
+      background-color: #0f172a;
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-badge {
+      background: #1e293b;
+      border: 1px solid var(--color-indigo);
+      color: #818cf8;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-scorecard {
+      background: #0284c7;
+      color: #fff;
+    }
+    .btn-scorecard:hover {
+      background: #0369a1;
+    }
+
+    .btn-restart {
+      background: #10b981;
+      color: #fff;
+    }
+    .btn-restart:hover {
+      background: #059669;
+    }
+
+    .btn-outline {
+      background: #1e293b;
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+    .btn-outline:hover {
+      background: #334155;
+      border-color: var(--border-light);
+    }
+
+    /* Container & Layout */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* Left Sidebar: Quick Nav */
+    .sidebar-nav {
+      position: sticky;
+      top: 5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .q-jump-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+
+    .q-jump-btn {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      text-align: center;
+      padding: 0.45rem 0;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .q-jump-btn:hover {
+      background: var(--color-indigo);
+      border-color: var(--color-indigo);
+      color: #fff;
+    }
+
+    /* Main Solutions Stream */
+    .solutions-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .sol-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 2rem;
+      scroll-margin-top: 5.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    .sol-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .sol-id-badge {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      background: var(--color-indigo);
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .sol-meta-pills {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .pill-domain {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--color-accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .pill-weight {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: #e2e8f0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* Context box */
+    .context-box {
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-left: 3px solid var(--color-accent);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .context-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .context-cmd {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--color-accent);
+    }
+
+    .btn-copy-mini {
+      background: #1e293b;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-copy-mini:hover {
+      background: #334155;
+      color: #fff;
+    }
+
+    /* Task Description */
+    .task-desc-box {
+      background: #0b0f19;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .task-desc-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .task-desc-content {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* Solution Box */
+    .sol-content-box {
+      background: #0d1322;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .sol-content-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    pre {
+      background: #050811;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      margin: 0.75rem 0;
+      position: relative;
+    }
+
+    code {
+      font-family: "JetBrains Mono", Consolas, Menlo, Monaco, monospace;
+      font-size: 0.85rem;
+      color: #f472b6;
+      background: rgba(244, 114, 182, 0.1);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+
+    pre code {
+      color: #e2e8f0;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Restart Overlay */
+    .restart-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .restart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 460px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--color-pass);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-nav {
+        position: static;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-navbar">
+    <div class="brand-group">
+      <span class="brand-badge">Official Guide</span>
+      <span class="brand-title">{{ exam.title }} — Solutions Walkthrough</span>
+    </div>
+    <div class="nav-actions">
+      <a href="/exam/{{ exam.exam_id }}/result" class="btn btn-scorecard">📊 Back to Scorecard</a>
+      <button class="btn btn-restart" onclick="restartExam()">🔄 Restart Exam</button>
+      <a href="/" class="btn btn-outline">🏠 Dashboard</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Sidebar Question Jump -->
+    <aside class="sidebar-nav">
+      <div class="sidebar-title">Question Navigator</div>
+      <div class="q-jump-grid">
+        {% for q in exam.questions %}
+        <a href="#card-{{ q.id }}" class="q-jump-btn">{{ q.id }}</a>
+        {% endfor %}
+      </div>
+      <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+        <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+          Click any question number above to jump directly to its official solution and manifest snippet.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Solutions Stream -->
+    <main class="solutions-stream">
+      {% for q in exam.questions %}
+      <article class="sol-card" id="card-{{ q.id }}">
+        <div class="sol-card-header">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="sol-id-badge">{{ q.id }}</span>
+            <span style="font-weight: 700; font-size: 1.05rem;">Question {{ q.number }}</span>
+          </div>
+          <div class="sol-meta-pills">
+            <span class="pill-domain">{{ q.domain }}</span>
+            <span class="pill-weight">{{ q.weight }} Weight</span>
+          </div>
+        </div>
+
+        {% if q.context_cmd %}
+        <div class="context-box">
+          <div>
+            <div class="context-label">Context Switcher Command</div>
+            <div class="context-cmd" id="cmd-{{ q.id }}">{{ q.context_cmd }}</div>
+          </div>
+          <button class="btn-copy-mini" onclick="copySnippet('cmd-{{ q.id }}')">Copy</button>
+        </div>
+        {% endif %}
+
+        <div class="task-desc-box">
+          <div class="task-desc-title">Question Specification</div>
+          <div class="task-desc-content markdown-body" data-markdown="{{ q.text|e }}"></div>
+        </div>
+
+        <div class="sol-content-box">
+          <div class="sol-content-title">
+            <span>💡 Official Solution & Step-by-Step Walkthrough</span>
+          </div>
+          {% if q.solution %}
+          <div class="markdown-body" data-markdown="{{ q.solution|e }}"></div>
+          {% else %}
+          <div style="color: var(--text-muted); font-size: 0.85rem;">
+            No custom solution text registered for this task. Refer to general documentation.
+          </div>
+          {% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </main>
+
+  </div>
+
+  <!-- Restart Loading Overlay -->
+  <div class="restart-overlay" id="restartOverlay">
+    <div class="restart-card">
+      <div class="spinner"></div>
+      <h2 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Resetting Exam Environment...</h2>
+      <p style="color: var(--text-secondary); font-size: 0.85rem;">
+        Re-initializing scenario environment via <code>./lab start {{ exam.exam_id }}</code>.
+        Your new timed session will launch in a moment...
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Simple markdown renderer
+    function renderMarkdownElements() {
+      document.querySelectorAll(".markdown-body").forEach(el => {
+        const raw = el.getAttribute("data-markdown") || "";
+        let out = raw
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/^#### (.*$)/gim, '<h4 style="color:#a5b4fc; margin:0.8rem 0 0.35rem 0; font-size:0.95rem;">$1</h4>')
+          .replace(/^### (.*$)/gim, '<h3 style="color:#38bdf8; margin:0.9rem 0 0.4rem 0; font-size:1.05rem;">$1</h3>')
+          .replace(/^## (.*$)/gim, '<h2 style="color:#38bdf8; margin:1rem 0 0.5rem 0; font-size:1.15rem;">$1</h2>')
+          .replace(/^# (.*$)/gim, '<h1 style="color:#38bdf8; margin:1.2rem 0 0.6rem 0; font-size:1.25rem;">$1</h1>')
+          .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n\n/g, '<p style="margin: 0.6rem 0;"></p>')
+          .replace(/\n/g, '<br/>');
+        el.innerHTML = out;
+      });
+    }
+
+    renderMarkdownElements();
+
+    function copySnippet(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text);
+      alert("Copied to clipboard: " + text);
+    }
+
+    function restartExam() {
+      if (confirm("Are you sure you want to restart this exam? This will re-initialize the scenario environment and start a fresh timed session.")) {
+        try {
+          localStorage.removeItem("exam_end_time_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_timer_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_flags_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_ans_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_notes_{{ exam.exam_id }}");
+          localStorage.removeItem("exam_current_q_{{ exam.exam_id }}");
+        } catch(e) {}
+        document.getElementById("restartOverlay").style.display = "flex";
+        fetch("/api/exam/{{ exam.exam_id }}/restart", { method: "POST" })
+          .then(res => res.json())
+          .then(data => {
+            window.location.href = data.redirect_url || "/exam/{{ exam.exam_id }}?restart=1";
+          })
+          .catch(err => {
+            alert("Error restarting exam: " + err.message);
+            window.location.href = "/exam/{{ exam.exam_id }}?restart=1";
+          });
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
 ---
 
 ## 📋 Scenario Overview
-Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.
+Practice scenario aligned with your official CKA preparation schedule. Complete all tasks under exam conditions.
 
 ---
 

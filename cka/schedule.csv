@@ -1,0 +1,467 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+[PAUSE] Study Paused: Family Matters (Week 1 of 2),09/21/2026,08:00 AM,09/21/2026,06:00 PM,False,"Study paused due to family matters.
+Scheduled to resume on Monday, October 5, 2026 with Week 2.",,False
+[PAUSE] Study Paused: Family Matters (Week 2 of 2),09/28/2026,08:00 AM,09/28/2026,06:00 PM,False,"Study paused due to family matters.
+Resumes Monday, October 5, 2026 with Week 2 (ReplicaSets & Self-Healing Controllers).",,False
+[CKA] 8am-12pm: Kubernetes Architecture & Container Runtimes,09/14/2026,08:00 AM,09/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Kubernetes Architecture & Container Runtimes
+
+Schedule:
+08:00 AM - 08:20 AM: Warm-up: Sketch Kubernetes control plane components from memory
+08:20 AM - 09:30 AM: Theory: API Server, Controller Manager, Scheduler, Kubelet, Kube-proxy, ContainerD vs Docker
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: Explore cluster components & ContainerD
+11:15 AM - 11:30 AM: Eye rest & mobility
+11:30 AM - 12:00 PM: Exploratory: Inspect running static pod manifests in /etc/kubernetes/manifests",,False
+[CKA] 8am-12pm: ETCD Fundamentals & Cluster State Store,09/15/2026,08:00 AM,09/15/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ETCD Fundamentals & Cluster State Store
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Role of ETCD in consensus and high availability
+08:20 AM - 09:30 AM: Theory: Key-value store, Raft protocol overview, etcd in Kubernetes
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: etcd for Beginners & etcd in Kubernetes
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Querying etcd endpoint health and members",,False
+[CKA] 8am-12pm: Pod Internals & YAML Architecture,09/16/2026,08:00 AM,09/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Pod Internals & YAML Architecture
+
+Schedule:
+08:00 AM - 08:20 AM: Speed drill: Write a complete Pod YAML from memory
+08:20 AM - 09:30 AM: Theory: Pod specification, containers, ports, environment, volumes layout
+09:30 AM - 09:45 AM: Hydration & stretching
+09:45 AM - 11:15 AM: KodeKloud Labs: Pods & Pods with YAML
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Break YAML indentation and observe kubectl error parsers",,False
+[CKA] 8am-12pm: Multi-Container Pod Patterns & Init Containers,09/17/2026,08:00 AM,09/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Multi-Container Pod Patterns & Init Containers
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Pod shared network and IPC namespaces
+08:20 AM - 09:30 AM: Theory: Sidecar, adapter, and ambassador design patterns; initContainers order of execution
+09:30 AM - 09:45 AM: Movement & posture check
+09:45 AM - 11:15 AM: KodeKloud Labs: Multi-Container Pods & Init Containers
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Shared volume logging sidecar demo",,False
+[CKA] 8am-12pm: Fast Imperative CLI Mastery with Kubectl,09/18/2026,08:00 AM,09/18/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Fast Imperative CLI Mastery with Kubectl
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Fast imperative command generator syntax
+08:20 AM - 09:30 AM: Theory: Imperative vs declarative, kubectl run, create, expose, --dry-run=client -o yaml
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Imperative Commands with Kubectl
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Speed Synthesis: Set up ~/.bashrc aliases (k, do, now) and vimrc tabstop settings",,False
+[CKA] 8am-12pm: Week 1 Integration & Speedrun Drill,09/19/2026,08:00 AM,09/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 1 Integration & Speedrun Drill
+
+Schedule:
+08:00 AM - 09:30 AM: Review Week 1 error notes and YAML structures
+09:30 AM - 09:45 AM: Movement & hydration
+09:45 AM - 11:00 AM: Speed Drill: Generate 20 different Pod manifests without documentation in 20 min
+11:00 AM - 12:00 PM: Milestone Assessment 1: Pod deployment and multi-container debugging",,False
+[CKA] 8am-12pm: ReplicaSets & Self-Healing Controllers,10/05/2026,08:00 AM,10/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ReplicaSets & Self-Healing Controllers
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: ReplicaSet matchLabels vs Pod template labels
+08:20 AM - 09:30 AM: Theory: Controller manager loops, desired vs current state, scaling ReplicaSets
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: ReplicaSets
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Deleting pods to witness reconciliation loop in real time",,False
+"[CKA] 8am-12pm: Deployments, Rollouts & Revisions",10/06/2026,08:00 AM,10/06/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Deployments, Rollouts & Revisions
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Deployment vs ReplicaSet relationship
+08:20 AM - 09:30 AM: Theory: RollingUpdate strategy, maxSurge, maxUnavailable, rollout status, rollout history
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Deployments & Rollout Updates
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Rollout undo to a specific previous revision (--to-revision)",,False
+"[CKA] 8am-12pm: Services: ClusterIP, NodePort & LoadBalancer",10/07/2026,08:00 AM,10/07/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Services: ClusterIP, NodePort & LoadBalancer
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Service targetPort vs port vs nodePort
+08:20 AM - 09:30 AM: Theory: kube-proxy IPTables/IPVS modes, Endpoints, headless services, service discovery
+09:30 AM - 09:45 AM: Hydration & stretch
+09:45 AM - 11:15 AM: KodeKloud Labs: Services (ClusterIP & NodePort)
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Inspecting cluster iptables rules generated for a Service",,False
+[CKA] 8am-12pm: Namespaces & DNS Resolution Inside Clusters,10/08/2026,08:00 AM,10/08/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Namespaces & DNS Resolution Inside Clusters
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: FQDN structure (svc.cluster.local)
+08:20 AM - 09:30 AM: Theory: Namespace isolation, CoreDNS resolution, cross-namespace service communication
+09:30 AM - 09:45 AM: Physical movement
+09:45 AM - 11:15 AM: KodeKloud Labs: Namespaces & CoreDNS Exploration
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Launch temporary busybox pod for nslookup and curl tests",,False
+[CKA] 8am-12pm: Kubectl Explain & Declarative Workflow,10/09/2026,08:00 AM,10/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Kubectl Explain & Declarative Workflow
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Fast navigation using kubectl explain --recursive
+08:20 AM - 09:30 AM: Theory: kubectl apply algorithm, last-applied-configuration annotation, manifest management
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Kubectl Apply Command & Imperative vs Declarative
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Synthesis: Constructing a complete 3-tier app manifest declaratively",,False
+[CKA] 8am-12pm: Week 2 Speed Drills & Controller Triathlon,10/10/2026,08:00 AM,10/10/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 2 Speed Drills & Controller Triathlon
+
+Schedule:
+08:00 AM - 09:30 AM: Speed drill: Build Pod + Deployment + Service in under 7 minutes
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: Rolling update failure scenario & rollback under pressure
+11:00 AM - 12:00 PM: Milestone 2 Assessment: Multi-tier deployment with namespace routing",,False
+"[CKA] 8am-12pm: Manual Scheduling, Labels & Selectors",10/12/2026,08:00 AM,10/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Manual Scheduling, Labels & Selectors
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: nodeName attribute in Pod spec
+08:20 AM - 09:30 AM: Theory: Scheduler bypass via nodeName, label management, matchExpressions vs matchLabels
+09:30 AM - 09:45 AM: Movement break
+09:45 AM - 11:15 AM: KodeKloud Labs: Manual Scheduling, Labels and Selectors
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Manually binding an unscheduled pod via binding API",,False
+"[CKA] 8am-12pm: Taints, Tolerations & Node Affinity",10/13/2026,08:00 AM,10/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Taints, Tolerations & Node Affinity
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Taints repel pods, Affinity attracts pods
+08:20 AM - 09:30 AM: Theory: Taint effects (NoSchedule, PreferNoSchedule, NoExecute), nodeAffinity (required vs preferred)
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Taints & Tolerations, Node Affinity
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Evicting running pods using NoExecute taints",,False
+"[CKA] 8am-12pm: Resource Requirements, Limits & LimitRanges",10/14/2026,08:00 AM,10/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Resource Requirements, Limits & LimitRanges
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: CPU millis (1000m = 1 core) and Memory mebibytes (Mi vs MB)
+08:20 AM - 09:30 AM: Theory: Requests vs limits, OOMKilled status (Exit code 137), CPU throttling, LimitRanges
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: Resource Requirements & Limits
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Simulating memory leak pod to witness OOMKilled",,False
+[CKA] 8am-12pm: DaemonSets & Static Pods Architecture,10/15/2026,08:00 AM,10/15/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: DaemonSets & Static Pods Architecture
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Where are control plane static pod manifests stored?
+08:20 AM - 09:30 AM: Theory: DaemonSets scheduling, static pods managed directly by kubelet, /etc/kubernetes/manifests
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: DaemonSets & Static Pods
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Deploying custom static pod on worker node and verifying node name suffix",,False
+[CKA] 8am-12pm: Priority Classes & Multiple Schedulers,10/16/2026,08:00 AM,10/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Priority Classes & Multiple Schedulers
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: PriorityClass value ranges and preemption policy
+08:20 AM - 09:30 AM: Theory: PriorityClass, Pod preemption, deploying a secondary custom kube-scheduler
+09:30 AM - 09:45 AM: Movement & hydration
+09:45 AM - 11:15 AM: KodeKloud Labs: Priority Classes & Multiple Schedulers
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Assigning pods to custom scheduler via schedulerName",,False
+[CKA] 8am-12pm: Week 3 Scheduling Troubleshooting Matrix,10/17/2026,08:00 AM,10/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 3 Scheduling Troubleshooting Matrix
+
+Schedule:
+08:00 AM - 09:30 AM: Debugging 10 pods stuck in Pending state (Taints, Affinities, Resources, NodeSelector)
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: Static pod troubleshooting (broken manifest path in kubelet config)
+11:00 AM - 12:00 PM: Milestone 3 Assessment: Advanced scheduling orchestration",,False
+[CKA] 8am-12pm: Commands & Arguments (Docker vs Kubernetes),10/19/2026,08:00 AM,10/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Commands & Arguments (Docker vs Kubernetes)
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: ENTRYPOINT = command, CMD = args mapping
+08:20 AM - 09:30 AM: Theory: Overriding container entrypoint/cmd, passing environment variables
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Commands and Arguments in Kubernetes
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Sleeping pods for debugging using command override",,False
+[CKA] 8am-12pm: ConfigMaps & Application Configuration,10/20/2026,08:00 AM,10/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ConfigMaps & Application Configuration
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Creating ConfigMap from literal vs from file
+08:20 AM - 09:30 AM: Theory: ConfigMaps as environment variables (env, envFrom) and as mounted volume files
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Configuring ConfigMaps in Applications
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Hot-reloading application configuration from volume mounts",,False
+[CKA] 8am-12pm: Secrets Management & Encryption at Rest,10/21/2026,08:00 AM,10/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Secrets Management & Encryption at Rest
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Base64 encoding vs encryption (echo -n ... | base64)
+08:20 AM - 09:30 AM: Theory: Generic, docker-registry, tls secrets; configuring EncryptionConfiguration on kube-apiserver
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: Secrets & Encrypting Secret Data at Rest
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Verifying encrypted data directly inside etcd database",,False
+"[CKA] 8am-12pm: Autoscaling: HPA, VPA & In-Place Pod Resize",10/22/2026,08:00 AM,10/22/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Autoscaling: HPA, VPA & In-Place Pod Resize
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Metrics-server installation verification (kubectl top)
+08:20 AM - 09:30 AM: Theory: Horizontal Pod Autoscaler (HPA v2), Vertical Pod Autoscaler (VPA), In-place resize (2025)
+09:30 AM - 09:45 AM: Physical movement
+09:45 AM - 11:15 AM: KodeKloud Labs: HPA, VPA & Modifying CPU Resources in VPA
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Generating CPU load to trigger HPA pod scaling",,False
+[CKA] 8am-12pm: Admission Controllers & Validating Webhooks,10/23/2026,08:00 AM,10/23/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Admission Controllers & Validating Webhooks
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Kubernetes API request pipeline (Authn -> Authz -> Admission)
+08:20 AM - 09:30 AM: Theory: Built-in controllers (NamespaceLifecycle, LimitRanger), Mutating vs Validating webhooks
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Admission Controllers & Validating/Mutating Webhooks
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Enabling and disabling admission plugins in kube-apiserver manifest",,False
+[CKA] 8am-12pm: Week 4 App Lifecycle & Secret Security Drill,10/24/2026,08:00 AM,10/24/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 4 App Lifecycle & Secret Security Drill
+
+Schedule:
+08:00 AM - 09:30 AM: Timed deployment with ConfigMap, Secret, encrypted at rest, and HPA autoscaling
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: Debugging Secret decoding and environment injection errors
+11:00 AM - 12:00 PM: Milestone 4 Assessment: Application Lifecycle Mastery",,False
+"[CKA] 8am-12pm: Node Maintenance: Cordon, Drain & Uncordon",10/26/2026,08:00 AM,10/26/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Node Maintenance: Cordon, Drain & Uncordon
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: cordon vs drain vs drain --ignore-daemonsets
+08:20 AM - 09:30 AM: Theory: Safe workload eviction, PodDisruptionBudgets (PDB), node scheduling states
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: OS Upgrades & Maintenance
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Evicting pods respecting PDB minAvailable / maxUnavailable",,False
+[CKA] 8am-12pm: Cluster Upgrade: Kubeadm Control Plane,10/27/2026,08:00 AM,10/27/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Cluster Upgrade: Kubeadm Control Plane
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Kubernetes version skew policy rules
+08:20 AM - 09:30 AM: Theory: kubeadm upgrade plan, upgrading kubeadm, kubelet, kubectl on primary master
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Cluster Upgrade Process - Control Plane
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Verifying control plane component versions after upgrade",,False
+[CKA] 8am-12pm: Cluster Upgrade: Worker Nodes,10/28/2026,08:00 AM,10/28/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Cluster Upgrade: Worker Nodes
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Steps on worker node: drain -> upgrade kubeadm -> upgrade kubelet -> uncordon
+08:20 AM - 09:30 AM: Theory: Safe worker node rollouts without downtime, daemonset pod handling
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: Cluster Upgrade Process - Worker Nodes
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Speed Drill: Upgrading worker node in under 6 minutes",,False
+[CKA] 8am-12pm: ETCD Snapshot Backup & Disaster Recovery,10/29/2026,08:00 AM,10/29/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ETCD Snapshot Backup & Disaster Recovery
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Mandatory ETCDCTL environment variables and flags
+08:20 AM - 09:30 AM: Theory: ETCDCTL_API=3 snapshot save, snapshot restore, swapping data-dir in static pod manifest
+09:30 AM - 09:45 AM: Physical movement
+09:45 AM - 11:15 AM: KodeKloud Labs: Backup and Restore Methods (ETCD)
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Speed Drill: Timed ETCD backup and complete cluster recovery from snapshot",,False
+[CKA] 8am-12pm: TLS Basics & PKI in Kubernetes,10/30/2026,08:00 AM,10/30/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: TLS Basics & PKI in Kubernetes
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Symmetric vs asymmetric encryption and certificate chains
+08:20 AM - 09:30 AM: Theory: Kubernetes CA, server certs, client certs, inspecting certificate details with openssl
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: TLS Basics & View Certificate Details
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Diagnosing expired certificate errors on kube-apiserver",,False
+[CKA] 8am-12pm: Full Disaster Recovery & Upgrade Drill,10/31/2026,08:00 AM,10/31/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Full Disaster Recovery & Upgrade Drill
+
+Schedule:
+08:00 AM - 09:30 AM: Disaster Simulation: Control plane crash + etcd snapshot restore under 15 minutes
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: Full multi-node kubeadm upgrade across 3 nodes
+11:00 AM - 12:00 PM: Milestone 5 Assessment: Disaster recovery & cluster maintenance",,False
+[CKA] 8am-12pm: Certificates API & KubeConfig Management,11/02/2026,08:00 AM,11/02/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Certificates API & KubeConfig Management
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: CertificateSigningRequest (CSR) manifest structure
+08:20 AM - 09:30 AM: Theory: CSR approval workflow (kubectl certificate approve), Kubeconfig clusters, users, contexts
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Certificates API & KubeConfig
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Generating custom user kubeconfig with client certs and key",,False
+"[CKA] 8am-12pm: RBAC (Roles, RoleBindings & ClusterRoles)",11/03/2026,08:00 AM,11/03/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: RBAC (Roles, RoleBindings & ClusterRoles)
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Role vs ClusterRole scope
+08:20 AM - 09:30 AM: Theory: apiGroups, resources, verbs, subjects, RoleBindings, ClusterRoleBindings, kubectl auth can-i
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Role-Based Access Controls & Cluster Roles
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Testing developer permissions via --as=developer flag",,False
+[CKA] 8am-12pm: ServiceAccounts & SecurityContexts,11/04/2026,08:00 AM,11/04/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ServiceAccounts & SecurityContexts
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: ServiceAccount token projection
+08:20 AM - 09:30 AM: Theory: ServiceAccounts, default tokens, Pod Security Standards, runAsUser, runAsNonRoot, capabilities
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: Service Accounts & Security Contexts
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Adding NET_ADMIN capability to a pod",,False
+"[CKA] 8am-12pm: Storage: Volumes, PV, PVC & StorageClasses",11/05/2026,08:00 AM,11/05/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Storage: Volumes, PV, PVC & StorageClasses
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: PV and PVC binding criteria (accessModes, capacity, storageClassName)
+08:20 AM - 09:30 AM: Theory: Persistent Volumes, PVCs, StorageClasses, dynamic volume provisioning, reclaim policies
+09:30 AM - 09:45 AM: Physical movement
+09:45 AM - 11:15 AM: KodeKloud Labs: Persistent Volumes and Storage Classes
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Retain vs Delete reclaim policy verification",,False
+[CKA] 8am-12pm: Helm & Kustomize (2025 Updates),11/06/2026,08:00 AM,11/06/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Helm & Kustomize (2025 Updates)
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Helm chart layout vs Kustomize directory structure
+08:20 AM - 09:30 AM: Theory: Helm repo/install/upgrade/values, Kustomize kustomization.yaml, overlays, transformers, patches
+09:30 AM - 09:45 AM: Movement & hydration
+09:45 AM - 11:15 AM: KodeKloud Labs: Helm Basics & Kustomize Basics
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Generating patched environments using kustomize build",,False
+[CKA] 8am-12pm: Security & Storage Lab Triathlon,11/07/2026,08:00 AM,11/07/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Security & Storage Lab Triathlon
+
+Schedule:
+08:00 AM - 09:30 AM: Multi-tenant RBAC + ServiceAccount + PVC volume mounting scenario
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: Helm chart deployment with custom values and Kustomize overlay
+11:00 AM - 12:00 PM: Milestone 6 Assessment: Enterprise security & storage configuration",,False
+[CKA] 8am-12pm: Cluster & Pod Networking Prerequisites,11/09/2026,08:00 AM,11/09/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Cluster & Pod Networking Prerequisites
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Network namespaces and veth pairs
+08:20 AM - 09:30 AM: Theory: Pod network CIDR, IPAM, CNI (Container Network Interface) plugins (Calico, Flannel, Weave)
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Prerequisite Switching, Routing, Gateways & CNI in Kubernetes
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Inspecting CNI configuration files in /etc/cni/net.d/",,False
+[CKA] 8am-12pm: Service Networking & CoreDNS Deep Dive,11/10/2026,08:00 AM,11/10/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Service Networking & CoreDNS Deep Dive
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Service CIDR vs Pod CIDR separation
+08:20 AM - 09:30 AM: Theory: How kube-proxy intercepts service IPs, CoreDNS Corefile configuration, troubleshooting DNS lookup failures
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Service Networking & CoreDNS in Kubernetes
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Modifying CoreDNS configmap and watching resolution changes",,False
+[CKA] 8am-12pm: Ingress Controllers & Routing Rules,11/11/2026,08:00 AM,11/11/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Ingress Controllers & Routing Rules
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Ingress resource vs Ingress controller
+08:20 AM - 09:30 AM: Theory: Ingress rules (host-based, path-based), annotations, rewrite-target, default-backend
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: CKA Ingress Networking Labs 1 & 2
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Testing path rewriting on Nginx ingress controller",,False
+[CKA] 8am-12pm: Gateway API (2025 Updates),11/12/2026,08:00 AM,11/12/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Gateway API (2025 Updates)
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Gateway API role separation (GatewayClass, Gateway, HTTPRoute)
+08:20 AM - 09:30 AM: Theory: Gateway API architecture, comparing Ingress vs Gateway API, HTTPRoute routing matches
+09:30 AM - 09:45 AM: Physical movement
+09:45 AM - 11:15 AM: KodeKloud Labs: Gateway API (2025 Updates)
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Exploratory: Configuring weighted routing between service versions via HTTPRoute",,False
+[CKA] 8am-12pm: Network Policies Deep Dive,11/13/2026,08:00 AM,11/13/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Network Policies Deep Dive
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Default deny ingress and egress manifest structure
+08:20 AM - 09:30 AM: Theory: NetworkPolicy spec, podSelector, namespaceSelector, ipBlock CIDR exceptions, ports
+09:30 AM - 09:45 AM: Movement & hydration
+09:45 AM - 11:15 AM: KodeKloud Labs: Network Policies Labs
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Visual Sketch: Drawing multi-namespace network policy isolation on whiteboard",,False
+[CKA] 8am-12pm: Week 7 Network Mastery Triathlon,11/14/2026,08:00 AM,11/14/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 7 Network Mastery Triathlon
+
+Schedule:
+08:00 AM - 09:30 AM: Deploy multi-service Ingress with TLS termination and Network Policy isolation
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:00 AM: CNI crash troubleshooting and pod IP allocation recovery
+11:00 AM - 12:00 PM: Milestone 7 Assessment: Networking, Ingress & Security lockdown",,False
+[CKA] 8am-12pm: Troubleshooting: Control Plane & Applications,11/16/2026,08:00 AM,11/16/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Troubleshooting: Control Plane & Applications
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Checking control plane logs in /var/log/pods and static pod manifests
+08:20 AM - 09:30 AM: Theory: Troubleshooting kube-apiserver crashloops, etcd connection loss, misconfigured kubelet ports
+09:30 AM - 09:45 AM: Movement & posture reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Application Failure & Control Plane Failure Labs
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Exploratory: Intentionally corrupting kube-apiserver manifest and restoring service",,False
+[CKA] 8am-12pm: Troubleshooting: Worker Nodes & Network Failure,11/17/2026,08:00 AM,11/17/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Troubleshooting: Worker Nodes & Network Failure
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: Node NotReady diagnostic workflow (systemctl status kubelet, journalctl -u kubelet)
+08:20 AM - 09:30 AM: Theory: Kubelet certificates renewal, CNI plugin binary issues, CoreDNS crashes
+09:30 AM - 09:45 AM: Physical reset
+09:45 AM - 11:15 AM: KodeKloud Labs: Worker Node Failure & Network Troubleshooting Labs
+11:15 AM - 11:30 AM: Micro-break
+11:30 AM - 12:00 PM: Speed Drill: Diagnosing and joining a detached worker node in under 5 minutes",,False
+[CKA] 8am-12pm: JSONPath Queries & Lightning Labs 1 & 2,11/18/2026,08:00 AM,11/18/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: JSONPath Queries & Lightning Labs 1 & 2
+
+Schedule:
+08:00 AM - 08:20 AM: Retrieval: JSONPath syntax (-o jsonpath='{.items[*].metadata.name}')
+08:20 AM - 09:30 AM: Theory & Drills: Custom column formatting, range filtering, sorting by fields (--sort-by)
+09:30 AM - 09:45 AM: Hydration break
+09:45 AM - 11:15 AM: KodeKloud Labs: JSON Path in Kubernetes & Lightning Labs 1 & 2
+11:15 AM - 11:30 AM: Eye rest
+11:30 AM - 12:00 PM: Speed review of Lightning Lab questions completed under target time",,False
+[CKA] 8am-12pm: Timed Mock Exam 1 & Step-by-Step Review,11/19/2026,08:00 AM,11/19/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Timed Mock Exam 1 & Step-by-Step Review
+
+Schedule:
+08:00 AM - 08:15 AM: Terminal environment prep (alias k=kubectl, export do, export now)
+08:15 AM - 10:15 AM: KodeKloud CKA Mock Exam 1 (Strict 2-hour timed exam simulation)
+10:15 AM - 10:30 AM: Physical walk & mental reset
+10:30 AM - 12:00 PM: Comprehensive Mock 1 Review: Analyze scoring, optimize slow commands",,False
+[CKA] 8am-12pm: Timed Mock Exam 2 & 3 Marathon,11/20/2026,08:00 AM,11/20/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Timed Mock Exam 2 & 3 Marathon
+
+Schedule:
+08:00 AM - 08:15 AM: Terminal warm-up
+08:15 AM - 10:00 AM: KodeKloud CKA Mock Exam 2 & 3 high-weight scenario drills
+10:00 AM - 10:15 AM: Movement & eye rest
+10:15 AM - 11:30 AM: KodeKloud Ultimate Mock Exam challenges
+11:30 AM - 12:00 PM: Verify allowed documentation bookmarks on kubernetes.io/docs",,False
+[CKA] 8am-12pm: Killer.sh Simulator Marathon (Exam Benchmark),11/21/2026,08:00 AM,11/21/2026,12:00 PM,False,"CKA STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Killer.sh Simulator Marathon (Exam Benchmark)
+
+Schedule:
+08:00 AM - 08:15 AM: Grounding, water, and full screen isolation
+08:15 AM - 10:15 AM: Killer.sh CKA Simulator Session (Strict 2-hour uninterrupted simulation)
+10:15 AM - 10:45 AM: Extended walk, fresh air, cognitive recovery
+10:45 AM - 12:00 PM: Killer.sh in-depth question review & explanation study (Target: score >= 80%)
+Final Milestone Gate cleared!",,False

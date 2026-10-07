@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pomodoro Settings — CKA &amp; LFCS Study Timer</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-light: #1e293b;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56,189,248,0.12);
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* Top bar */
+    .topbar {
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+    .topbar .link {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .topbar .link:hover { background: var(--accent-dim); }
+
+    /* Main content */
+    .page { max-width: 600px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    /* Section cards */
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Setting rows */
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .row:last-child { border-bottom: none; }
+    .row-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      flex: 1;
+    }
+    .row-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Number inputs */
+    .num-input {
+      width: 72px;
+      padding: 6px 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .num-input:focus { border-color: var(--accent); }
+    .num-suffix {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* Toggle switch */
+    .toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: #475569;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle.on { background: var(--accent); }
+    .toggle::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle.on::after { transform: translateX(20px); }
+
+    /* Volume slider */
+    .volume-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .vol-icon {
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-muted);
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .vol-icon.muted { color: var(--red); }
+    .vol-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--border);
+      outline: none;
+    }
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(56,189,248,0.4);
+    }
+    .vol-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 30px;
+      text-align: right;
+    }
+
+    /* Chime list */
+    .chime-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .chime-list::-webkit-scrollbar { width: 6px; }
+    .chime-list::-webkit-scrollbar-track { background: var(--bg); }
+    .chime-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .chime-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      transition: background 0.1s;
+      gap: 10px;
+    }
+    .chime-item:hover { background: rgba(255,255,255,0.03); }
+    .chime-item:last-child { border-bottom: none; }
+    .chime-item.selected { background: var(--accent-dim); }
+    .chime-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .chime-item.selected .chime-dot {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+    .chime-name {
+      font-size: 13px;
+      font-weight: 500;
+      flex: 1;
+    }
+    .chime-speaker {
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+    .chime-speaker:hover { color: var(--accent); }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 16px 0;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* Saved toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--green);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <h1>⚙️ Pomodoro Settings</h1>
+    <a href="history.html" class="link">📊 History</a>
+  </div>
+
+  <div class="page">
+
+    <!-- Timer Durations -->
+    <div class="section">
+      <div class="section-title">Pomodoro Timer</div>
+      <div class="row">
+        <div>
+          <div class="row-label">Work</div>
+          <div class="row-hint">Focus session duration</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <input id="workMin" class="num-input" type="number" min="1" max="120" value="25">
+          <span class="num-suffix">minutes</span>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="row-label">Short Break</div>
+          <div class="row-hint">Break between focus blocks</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <input id="shortBreakMin" class="num-input" type="number" min="1" max="60" value="5">
+          <span class="num-suffix">minutes</span>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="row-label">Long Break</div>
+          <div class="row-hint">After 3 focus blocks</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <input id="longBreakMin" class="num-input" type="number" min="1" max="60" value="15">
+          <span class="num-suffix">minutes</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Chimes -->
+    <div class="section">
+      <div class="section-title">Audio Chime</div>
+      <div class="row" style="padding-bottom:14px">
+        <div class="row-label">Volume</div>
+        <div class="volume-row" style="flex:0 0 200px">
+          <span id="volIcon" class="vol-icon">🔊</span>
+          <input id="volumeSlider" class="vol-slider" type="range" min="0" max="100" value="85">
+          <span id="volVal" class="vol-val">85%</span>
+        </div>
+      </div>
+      <div class="chime-list" id="chimeList"></div>
+    </div>
+
+    <!-- Study Preferences -->
+    <div class="section">
+      <div class="section-title">Study Preferences</div>
+      <div class="row">
+        <div>
+          <div class="row-label">Continue where I left off</div>
+          <div class="row-hint">Resume previous timer state on startup</div>
+        </div>
+        <div id="continueToggle" class="toggle" data-key="continueLastSession"></div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="row-label">Desktop notifications</div>
+          <div class="row-hint">Show alert when phase completes</div>
+        </div>
+        <div id="notificationsToggle" class="toggle on" data-key="notifications"></div>
+      </div>
+    </div>
+
+    <!-- Dim Screen -->
+    <div class="section">
+      <div class="section-title">Focus Mode</div>
+      <div class="row">
+        <div>
+          <div class="row-label">Dim screen while focused</div>
+          <div class="row-hint">Overlay a dim layer on active tab during work sessions</div>
+        </div>
+        <div id="dimToggle" class="toggle" data-key="dimScreen"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      CKA &amp; LFCS Study Pomodoro v1.1 · <a href="http://127.0.0.1:5050" target="_blank">Open Study Todo App</a>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">✓ Settings saved</div>
+
+  <script src="options.js"></script>
+</body>
+</html>

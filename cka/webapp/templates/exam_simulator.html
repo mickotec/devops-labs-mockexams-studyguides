@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ exam.title }} — killer.sh & PSI Exam Simulator</title>
+<!-- xterm.js styling -->
+<link rel="stylesheet" href="/static/vendor/xterm.css" />
+<style>
+  :root {
+    --psi-bg: #0b0f19;
+    --psi-header: #111827;
+    --psi-border: #1f2937;
+    --psi-accent: #2563eb;
+    --psi-accent-hover: #1d4ed8;
+    --psi-gold: #f59e0b;
+    --psi-green: #10b981;
+    --psi-red: #ef4444;
+    --psi-text: #f9fafb;
+    --psi-text-dim: #9ca3af;
+    --xfce-panel: #24292e;
+    --xfce-win-bg: #1e1e1e;
+    --xfce-win-header: #2d3139;
+    --xfce-border: #3c4049;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--psi-bg);
+    color: var(--psi-text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── 1. Top PSI Secure Browser Bar ──────────────────────────────────────── */
+  .psi-bar {
+    height: 52px;
+    background: var(--psi-header);
+    border-bottom: 1px solid var(--psi-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    user-select: none;
+    z-index: 1000;
+  }
+
+  .psi-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .psi-logo-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+  }
+
+  .psi-shield {
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .psi-tag {
+    background: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .proctor-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: var(--psi-green);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+  }
+  .proctor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--psi-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  .psi-center {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .timer-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.3rem 0.85rem;
+    border-radius: 6px;
+    border: 1px solid var(--psi-border);
+  }
+
+  .timer-clock {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--psi-green);
+    letter-spacing: 0.05em;
+  }
+  .timer-clock.warning { color: var(--psi-gold); }
+  .timer-clock.danger { color: var(--psi-red); animation: pulse 1s infinite; }
+
+  .q-nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #1f2937;
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid #374151;
+  }
+
+  .btn-icon {
+    background: transparent;
+    border: none;
+    color: var(--psi-text);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .btn-icon:hover { background: #374151; }
+  .btn-icon:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .q-dropdown {
+    background: transparent;
+    border: none;
+    color: var(--psi-text);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    outline: none;
+  }
+  .q-dropdown option {
+    background: var(--psi-header);
+    color: var(--psi-text);
+  }
+
+  .psi-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-psi {
+    background: #1f2937;
+    color: var(--psi-text);
+    border: 1px solid #374151;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.15s;
+  }
+  .btn-psi:hover { background: #374151; border-color: #4b5563; }
+  .btn-psi.active { background: #3b82f6; border-color: #60a5fa; color: white; }
+  .btn-psi.flagged { background: #b91c1c; border-color: #ef4444; color: white; }
+
+  .btn-submit {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    border: 1px solid #ef4444;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-submit:hover { opacity: 0.9; }
+
+  /* ── 2. Main Workspace Layout ────────────────────────────────────────────── */
+  .main-workspace {
+    flex: 1;
+    display: flex;
+    position: relative;
+    height: calc(100vh - 52px);
+    overflow: hidden;
+  }
+
+  /* ── Left: Question Panel ────────────────────────────────────────────────── */
+  .question-panel {
+    width: 440px;
+    min-width: 300px;
+    max-width: 700px;
+    background: #0f172a;
+    border-right: 1px solid var(--psi-border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: width 0.1s ease;
+  }
+  .question-panel.collapsed {
+    width: 0px !important;
+    min-width: 0px !important;
+    overflow: hidden;
+  }
+
+  .q-header-banner {
+    padding: 0.9rem 1.2rem;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .q-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .q-num-badge {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #38bdf8;
+  }
+  .q-weight-badge {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+  }
+  .q-domain-badge {
+    background: #334155;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    max-width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .q-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    line-height: 1.55;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+  }
+
+  .context-box {
+    background: #1e1e2e;
+    border: 1px solid #45475a;
+    border-left: 4px solid #38bdf8;
+    border-radius: 6px;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 1.2rem;
+  }
+  .context-box-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #9399b2;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .context-code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.85rem;
+    color: #a6e3a1;
+  }
+  .copy-btn-mini {
+    background: #313244;
+    color: #cdd6f4;
+    border: 1px solid #45475a;
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .copy-btn-mini:hover { background: #45475a; color: white; }
+
+  .task-body h3 {
+    font-size: 0.95rem;
+    color: #38bdf8;
+    margin: 1rem 0 0.5rem 0;
+  }
+  .task-body p { margin-bottom: 0.75rem; }
+  .task-body ul, .task-body ol {
+    margin-left: 1.4rem;
+    margin-bottom: 0.85rem;
+  }
+  .task-body li { margin-bottom: 0.35rem; }
+  .task-body code {
+    background: #1e293b;
+    color: #f43f5e;
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.83rem;
+    cursor: pointer;
+    border: 1px solid #334155;
+  }
+  .task-body code:hover {
+    background: #334155;
+    color: #fb7185;
+  }
+  .task-body pre {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    padding: 0.75rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    position: relative;
+  }
+  .task-body pre code {
+    background: transparent;
+    border: none;
+    color: #93c5fd;
+    padding: 0;
+  }
+
+  .q-footer {
+    padding: 0.75rem 1rem;
+    background: #1e293b;
+    border-top: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  /* Resize Handle */
+  .resizer-h {
+    width: 5px;
+    background: var(--psi-border);
+    cursor: col-resize;
+    transition: background 0.15s;
+    z-index: 101;
+  }
+  .resizer-h:hover { background: var(--psi-accent); }
+
+  /* ── Right: Simulated XFCE Remote Desktop ────────────────────────────────── */
+  .desktop-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #181b20;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* XFCE Top Panel */
+  .xfce-panel {
+    height: 28px;
+    background: var(--xfce-panel);
+    border-bottom: 1px solid #14171a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    user-select: none;
+    z-index: 50;
+  }
+
+  .xfce-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .xfce-menu-btn {
+    background: #343a40;
+    color: #f8f9fa;
+    border: 1px solid #495057;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.15s;
+  }
+  .xfce-menu-btn:hover { background: #495057; border-color: #6c757d; }
+  .xfce-menu-btn.active { background: #2563eb; border-color: #3b82f6; }
+  .xfce-tab {
+    background: #2b3035;
+    color: #ced4da;
+    padding: 0.2rem 0.65rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid #3a4149;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .xfce-tab:hover { background: #343a40; color: #fff; }
+  .xfce-tab.active {
+    background: #3e444c;
+    color: #fff;
+    border-color: #60a5fa;
+    box-shadow: inset 0 -2px 0 #3b82f6;
+  }
+
+  /* XFCE Start Menu Dropdown */
+  .xfce-start-menu {
+    position: absolute;
+    top: 29px;
+    left: 8px;
+    width: 320px;
+    background: #1e2229;
+    border: 1px solid #3c424d;
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: menuPop 0.15s ease-out;
+  }
+  @keyframes menuPop {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .xfce-start-menu.show { display: flex !important; }
+  .xfce-menu-header {
+    background: #16191f;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid #2d333d;
+  }
+  .xfce-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .xfce-user-info .user-avatar {
+    font-size: 1.25rem;
+    background: #272e3b;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3e4859;
+  }
+  .xfce-user-info .user-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+  .xfce-user-info .user-host {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-family: monospace;
+  }
+  .xfce-menu-section {
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.5rem 0.9rem 0.2rem 0.9rem;
+  }
+  .xfce-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .xfce-menu-item:hover {
+    background: #2c333f;
+  }
+  .xfce-menu-item .item-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+  }
+  .xfce-menu-item .item-details {
+    flex: 1;
+  }
+  .xfce-menu-item .item-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+  .xfce-menu-item .item-desc {
+    font-size: 0.7rem;
+    color: #94a3b8;
+  }
+  .xfce-menu-item .item-shortcut {
+    font-size: 0.68rem;
+    color: #64748b;
+    font-family: monospace;
+  }
+  .xfce-menu-item.danger:hover {
+    background: rgba(239, 68, 68, 0.18);
+  }
+  .xfce-menu-item.warning:hover {
+    background: rgba(245, 158, 11, 0.18);
+  }
+  .xfce-menu-separator {
+    height: 1px;
+    background: #2d333d;
+    margin: 0.3rem 0;
+  }
+
+  .xfce-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #adb5bd;
+  }
+
+  /* Desktop Canvas (Holding Windows) */
+  .desktop-canvas {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    position: relative;
+    overflow: hidden;
+    background: #111418;
+  }
+
+  /* Window Containers */
+  .sim-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--xfce-win-bg);
+    border: 1px solid var(--xfce-border);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    transition: flex 0.15s ease;
+  }
+  .sim-window.hidden { display: none !important; }
+  .sim-window.fullscreen { flex: 1 1 100% !important; }
+
+  .window-header {
+    height: 32px;
+    background: var(--xfce-win-header);
+    border-bottom: 1px solid var(--xfce-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.6rem;
+    user-select: none;
+  }
+
+  .window-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ced4da;
+  }
+
+  .window-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .win-btn {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+  .win-btn.close { background: #ff5f56; }
+  .win-btn.min { background: #ffbd2e; }
+  .win-btn.max { background: #27c93f; }
+
+  /* ── Terminal Window Body ────────────────────────────────────────────────── */
+  .terminal-toolbar {
+    height: 28px;
+    background: #25282e;
+    border-bottom: 1px solid #32363e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+  }
+  .quick-cmd-btn {
+    background: #31353d;
+    border: 1px solid #434852;
+    color: #adb5bd;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    cursor: pointer;
+    margin-right: 0.3rem;
+    transition: all 0.1s ease;
+  }
+  .quick-cmd-btn:hover {
+    background: #434852;
+    color: #fff;
+  }
+  .quick-cmd-btn.paste-btn {
+    background: #0284c7;
+    border-color: #38bdf8;
+    color: #fff;
+    font-weight: 700;
+  }
+  .quick-cmd-btn.paste-btn:hover {
+    background: #0369a1;
+  }
+  .quick-cmd-btn.copy-btn {
+    background: #2563eb;
+    border-color: #60a5fa;
+    color: #fff;
+    font-weight: 700;
+  }
+  .quick-cmd-btn.copy-btn:hover {
+    background: #1d4ed8;
+  }
+
+  .terminal-body {
+    flex: 1;
+    background: #000;
+    padding: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Code Blocks in Question Panel ───────────────────────────────────────── */
+  .code-block-wrapper {
+    margin: 0.75rem 0;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    background: #090d16;
+    overflow: hidden;
+  }
+  .code-block-header {
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.72rem;
+    color: #9ca3af;
+  }
+  .code-block-actions {
+    display: flex;
+    gap: 0.35rem;
+  }
+  .btn-code-action {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #e5e7eb;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.1s ease;
+  }
+  .btn-code-action:hover {
+    background: #374151;
+    color: #fff;
+  }
+  .btn-code-action.run-btn {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.4);
+    color: #34d399;
+  }
+  .btn-code-action.run-btn:hover {
+    background: #10b981;
+    color: #fff;
+  }
+
+  /* Inline Code Badges */
+  .task-body code.inline-code {
+    background: #1e293b;
+    color: #f43f5e;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.83rem;
+    cursor: pointer;
+    border: 1px solid #334155;
+    user-select: text !important;
+    display: inline-block;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+  .task-body code.inline-code:hover {
+    background: #334155;
+    color: #fb7185;
+    border-color: #38bdf8;
+  }
+  .task-body code.inline-code.copied {
+    background: rgba(16, 185, 129, 0.25) !important;
+    border-color: #10b981 !important;
+    color: #34d399 !important;
+  }
+
+  /* Terminal Context Menu */
+  .term-context-menu {
+    position: fixed;
+    background: #1e2229;
+    border: 1px solid #3d4450;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    padding: 0.35rem 0;
+    z-index: 9999;
+    min-width: 190px;
+    display: none;
+    font-size: 0.8rem;
+    user-select: none;
+  }
+  .term-menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+    color: #f1f3f5;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .term-menu-item:hover {
+    background: #2b303c;
+    color: #38bdf8;
+  }
+  .term-menu-item .shortcut {
+    color: #868e96;
+    font-size: 0.7rem;
+    margin-left: 1rem;
+  }
+  .term-menu-separator {
+    height: 1px;
+    background: #323842;
+    margin: 0.3rem 0;
+  }
+
+  /* ── Browser Window Body ─────────────────────────────────────────────────── */
+  .browser-nav-bar {
+    background: #2b3035;
+    padding: 0.35rem 0.6rem;
+    border-bottom: 1px solid #3c424a;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .browser-nav-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .browser-url-bar {
+    flex: 1;
+    background: #1a1d20;
+    border: 1px solid #495057;
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    color: #e9ecef;
+    font-family: monospace;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .browser-url-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #e9ecef;
+    outline: none;
+    font-family: monospace;
+    font-size: 0.78rem;
+  }
+
+  .browser-bookmarks-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+  .b-mark {
+    background: #373c43;
+    color: #ced4da;
+    border: 1px solid #444b54;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .b-mark:hover { background: #495057; color: white; }
+
+  .browser-viewport {
+    flex: 1;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+  }
+  .browser-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+  }
+
+  .psi-blocked-page {
+    position: absolute;
+    inset: 0;
+    background: #0f172a;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  /* ── Modals & Drawers ────────────────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(2px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    width: 680px;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  }
+
+  .modal-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-body {
+    padding: 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .modal-footer {
+    padding: 0.9rem 1.25rem;
+    border-top: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+  .q-tile {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 0.6rem 0.4rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .q-tile:hover { border-color: #38bdf8; transform: translateY(-1px); }
+  .q-tile.current { border-color: #38bdf8; background: rgba(56, 189, 248, 0.15); }
+  .q-tile.flagged { border-color: #ef4444; }
+  .q-tile.answered { background: rgba(16, 185, 129, 0.15); border-color: #10b981; }
+
+  /* Notepad Modal */
+  .notepad-textarea {
+    width: 100%;
+    height: 320px;
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: monospace;
+    font-size: 0.85rem;
+    resize: vertical;
+    outline: none;
+  }
+
+  /* Scorecard Breakdown */
+  .score-metric-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #334155;
+    margin-bottom: 1.2rem;
+  }
+  .score-num {
+    font-size: 3rem;
+    font-weight: 800;
+  }
+  .score-num.pass { color: var(--psi-green); }
+  .score-num.fail { color: var(--psi-red); }
+
+  .domain-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #334155;
+    font-size: 0.85rem;
+  }
+  .progress-bar-bg {
+    width: 120px;
+    height: 8px;
+    background: #334155;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--psi-green);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 1. Top PSI Secure Browser Bar ──────────────────────────────────────── -->
+<header class="psi-bar">
+  <div class="psi-left">
+    <div class="psi-logo-badge">
+      <div class="psi-shield">PSI</div>
+      <span>{{ exam.title }}</span>
+    </div>
+    <div class="psi-tag">{{ exam.track }} MOCK EXAM</div>
+    <div class="proctor-pill">
+      <div class="proctor-dot"></div>
+      <span>Proctor Connected</span>
+    </div>
+  </div>
+
+  <div class="psi-center">
+    <div class="timer-card">
+      <span style="font-size: 0.75rem; color: #9ca3af;">TIME LEFT:</span>
+      <div class="timer-clock" id="timerClock">02:00:00</div>
+    </div>
+
+    <div class="q-nav-pill">
+      <button class="btn-icon" id="btnPrevQ" onclick="navQuestion(-1)">◀</button>
+      <select class="q-dropdown" id="questionSelect" onchange="jumpQuestion(this.value)">
+        {% for q in exam.questions %}
+        <option value="{{ loop.index0 }}">Question {{ q.number }} of {{ exam.total_questions }} ({{ q.weight }})</option>
+        {% endfor %}
+      </select>
+      <button class="btn-icon" id="btnNextQ" onclick="navQuestion(1)">▶</button>
+    </div>
+  </div>
+
+  <div class="psi-right">
+    <button class="btn-psi" id="btnFlag" onclick="toggleFlag()">
+      🚩 <span id="flagLabel">Flag for Review</span>
+    </button>
+    <button class="btn-psi" onclick="openNotepad()">
+      📝 Notepad
+    </button>
+    <button class="btn-psi" onclick="openOverview()">
+      📋 Overview
+    </button>
+    <button class="btn-psi" onclick="cycleLayout()" title="Cycle Split, Full Terminal, Full Docs">
+      🗔 <span id="layoutLabel">Split 50/50</span>
+    </button>
+    <button class="btn-psi" style="border-color: #f59e0b; color: #fbbf24;" onclick="restartExamInSimulator()" title="Reset environment and start fresh 120m session">
+      🔄 Restart (120m)
+    </button>
+    <button class="btn-submit" onclick="confirmSubmit()">
+      End Exam & Grade
+    </button>
+  </div>
+</header>
+
+<!-- ── 2. Main Workspace Layout ────────────────────────────────────────────── -->
+<div class="main-workspace">
+
+  <!-- Left: Question Panel -->
+  <aside class="question-panel" id="questionPanel">
+    <div class="q-header-banner">
+      <div class="q-title-group">
+        <span class="q-num-badge" id="qBadgeNum">Question 1</span>
+        <span class="q-weight-badge" id="qBadgeWeight">6.0% Weight</span>
+      </div>
+      <span class="q-domain-badge" id="qBadgeDomain">Domain</span>
+    </div>
+
+    <div class="q-content">
+      <!-- Context switcher block -->
+      <div class="context-box">
+        <div class="context-box-label" id="contextBoxLabel">{{ 'Cluster / Context Command' if exam.track == 'CKA' else 'Server Target / Shell Command' }}</div>
+        <div class="context-code">
+          <span id="contextCmdText">{{ 'kubectl config use-context k8s' if exam.track == 'CKA' else 'sudo -i' }}</span>
+          <div style="display: flex; gap: 0.3rem;">
+            <button class="copy-btn-mini" onclick="copyContext()">Copy</button>
+            <button class="copy-btn-mini" onclick="runInTerminal(document.getElementById('contextCmdText').innerText)">Run</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Text Body -->
+      <div class="task-body" id="taskBody">
+        <!-- Rendered question markdown will appear here -->
+      </div>
+    </div>
+
+    <div class="q-footer">
+      <button class="btn-psi" id="footerPrevBtn" onclick="navQuestion(-1)">◀ Previous</button>
+      <label style="font-size: 0.8rem; color: #94a3b8; display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+        <input type="checkbox" id="chkAnswered" onchange="toggleAnswered(this.checked)" /> Mark as Completed
+      </label>
+      <button class="btn-psi" id="footerNextBtn" onclick="navQuestion(1)">Next ▶</button>
+    </div>
+  </aside>
+
+  <!-- Drag handle -->
+  <div class="resizer-h" id="resizerHandle"></div>
+
+  <!-- Right: Simulated XFCE Remote Desktop -->
+  <main class="desktop-area">
+    <!-- XFCE Top Panel -->
+    <div class="xfce-panel">
+      <div class="xfce-left">
+        <button class="xfce-menu-btn" id="btnXfceMenu" onclick="toggleXfceMenu(event)">Applications ▾</button>
+        <div class="xfce-tab active" id="tabTerminal" onclick="focusWindow('terminal')">
+          <span>⬛</span> Terminal ({{ exam.track }})
+        </div>
+        <div class="xfce-tab active" id="tabBrowser" onclick="focusWindow('browser')">
+          <span>🦊</span> Mozilla Firefox
+        </div>
+      </div>
+      <div class="xfce-right">
+        <span>Desktop 1</span>
+        <span id="desktopClock">10:00 AM</span>
+      </div>
+    </div>
+
+    <!-- XFCE Start Menu Popup -->
+    <div id="xfceAppMenu" class="xfce-start-menu">
+      <div class="xfce-menu-header">
+        <div class="xfce-user-info">
+          <span class="user-avatar">👤</span>
+          <div>
+            <div class="user-name">student</div>
+            <div class="user-host">{{ 'controlplane (CKA)' if exam.track == 'CKA' else 'node (LFCS)' }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="xfce-menu-section">Applications</div>
+      <div class="xfce-menu-item" onclick="focusWindow('terminal'); closeXfceMenu();">
+        <span class="item-icon">⬛</span>
+        <div class="item-details">
+          <div class="item-title">Terminal ({{ exam.track }})</div>
+          <div class="item-desc">Interactive root bash shell</div>
+        </div>
+        <span class="item-shortcut">Alt+T</span>
+      </div>
+      <div class="xfce-menu-item" onclick="focusWindow('browser'); closeXfceMenu();">
+        <span class="item-icon">🦊</span>
+        <div class="item-details">
+          <div class="item-title">Mozilla Firefox</div>
+          <div class="item-desc">Official Documentation Browser</div>
+        </div>
+        <span class="item-shortcut">Alt+W</span>
+      </div>
+      <div class="xfce-menu-separator"></div>
+      <div class="xfce-menu-section">Window Layout</div>
+      <div class="xfce-menu-item" onclick="setLayout('split'); closeXfceMenu();">
+        <span class="item-icon">🔲</span>
+        <div class="item-details">
+          <div class="item-title">Tile Split 50 / 50</div>
+          <div class="item-desc">Terminal & Docs side-by-side</div>
+        </div>
+      </div>
+      <div class="xfce-menu-item" onclick="setLayout('terminal'); closeXfceMenu();">
+        <span class="item-icon">⬛</span>
+        <div class="item-details">
+          <div class="item-title">Fullscreen Terminal</div>
+          <div class="item-desc">Maximize command-line terminal</div>
+        </div>
+      </div>
+      <div class="xfce-menu-item" onclick="setLayout('browser'); closeXfceMenu();">
+        <span class="item-icon">🦊</span>
+        <div class="item-details">
+          <div class="item-title">Fullscreen Documentation</div>
+          <div class="item-desc">Maximize Firefox browser</div>
+        </div>
+      </div>
+      <div class="xfce-menu-separator"></div>
+      <div class="xfce-menu-section">Exam Tools</div>
+      <div class="xfce-menu-item" onclick="openNotepad(); closeXfceMenu();">
+        <span class="item-icon">📝</span>
+        <div class="item-details">
+          <div class="item-title">Scratchpad / Notepad</div>
+          <div class="item-desc">Rough notes and YAML drafting</div>
+        </div>
+      </div>
+      <div class="xfce-menu-item" onclick="openOverview(); closeXfceMenu();">
+        <span class="item-icon">📋</span>
+        <div class="item-details">
+          <div class="item-title">Question Navigator</div>
+          <div class="item-desc">Jump to any question or flagged item</div>
+        </div>
+      </div>
+      <div class="xfce-menu-separator"></div>
+      <div class="xfce-menu-section">Session</div>
+      <div class="xfce-menu-item danger" onclick="restartExamInSimulator(); closeXfceMenu();">
+        <span class="item-icon">🔄</span>
+        <div class="item-details">
+          <div class="item-title" style="color: #f87171;">Restart Exam Session (120m)</div>
+          <div class="item-desc">Reset cluster and start fresh 120m timer</div>
+        </div>
+      </div>
+      <div class="xfce-menu-item warning" onclick="confirmSubmit(); closeXfceMenu();">
+        <span class="item-icon">🏁</span>
+        <div class="item-details">
+          <div class="item-title" style="color: #fbbf24;">End Exam & Grade</div>
+          <div class="item-desc">Stop exam session and grade results</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Canvas with 2 Tiled Windows -->
+    <div class="desktop-canvas" id="desktopCanvas">
+      
+      <!-- Window 1: Terminal -->
+      <div class="sim-window" id="winTerminal">
+        <div class="window-header">
+          <div class="window-title">
+            <span>⬛</span>
+            <span id="termTitle">student@{{ 'controlplane' if exam.track == 'CKA' else 'lfcs' }}: ~</span>
+          </div>
+          <div class="window-controls">
+            <button class="win-btn min" onclick="toggleWinMin('terminal')" title="Minimize"></button>
+            <button class="win-btn max" onclick="toggleWinMax('terminal')" title="Maximize"></button>
+            <button class="win-btn close" onclick="reconnectTerminal()" title="Restart Session"></button>
+          </div>
+        </div>
+
+        <div class="terminal-toolbar">
+          <div style="display: flex; align-items: center; gap: 0.25rem;">
+            <button class="quick-cmd-btn paste-btn" onclick="pasteClipboardToTerminal()" title="Paste text into terminal (Ctrl+V or Ctrl+Shift+V)">📋 Paste</button>
+            <button class="quick-cmd-btn copy-btn" onclick="copyTerminalSelection()" title="Copy selected terminal text (Ctrl+C or Ctrl+Shift+C)">📄 Copy</button>
+            <span style="border-right: 1px solid #434852; height: 16px; margin: 0 0.2rem;"></span>
+            <button class="quick-cmd-btn" onclick="sendQuickCmd('alias k=kubectl\ncomplete -o default -F __start_kubectl k\n')">k=kubectl</button>
+            <button class="quick-cmd-btn" onclick="sendQuickCmd('export do=\"--dry-run=client -o yaml\"\n')">export do</button>
+            <button class="quick-cmd-btn" onclick="sendQuickCmd('export now=\"--force --grace-period=0\"\n')">export now</button>
+            <button class="quick-cmd-btn" onclick="sendQuickCmd('clear\n')">clear</button>
+          </div>
+          <div style="color: #94a3b8; font-size: 0.72rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span id="lastCopiedIndicator" style="display:none; color: #38bdf8; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
+            <span>Paste: <strong style="color: #e2e8f0;">Ctrl+V</strong> / <strong style="color: #e2e8f0;">Right-Click</strong></span>
+          </div>
+        </div>
+
+        <div class="terminal-body" id="terminalContainer"></div>
+
+        <!-- Sleek Terminal Context Menu -->
+        <div id="termContextMenu" class="term-context-menu">
+          <div class="term-menu-item" onclick="handleTermMenuAction('paste')">
+            <span>📋 Paste into Terminal</span>
+            <span class="shortcut">Ctrl+V / Ctrl+Shift+V</span>
+          </div>
+          <div class="term-menu-item" id="termMenuCopyItem" onclick="handleTermMenuAction('copy')">
+            <span>📄 Copy Selection</span>
+            <span class="shortcut">Ctrl+C</span>
+          </div>
+          <div class="term-menu-separator"></div>
+          <div class="term-menu-item" onclick="handleTermMenuAction('clear')">
+            <span>🧹 Clear Terminal</span>
+            <span class="shortcut">Ctrl+L</span>
+          </div>
+          <div class="term-menu-item" onclick="handleTermMenuAction('reconnect')">
+            <span>🔄 Restart Terminal Session</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Window 2: Restricted Documentation Browser -->
+      <div class="sim-window" id="winBrowser">
+        <div class="window-header">
+          <div class="window-title">
+            <span>🦊</span>
+            <span>Mozilla Firefox — Kubernetes & LF Documentation</span>
+          </div>
+          <div class="window-controls">
+            <button class="win-btn min" onclick="toggleWinMin('browser')" title="Minimize"></button>
+            <button class="win-btn max" onclick="toggleWinMax('browser')" title="Maximize"></button>
+          </div>
+        </div>
+
+        <div class="browser-nav-bar">
+          <div class="browser-nav-row">
+            <button class="btn-psi" style="padding: 0.15rem 0.45rem;" onclick="browserNav('back')">◀</button>
+            <button class="btn-psi" style="padding: 0.15rem 0.45rem;" onclick="browserNav('forward')">▶</button>
+            <button class="btn-psi" style="padding: 0.15rem 0.45rem;" onclick="browserNav('reload')">↻</button>
+            <button class="btn-psi" style="padding: 0.15rem 0.45rem;" onclick="browserNav('home')">🏠</button>
+
+            <div class="browser-url-bar">
+              <span style="color: #10b981;">🔒</span>
+              <input type="text" class="browser-url-input" id="browserUrlInput" value="https://kubernetes.io/docs/home/" onkeydown="if(event.key==='Enter') navigateBrowser(this.value)" />
+            </div>
+          </div>
+
+          <div class="browser-bookmarks-row">
+            <span style="font-size: 0.7rem; color: #6c757d; margin-right: 0.2rem;">Allowed:</span>
+            {% if exam.track == 'CKA' %}
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/reference/kubectl/cheatsheet/')">🔖 Cheat Sheet</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/concepts/workloads/pods/')">🔖 Pods</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/concepts/workloads/controllers/deployment/')">🔖 Deployments</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/concepts/services-networking/')">🔖 Services</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/concepts/services-networking/network-policies/')">🔖 NetworkPolicy</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/concepts/storage/persistent-volumes/')">🔖 PV/PVC</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/reference/access-authn-authz/rbac/')">🔖 RBAC</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/')">🔖 Kubeadm</a>
+            {% else %}
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://man7.org/linux/man-pages/')">🔖 Linux Man Pages</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://www.kernel.org/doc/Documentation/')">🔖 Kernel Docs</a>
+            <a class="b-mark" href="javascript:void(0)" onclick="navigateBrowser('https://systemd.io/')">🔖 Systemd Docs</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="browser-viewport">
+          <iframe id="docFrame" class="browser-iframe" src="https://kubernetes.io/docs/home/"></iframe>
+          <div class="psi-blocked-page" id="blockedPage">
+            <h2 style="color: #ef4444; margin-bottom: 0.5rem;">Access Denied</h2>
+            <p style="color: #94a3b8; max-width: 450px; margin-bottom: 1.5rem;">
+              The URL you requested is outside the permitted domain list for this examination.
+              Per Linux Foundation examination rules, only official Kubernetes documentation (<code style="color:#60a5fa;">kubernetes.io/docs</code>, <code style="color:#60a5fa;">kubernetes.io/blog</code>, <code style="color:#60a5fa;">github.com/kubernetes</code>) is allowed.
+            </p>
+            <button class="btn-psi" onclick="navigateBrowser('https://kubernetes.io/docs/home/')">Return to Kubernetes Docs Home</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ── 3. Modals ───────────────────────────────────────────────────────────── -->
+
+<!-- Notepad Modal -->
+<div class="modal-overlay" id="notepadModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📝 Candidate Scratchpad (Notepad)</h3>
+      <button class="btn-icon" onclick="closeNotepad()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.5rem;">
+        Scratchpad content is auto-saved locally during your exam session.
+      </p>
+      <textarea class="notepad-textarea" id="notepadText" placeholder="Write commands, YAML notes, or scratch text here..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-psi" onclick="clearNotepad()">Clear Notes</button>
+      <button class="btn-psi active" onclick="closeNotepad()">Save & Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Question Overview Modal -->
+<div class="modal-overlay" id="overviewModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📋 Exam Questions Overview</h3>
+      <button class="btn-icon" onclick="closeOverview()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: flex; gap: 1rem; font-size: 0.8rem; margin-bottom: 1rem;">
+        <span style="display:flex; align-items:center; gap:0.3rem;"><span style="width:10px; height:10px; background:#10b981; border-radius:2px;"></span> Completed</span>
+        <span style="display:flex; align-items:center; gap:0.3rem;"><span style="width:10px; height:10px; background:#ef4444; border-radius:2px;"></span> Flagged</span>
+        <span style="display:flex; align-items:center; gap:0.3rem;"><span style="width:10px; height:10px; background:#334155; border-radius:2px;"></span> Unattempted</span>
+      </div>
+      <div class="q-grid" id="qOverviewGrid"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-psi" onclick="closeOverview()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Submit & Grade Modal -->
+<div class="modal-overlay" id="gradeModal">
+  <div class="modal-box" style="width: 760px;">
+    <div class="modal-header">
+      <h3 id="gradeModalTitle">Exam Results & Scorecard</h3>
+      <button class="btn-icon" onclick="closeGradeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="gradeModalBody">
+      <div style="text-align: center; padding: 2rem 0;">
+        <div class="proctor-dot" style="width: 16px; height: 16px; margin: 0 auto 1rem auto;"></div>
+        <h3>Evaluating Exam Tasks Against Linux Foundation Rubric...</h3>
+        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 0.5rem;">
+          Running automated graders live against cluster nodes...
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer" id="gradeModalFooter">
+      <button class="btn-psi" onclick="closeGradeModal()">Back to Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- xterm.js vendor files -->
+<script src="/static/vendor/xterm.js"></script>
+<script src="/static/vendor/xterm-addon-fit.js"></script>
+
+<script>
+  // ── Exam State ─────────────────────────────────────────────────────────────
+  const EXAM = {{ exam | tojson }};
+  let currentIndex = 0;
+  let examTimerSeconds = EXAM.time_seconds || 7200;
+  let examEndTime = null;
+  let timerInterval = null;
+  let flaggedQuestions = new Set();
+  let answeredQuestions = new Set();
+  let currentLayout = "split"; // "split", "terminal", "browser"
+
+  // ── Initialize ─────────────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    loadLocalState();
+    renderQuestion(currentIndex);
+    startTimer();
+    initTerminal();
+    initResizer();
+    updateClock();
+    setInterval(updateClock, 10000);
+
+    window.addEventListener("beforeunload", () => {
+      saveLocalState();
+    });
+    window.addEventListener("pagehide", () => {
+      saveLocalState();
+    });
+  });
+
+  function loadLocalState() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isRestart = urlParams.has("restart") || urlParams.has("reset");
+
+      if (isRestart) {
+        // Strip the restart param from the URL using replaceState so subsequent reloads are not treated as restarts
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+        localStorage.removeItem(`exam_end_time_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_timer_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_flags_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_ans_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_notes_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_current_q_${EXAM.exam_id}`);
+        examTimerSeconds = EXAM.time_seconds || 7200;
+        examEndTime = Date.now() + (examTimerSeconds * 1000);
+        localStorage.setItem(`exam_end_time_${EXAM.exam_id}`, examEndTime);
+        localStorage.setItem(`exam_timer_${EXAM.exam_id}`, examTimerSeconds);
+        return;
+      }
+
+      const savedEndTime = localStorage.getItem(`exam_end_time_${EXAM.exam_id}`);
+      const savedTimer = localStorage.getItem(`exam_timer_${EXAM.exam_id}`);
+      const now = Date.now();
+
+      if (savedEndTime !== null) {
+        const parsedEndTime = parseInt(savedEndTime, 10);
+        if (!isNaN(parsedEndTime) && parsedEndTime > 0) {
+          examEndTime = parsedEndTime;
+          examTimerSeconds = Math.max(0, Math.round((parsedEndTime - now) / 1000));
+        } else {
+          examTimerSeconds = EXAM.time_seconds || 7200;
+          examEndTime = now + (examTimerSeconds * 1000);
+        }
+      } else if (savedTimer !== null) {
+        const val = parseInt(savedTimer, 10);
+        if (!isNaN(val) && val > 0) {
+          examTimerSeconds = val;
+        } else {
+          examTimerSeconds = EXAM.time_seconds || 7200;
+        }
+        examEndTime = now + (examTimerSeconds * 1000);
+        localStorage.setItem(`exam_end_time_${EXAM.exam_id}`, examEndTime);
+      } else {
+        // First-time entry for this exam
+        examTimerSeconds = EXAM.time_seconds || 7200;
+        examEndTime = now + (examTimerSeconds * 1000);
+        localStorage.setItem(`exam_end_time_${EXAM.exam_id}`, examEndTime);
+        localStorage.setItem(`exam_timer_${EXAM.exam_id}`, examTimerSeconds);
+      }
+
+      const savedIdx = localStorage.getItem(`exam_current_q_${EXAM.exam_id}`);
+      if (savedIdx !== null) {
+        const parsed = parseInt(savedIdx, 10);
+        if (!isNaN(parsed) && parsed >= 0 && parsed < EXAM.questions.length) {
+          currentIndex = parsed;
+        }
+      }
+
+      const savedFlags = localStorage.getItem(`exam_flags_${EXAM.exam_id}`);
+      if (savedFlags) flaggedQuestions = new Set(JSON.parse(savedFlags));
+
+      const savedAnswered = localStorage.getItem(`exam_ans_${EXAM.exam_id}`);
+      if (savedAnswered) answeredQuestions = new Set(JSON.parse(savedAnswered));
+
+      const savedNotes = localStorage.getItem(`exam_notes_${EXAM.exam_id}`);
+      if (savedNotes) {
+        const noteEl = document.getElementById("notepadText");
+        if (noteEl) noteEl.value = savedNotes;
+      }
+    } catch(e) {
+      console.warn("loadLocalState error:", e);
+      examTimerSeconds = EXAM.time_seconds || 7200;
+      examEndTime = Date.now() + (examTimerSeconds * 1000);
+    }
+  }
+
+  function saveLocalState() {
+    try {
+      if (examEndTime) {
+        localStorage.setItem(`exam_end_time_${EXAM.exam_id}`, examEndTime);
+      }
+      localStorage.setItem(`exam_timer_${EXAM.exam_id}`, examTimerSeconds);
+      localStorage.setItem(`exam_current_q_${EXAM.exam_id}`, currentIndex);
+      localStorage.setItem(`exam_flags_${EXAM.exam_id}`, JSON.stringify([...flaggedQuestions]));
+      localStorage.setItem(`exam_ans_${EXAM.exam_id}`, JSON.stringify([...answeredQuestions]));
+      const noteEl = document.getElementById("notepadText");
+      if (noteEl) localStorage.setItem(`exam_notes_${EXAM.exam_id}`, noteEl.value);
+    } catch(e) {}
+  }
+
+  // ── Clock & Timer ──────────────────────────────────────────────────────────
+  function updateClock() {
+    const now = new Date();
+    document.getElementById("desktopClock").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  }
+
+  function startTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+    if (!examEndTime) {
+      examEndTime = Date.now() + (examTimerSeconds * 1000);
+    }
+
+    timerInterval = setInterval(() => {
+      const now = Date.now();
+      const remaining = Math.max(0, Math.round((examEndTime - now) / 1000));
+      examTimerSeconds = remaining;
+      renderTimer();
+
+      if (remaining <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        alert("Time is up! Submitting exam for grading...");
+        submitForGrading();
+      } else if (remaining % 5 === 0) {
+        saveLocalState();
+      }
+    }, 1000);
+
+    renderTimer();
+  }
+
+  function renderTimer() {
+    const h = Math.floor(examTimerSeconds / 3600);
+    const m = Math.floor((examTimerSeconds % 3600) / 60);
+    const s = examTimerSeconds % 60;
+    const str = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const el = document.getElementById("timerClock");
+    el.innerText = str;
+
+    if (examTimerSeconds < 600) {
+      el.className = "timer-clock danger";
+    } else if (examTimerSeconds < 1800) {
+      el.className = "timer-clock warning";
+    } else {
+      el.className = "timer-clock";
+    }
+  }
+
+  // ── Question Navigation ────────────────────────────────────────────────────
+  function renderQuestion(idx) {
+    if (idx < 0 || idx >= EXAM.questions.length) return;
+    currentIndex = idx;
+    try {
+      localStorage.setItem(`exam_current_q_${EXAM.exam_id}`, currentIndex);
+    } catch(e) {}
+    const q = EXAM.questions[idx];
+
+    document.getElementById("qBadgeNum").innerText = `Question ${q.number} of ${EXAM.total_questions}`;
+    document.getElementById("qBadgeWeight").innerText = `${q.weight} Weight`;
+    document.getElementById("qBadgeDomain").innerText = q.domain;
+
+    const defaultCtx = EXAM.track === 'CKA' ? "kubectl config use-context k8s" : "sudo -i";
+    const labelEl = document.getElementById("contextBoxLabel");
+    if (labelEl) {
+      labelEl.innerText = EXAM.track === 'CKA' ? "Cluster / Context Command" : "Server Target / Shell Command";
+    }
+    document.getElementById("contextCmdText").innerText = q.context_cmd || defaultCtx;
+    document.getElementById("questionSelect").value = idx;
+
+    // Render markdown-like text with copyable code snippets
+    let html = formatQuestionMarkdown(q.text);
+    document.getElementById("taskBody").innerHTML = html;
+
+    // Attach click-to-copy and double-click-to-run handlers on inline code tags
+    document.querySelectorAll(".task-body code.inline-code").forEach(el => {
+      el.onclick = (e) => {
+        const sel = window.getSelection().toString();
+        if (sel && sel.length > 0) return;
+
+        const txt = el.innerText.trim();
+        copyText(txt, `Copied: ${txt}`);
+        el.classList.add("copied");
+        setTimeout(() => el.classList.remove("copied"), 1200);
+      };
+
+      el.ondblclick = (e) => {
+        const txt = el.innerText.trim();
+        sendTextToTerminal(txt + "\n");
+        showToast(`Sent to terminal: ${txt}`);
+      };
+    });
+
+    // Update flags & answered status
+    const isFlagged = flaggedQuestions.has(idx);
+    document.getElementById("btnFlag").className = isFlagged ? "btn-psi flagged" : "btn-psi";
+    document.getElementById("flagLabel").innerText = isFlagged ? "Flagged" : "Flag for Review";
+
+    document.getElementById("chkAnswered").checked = answeredQuestions.has(idx);
+
+    document.getElementById("btnPrevQ").disabled = (idx === 0);
+    document.getElementById("footerPrevBtn").disabled = (idx === 0);
+    document.getElementById("btnNextQ").disabled = (idx === EXAM.questions.length - 1);
+    document.getElementById("footerNextBtn").disabled = (idx === EXAM.questions.length - 1);
+  }
+
+  function formatQuestionMarkdown(text) {
+    // Advanced markdown renderer formatting fenced code blocks and structured lists
+    let out = text
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+      .replace(/```([a-zA-Z0-9_-]*)\s*\n?([\s\S]*?)```/g, (match, lang, code) => {
+        const clean = code.trim();
+        const rawLang = lang ? lang.trim().toLowerCase() : "";
+        const isYaml = rawLang === "yaml" || rawLang === "yml";
+        const langLabel = rawLang ? rawLang.toUpperCase() : "COMMAND";
+        const runTitle = isYaml ? "Apply YAML manifest via kubectl" : "Execute command in terminal";
+        const runBtnText = isYaml ? "▶ Apply YAML" : "▶ Run in Terminal";
+        return `
+          <div class="code-block-wrapper">
+            <div class="code-block-header">
+              <span class="code-block-lang">${langLabel}</span>
+              <div class="code-block-actions">
+                <button class="btn-code-action" onclick="copySnippetText(this)" title="Copy snippet to clipboard">📋 Copy</button>
+                <button class="btn-code-action run-btn" onclick="sendSnippetToTerminal(this, ${isYaml})" title="${runTitle}">${runBtnText}</button>
+              </div>
+            </div>
+            <pre class="copyable-pre"><code>${clean}</code></pre>
+          </div>
+        `;
+      })
+      .replace(/`([^`]+)`/g, '<code class="inline-code" title="Click to copy, double-click to run in terminal">$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+    // Parse bullet list blocks into <ul><li>...</li></ul>
+    out = out.replace(/(?:^[ \t]*-[ \t]+.*(?:\r?\n|$))+/gm, (listBlock) => {
+      const items = listBlock.trim().split(/\r?\n/).map(line => {
+        const itemContent = line.replace(/^[ \t]*-[ \t]+/, '').trim();
+        return `<li>${itemContent}</li>`;
+      }).join('\n');
+      return `<ul>\n${items}\n</ul>\n`;
+    });
+
+    out = out
+      .replace(/\n\n/g, '<p></p>')
+      .replace(/(?<!<\/ul>|<\/li>|<\/div>|<\/pre>)\n(?!<ul|<li|<div|<pre)/g, '<br/>');
+
+    return out;
+  }
+
+  function navQuestion(delta) {
+    renderQuestion(currentIndex + delta);
+  }
+
+  function jumpQuestion(val) {
+    renderQuestion(parseInt(val, 10));
+  }
+
+  function toggleFlag() {
+    if (flaggedQuestions.has(currentIndex)) {
+      flaggedQuestions.delete(currentIndex);
+    } else {
+      flaggedQuestions.add(currentIndex);
+    }
+    saveLocalState();
+    renderQuestion(currentIndex);
+  }
+
+  function toggleAnswered(val) {
+    if (val) {
+      answeredQuestions.add(currentIndex);
+    } else {
+      answeredQuestions.delete(currentIndex);
+    }
+    saveLocalState();
+  }
+
+  // ── Universal Copy & Paste Engine ──────────────────────────────────────────
+  window.__lastCopiedText = "";
+  window.__lastSelectedText = "";
+
+  document.addEventListener("copy", (e) => {
+    let text = "";
+    if (window.getSelection) {
+      text = window.getSelection().toString();
+    }
+    if (!text && e.clipboardData) {
+      text = e.clipboardData.getData("text/plain");
+    }
+    if (text) {
+      window.__lastCopiedText = text;
+      const ind = document.getElementById("lastCopiedIndicator");
+      if (ind) {
+        ind.style.display = "inline-block";
+        ind.title = `Last Copied: ${text}`;
+        ind.innerText = `📋 ${text.slice(0, 16)}${text.length > 16 ? '...' : ''}`;
+      }
+    }
+  });
+
+  document.addEventListener("selectionchange", () => {
+    const sel = window.getSelection ? window.getSelection().toString() : "";
+    if (sel && sel.trim().length > 0) {
+      window.__lastSelectedText = sel;
+    }
+  });
+
+  function copyText(text, toastMsg) {
+    if (!text) return;
+    window.__lastCopiedText = text;
+
+    // Update indicator in terminal toolbar
+    const ind = document.getElementById("lastCopiedIndicator");
+    if (ind) {
+      ind.style.display = "inline-block";
+      ind.title = `Last Copied: ${text}`;
+      ind.innerText = `📋 ${text.slice(0, 16)}${text.length > 16 ? '...' : ''}`;
+    }
+
+    let copied = false;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => {})
+        .catch(() => {
+          fallbackCopy(text);
+        });
+      copied = true;
+    } else {
+      copied = fallbackCopy(text);
+    }
+
+    showToast(toastMsg || `Copied: ${text.slice(0, 35)}${text.length > 35 ? '...' : ''}`);
+  }
+
+  function fallbackCopy(text) {
+    try {
+      const t = document.createElement("textarea");
+      t.value = text;
+      t.style.position = "fixed";
+      t.style.top = "-9999px";
+      t.style.left = "-9999px";
+      t.setAttribute("readonly", "");
+      document.body.appendChild(t);
+      t.select();
+      t.setSelectionRange(0, 99999);
+      const ok = document.execCommand("copy");
+      document.body.removeChild(t);
+      return ok;
+    } catch (e) {
+      console.warn("Fallback copy error:", e);
+      return false;
+    }
+  }
+
+  function copyContext() {
+    const text = document.getElementById("contextCmdText").innerText;
+    copyText(text, "Context command copied to clipboard!");
+  }
+
+  function runInTerminal(cmd) {
+    if (!cmd) cmd = document.getElementById("contextCmdText").innerText;
+    if (!cmd.endsWith("\n")) cmd += "\n";
+    sendTextToTerminal(cmd);
+    showToast("Command sent to terminal!");
+  }
+
+  function sendQuickCmd(cmd) {
+    sendTextToTerminal(cmd);
+  }
+
+  function copySnippetText(btn) {
+    const wrapper = btn.closest(".code-block-wrapper");
+    if (!wrapper) return;
+    const codeEl = wrapper.querySelector("pre code");
+    if (codeEl) {
+      const text = codeEl.innerText;
+      copyText(text, "Snippet copied to clipboard!");
+      const old = btn.innerText;
+      btn.innerText = "✓ Copied!";
+      setTimeout(() => btn.innerText = old, 1400);
+    }
+  }
+
+  function sendSnippetToTerminal(btn, isYaml) {
+    const wrapper = btn.closest(".code-block-wrapper");
+    if (!wrapper) return;
+    const codeEl = wrapper.querySelector("pre code");
+    if (codeEl) {
+      const text = codeEl.innerText.trim();
+      if (isYaml) {
+        sendTextToTerminal(`cat << 'EOF' | kubectl apply -f -\n${text}\nEOF\n`);
+        showToast("Applied YAML manifest in terminal!");
+      } else {
+        sendTextToTerminal(text + "\n");
+        showToast("Snippet sent to terminal!");
+      }
+      const old = btn.innerText;
+      btn.innerText = "✓ Running!";
+      setTimeout(() => btn.innerText = old, 1400);
+    }
+  }
+
+  function sendTextToTerminal(text) {
+    if (!text) return;
+    // Normalize newlines: Unix terminal inputs require \r for Carriage Return / Enter
+    const normalized = text.replace(/\r?\n/g, "\r");
+    if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+      termSocket.send(JSON.stringify({ type: "input", data: normalized }));
+      if (term) term.focus();
+    } else {
+      showToast("Terminal not connected");
+    }
+  }
+
+  let _lastPasteTime = 0;
+  let _lastPastedContent = "";
+
+  async function pasteClipboardToTerminal() {
+    let text = "";
+    // 1. Try modern clipboard readText API
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      try {
+        text = await navigator.clipboard.readText();
+      } catch (err) {
+        console.warn("navigator.clipboard.readText blocked or unavailable:", err);
+      }
+    }
+
+    // 2. Fallback to last copied text in session (always works for any copy in UI)
+    if (!text && window.__lastCopiedText) {
+      text = window.__lastCopiedText;
+    }
+
+    // 3. Fallback to last selected text on the page
+    if (!text && window.__lastSelectedText) {
+      text = window.__lastSelectedText;
+    }
+
+    // 4. Fallback: prompt dialog for manual paste
+    if (!text) {
+      text = prompt("Paste text into terminal:");
+    }
+
+    if (text) {
+      const now = Date.now();
+      if (now - _lastPasteTime < 250 && text === _lastPastedContent) {
+        return; // Guard against rapid duplicate paste events
+      }
+      _lastPasteTime = now;
+      _lastPastedContent = text;
+
+      if (term) {
+        // Use xterm's built-in paste method to properly format linebreaks and bracketed paste
+        term.paste(text);
+        term.focus();
+      } else {
+        sendTextToTerminal(text);
+      }
+      showToast("Pasted text into terminal!");
+    } else {
+      showToast("No text to paste");
+    }
+  }
+
+  function copyTerminalSelection() {
+    if (term && term.hasSelection()) {
+      const sel = term.getSelection();
+      copyText(sel, "Terminal selection copied!");
+    } else {
+      showToast("No text selected in terminal");
+    }
+  }
+
+  function handleTermMenuAction(action) {
+    const menu = document.getElementById("termContextMenu");
+    if (menu) menu.style.display = "none";
+
+    if (action === "paste") {
+      pasteClipboardToTerminal();
+    } else if (action === "copy") {
+      copyTerminalSelection();
+    } else if (action === "clear") {
+      sendTextToTerminal("clear\r");
+    } else if (action === "reconnect") {
+      reconnectTerminal();
+    }
+  }
+
+  // ── Terminal WebSocket & xterm.js ──────────────────────────────────────────
+  let term = null;
+  let fitAddon = null;
+  let termSocket = null;
+
+  function initTerminal() {
+    const container = document.getElementById("terminalContainer");
+    container.innerHTML = "";
+
+    term = new Terminal({
+      cursorBlink: true,
+      cursorStyle: "block",
+      convertEol: true,
+      fontFamily: '"DejaVu Sans Mono", "Liberation Mono", Consolas, Menlo, monospace',
+      fontSize: 14,
+      scrollback: 10000,
+      tabStopWidth: 8,
+      theme: {
+        background: '#0a0a0c',
+        foreground: '#e2e8f0',
+        cursor: '#38bdf8',
+        selectionBackground: 'rgba(56, 189, 248, 0.35)'
+      }
+    });
+
+    fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.open(container);
+
+    // Initial fit with safeguard for font loading
+    setTimeout(() => {
+      if (fitAddon) fitAddon.fit();
+    }, 50);
+
+    // Attach custom keyboard handler for copy, paste, and bulletproof key handling
+    term.attachCustomKeyEventHandler((e) => {
+      // 1. Paste: Ctrl+V, Ctrl+Shift+V, or Cmd+V (macOS)
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V')) {
+        e.preventDefault();
+        if (e.type === 'keydown') {
+          pasteClipboardToTerminal();
+        }
+        return false; // Prevent xterm from sending ^V (SYN / quoted-insert) to bash and suppress native duplicate paste
+      }
+
+      // 2. Copy: Ctrl+C, Ctrl+Shift+C when text is selected in xterm
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+        if (term.hasSelection()) {
+          e.preventDefault();
+          if (e.type === 'keydown') {
+            copyTerminalSelection();
+          }
+          return false; // Don't send SIGINT to bash when copying selection
+        }
+      }
+
+      // 3. Shift+Insert (classic Linux paste)
+      if (e.shiftKey && e.key === 'Insert') {
+        e.preventDefault();
+        if (e.type === 'keydown') {
+          pasteClipboardToTerminal();
+        }
+        return false;
+      }
+
+      // 4. Ctrl+Insert (classic copy)
+      if (e.ctrlKey && e.key === 'Insert') {
+        if (term.hasSelection()) {
+          e.preventDefault();
+          if (e.type === 'keydown') {
+            copyTerminalSelection();
+          }
+          return false;
+        }
+      }
+
+      // 5. Dedicated navigation & editing keys (ArrowUp, ArrowDown, Backspace, Delete, Left, Right, Home, End)
+      // Guarantees reliable behavior across Wayland/X11, various browsers, and prevents browser scroll / navigation
+      if (e.key === 'ArrowUp') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          const code = e.ctrlKey ? '\x1b[1;5A' : '\x1b[A';
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: code }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'ArrowDown') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          const code = e.ctrlKey ? '\x1b[1;5B' : '\x1b[B';
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: code }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'ArrowLeft') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          const code = e.ctrlKey ? '\x1b[1;5D' : '\x1b[D';
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: code }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'ArrowRight') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          const code = e.ctrlKey ? '\x1b[1;5C' : '\x1b[C';
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: code }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'Backspace') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          // Ctrl+Backspace sends \x17 (^W - delete word backward). Normal Backspace sends \x7f (DEL / stty erase ^?)
+          const code = e.ctrlKey ? '\x17' : (e.altKey ? '\x1b\x7f' : '\x7f');
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: code }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'Delete') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: '\x1b[3~' }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'Home') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: '\x1b[H' }));
+          }
+        }
+        return false;
+      }
+
+      if (e.key === 'End') {
+        if (e.type === 'keydown') {
+          e.preventDefault();
+          if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+            termSocket.send(JSON.stringify({ type: 'input', data: '\x1b[F' }));
+          }
+        }
+        return false;
+      }
+
+      return true;
+    });
+
+    // Native browser paste event on container
+    container.addEventListener("paste", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const text = (e.clipboardData || window.clipboardData)?.getData("text");
+      if (text) {
+        const now = Date.now();
+        if (now - _lastPasteTime < 250 && text === _lastPastedContent) {
+          return; // Suppress duplicate paste
+        }
+        _lastPasteTime = now;
+        _lastPastedContent = text;
+        if (term) {
+          term.paste(text);
+          term.focus();
+        } else {
+          sendTextToTerminal(text);
+        }
+      } else {
+        pasteClipboardToTerminal();
+      }
+    });
+
+    // Middle click paste on terminal container
+    container.addEventListener("auxclick", (e) => {
+      if (e.button === 1) {
+        e.preventDefault();
+        e.stopPropagation();
+        pasteClipboardToTerminal();
+      }
+    });
+
+    // Right-click context menu on terminal
+    container.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      const menu = document.getElementById("termContextMenu");
+      if (!menu) return;
+
+      const hasSel = term && term.hasSelection();
+      const copyItem = document.getElementById("termMenuCopyItem");
+      if (copyItem) {
+        copyItem.style.opacity = hasSel ? "1" : "0.5";
+        copyItem.style.pointerEvents = hasSel ? "auto" : "none";
+      }
+
+      menu.style.left = `${Math.min(e.clientX, window.innerWidth - 220)}px`;
+      menu.style.top = `${Math.min(e.clientY, window.innerHeight - 180)}px`;
+      menu.style.display = "block";
+    });
+
+    // Dismiss context menu on click anywhere
+    document.addEventListener("click", () => {
+      const menu = document.getElementById("termContextMenu");
+      if (menu) menu.style.display = "none";
+    });
+
+    // Clicking anywhere in the terminal container or window header/toolbar gives focus
+    container.addEventListener("click", () => {
+      if (term) term.focus();
+    });
+    const termWin = document.getElementById("winTerminal");
+    if (termWin) {
+      termWin.addEventListener("click", (e) => {
+        if (!e.target.closest("button") && !e.target.closest(".term-context-menu") && !e.target.closest("input")) {
+          if (term) term.focus();
+        }
+      });
+    }
+
+    connectWebSocket();
+
+    term.onData(data => {
+      if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+        termSocket.send(JSON.stringify({ type: "input", data: data }));
+      }
+    });
+
+    // Automatically send resize events whenever xterm's internal dimensions change
+    term.onResize(size => {
+      if (termSocket && termSocket.readyState === WebSocket.OPEN) {
+        termSocket.send(JSON.stringify({ type: "resize", cols: size.cols, rows: size.rows }));
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (fitAddon) {
+        fitAddon.fit();
+      }
+    });
+  }
+
+  function connectWebSocket() {
+    const target = (EXAM.track === "CKA") ? "controlplane" : "lfcs";
+    const protocol = (window.location.protocol === "https:") ? "wss:" : "ws:";
+    const url = `${protocol}//${window.location.host}/ws/terminal/${target}`;
+
+    termSocket = new WebSocket(url);
+    termSocket.onopen = () => {
+      term.write("\r\n\x1b[32m[Connected to Simulated Exam Node: " + target + "]\x1b[0m\r\n");
+      if (fitAddon) fitAddon.fit();
+      termSocket.send(JSON.stringify({ type: "resize", cols: term.cols, rows: term.rows }));
+      if (term) term.focus();
+    };
+
+    termSocket.onmessage = (e) => {
+      term.write(e.data);
+    };
+
+    termSocket.onclose = () => {
+      term.write("\r\n\x1b[31m[Session Disconnected - Click reconnect icon or refresh]\x1b[0m\r\n");
+    };
+  }
+
+  function reconnectTerminal() {
+    if (termSocket) termSocket.close();
+    initTerminal();
+  }
+
+  // ── Documentation Browser ──────────────────────────────────────────────────
+  function navigateBrowser(url) {
+    const allowed = isUrlAllowed(url);
+    document.getElementById("browserUrlInput").value = url;
+    const iframe = document.getElementById("docFrame");
+    const blocked = document.getElementById("blockedPage");
+
+    if (allowed) {
+      blocked.style.display = "none";
+      iframe.style.display = "block";
+      iframe.src = url;
+    } else {
+      iframe.style.display = "none";
+      blocked.style.display = "flex";
+    }
+  }
+
+  function isUrlAllowed(url) {
+    try {
+      const u = new URL(url);
+      const host = u.hostname.toLowerCase();
+      if (host === "kubernetes.io" || host.endsWith(".kubernetes.io") ||
+          host === "k8s.io" || host.endsWith(".k8s.io") ||
+          (host === "github.com" && u.pathname.startsWith("/kubernetes")) ||
+          host === "man7.org" || host === "kernel.org" || host === "systemd.io") {
+        return true;
+      }
+      return false;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  function browserNav(action) {
+    const iframe = document.getElementById("docFrame");
+    if (action === "home") {
+      navigateBrowser(EXAM.track === "CKA" ? "https://kubernetes.io/docs/home/" : "https://man7.org/linux/man-pages/");
+    } else if (action === "reload") {
+      iframe.src = iframe.src;
+    } else if (action === "back") {
+      window.history.back();
+    } else if (action === "forward") {
+      window.history.forward();
+    }
+  }
+
+  // ── XFCE Desktop Panel & Start Menu ─────────────────────────────────────────
+  function toggleXfceMenu(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const menu = document.getElementById("xfceAppMenu");
+    const btn = document.getElementById("btnXfceMenu");
+    if (!menu) return;
+    const isShowing = menu.classList.contains("show");
+    if (isShowing) {
+      closeXfceMenu();
+    } else {
+      menu.classList.add("show");
+      if (btn) btn.classList.add("active");
+    }
+  }
+
+  function closeXfceMenu() {
+    const menu = document.getElementById("xfceAppMenu");
+    const btn = document.getElementById("btnXfceMenu");
+    if (menu) menu.classList.remove("show");
+    if (btn) btn.classList.remove("active");
+  }
+
+  document.addEventListener("click", (e) => {
+    const menu = document.getElementById("xfceAppMenu");
+    const btn = document.getElementById("btnXfceMenu");
+    if (menu && menu.classList.contains("show")) {
+      if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+        closeXfceMenu();
+      }
+    }
+  });
+
+  function focusWindow(target) {
+    const termWin = document.getElementById("winTerminal");
+    const docWin = document.getElementById("winBrowser");
+    const tabTerm = document.getElementById("tabTerminal");
+    const tabDoc = document.getElementById("tabBrowser");
+
+    if (target === "terminal") {
+      const isHidden = termWin.classList.contains("hidden");
+      const isActive = tabTerm.classList.contains("active") && !isHidden;
+
+      if (isActive && !docWin.classList.contains("hidden")) {
+        // Toggle minimize
+        termWin.classList.add("hidden");
+        tabTerm.classList.remove("active");
+      } else {
+        // Restore / focus
+        termWin.classList.remove("hidden");
+        tabTerm.classList.add("active");
+        if (currentLayout === "browser") {
+          currentLayout = "split";
+          docWin.classList.remove("fullscreen");
+          termWin.classList.remove("fullscreen");
+        }
+        setTimeout(() => {
+          if (fitAddon) fitAddon.fit();
+          if (term) term.focus();
+        }, 80);
+      }
+    } else if (target === "browser") {
+      const isHidden = docWin.classList.contains("hidden");
+      const isActive = tabDoc.classList.contains("active") && !isHidden;
+
+      if (isActive && !termWin.classList.contains("hidden")) {
+        // Toggle minimize
+        docWin.classList.add("hidden");
+        tabDoc.classList.remove("active");
+      } else {
+        // Restore / focus
+        docWin.classList.remove("hidden");
+        tabDoc.classList.add("active");
+        if (currentLayout === "terminal") {
+          currentLayout = "split";
+          termWin.classList.remove("fullscreen");
+          docWin.classList.remove("fullscreen");
+        }
+      }
+    }
+    updateLayoutLabel();
+  }
+
+  function toggleWinMin(target) {
+    const termWin = document.getElementById("winTerminal");
+    const docWin = document.getElementById("winBrowser");
+    const tabTerm = document.getElementById("tabTerminal");
+    const tabDoc = document.getElementById("tabBrowser");
+
+    if (target === "terminal") {
+      termWin.classList.toggle("hidden");
+      tabTerm.classList.toggle("active", !termWin.classList.contains("hidden"));
+      if (!termWin.classList.contains("hidden")) {
+        setTimeout(() => {
+          if (fitAddon) fitAddon.fit();
+          if (term) term.focus();
+        }, 80);
+      }
+    } else {
+      docWin.classList.toggle("hidden");
+      tabDoc.classList.toggle("active", !docWin.classList.contains("hidden"));
+    }
+    updateLayoutLabel();
+  }
+
+  function toggleWinMax(target) {
+    if (target === "terminal") {
+      if (currentLayout === "terminal") {
+        setLayout("split");
+      } else {
+        setLayout("terminal");
+      }
+    } else {
+      if (currentLayout === "browser") {
+        setLayout("split");
+      } else {
+        setLayout("browser");
+      }
+    }
+  }
+
+  function cycleLayout() {
+    if (currentLayout === "split") {
+      setLayout("terminal");
+    } else if (currentLayout === "terminal") {
+      setLayout("browser");
+    } else {
+      setLayout("split");
+    }
+  }
+
+  function setLayout(mode) {
+    const termWin = document.getElementById("winTerminal");
+    const docWin = document.getElementById("winBrowser");
+    const tabTerm = document.getElementById("tabTerminal");
+    const tabDoc = document.getElementById("tabBrowser");
+    const label = document.getElementById("layoutLabel");
+
+    currentLayout = mode;
+
+    if (mode === "split") {
+      termWin.className = "sim-window";
+      docWin.className = "sim-window";
+      tabTerm.classList.add("active");
+      tabDoc.classList.add("active");
+      if (label) label.innerText = "Split 50/50";
+    } else if (mode === "terminal") {
+      termWin.className = "sim-window fullscreen";
+      docWin.className = "sim-window hidden";
+      tabTerm.classList.add("active");
+      tabDoc.classList.remove("active");
+      if (label) label.innerText = "Terminal Only";
+    } else if (mode === "browser") {
+      termWin.className = "sim-window hidden";
+      docWin.className = "sim-window fullscreen";
+      tabTerm.classList.remove("active");
+      tabDoc.classList.add("active");
+      if (label) label.innerText = "Docs Only";
+    }
+
+    setTimeout(() => {
+      if (fitAddon) fitAddon.fit();
+      if (mode !== "browser" && term) term.focus();
+    }, 120);
+  }
+
+  function updateLayoutLabel() {
+    const termWin = document.getElementById("winTerminal");
+    const docWin = document.getElementById("winBrowser");
+    const label = document.getElementById("layoutLabel");
+    if (!label) return;
+
+    const termHidden = termWin.classList.contains("hidden");
+    const docHidden = docWin.classList.contains("hidden");
+
+    if (!termHidden && !docHidden) {
+      label.innerText = "Split 50/50";
+      currentLayout = "split";
+    } else if (!termHidden && docHidden) {
+      label.innerText = "Terminal Only";
+      currentLayout = "terminal";
+    } else if (termHidden && !docHidden) {
+      label.innerText = "Docs Only";
+      currentLayout = "browser";
+    }
+  }
+
+  function restartExamInSimulator() {
+    if (confirm("Are you sure you want to restart this exam?\n\nThis will re-initialize the lab environment and reset your timer to a fresh 120 minutes.")) {
+      try {
+        localStorage.removeItem(`exam_end_time_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_timer_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_flags_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_ans_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_notes_${EXAM.exam_id}`);
+        localStorage.removeItem(`exam_current_q_${EXAM.exam_id}`);
+      } catch(e) {}
+
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+
+      const modal = document.getElementById("gradeModal");
+      if (modal) {
+        modal.style.display = "flex";
+        document.getElementById("gradeModalBody").innerHTML = `
+          <div style="text-align: center; padding: 2.5rem 1rem;">
+            <div class="proctor-dot" style="width: 24px; height: 24px; margin: 0 auto 1.25rem auto;"></div>
+            <h2 style="color: #f8fafc; font-size: 1.35rem;">Re-initializing Lab Environment...</h2>
+            <p style="color: #38bdf8; font-size: 1rem; margin-top: 0.5rem; font-weight: 600;">Resetting timer to 120 minutes (02:00:00)</p>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 0.75rem;">Preparing test cluster and questions according to Linux Foundation specs...</p>
+          </div>
+        `;
+      }
+
+      fetch(`/api/exam/${EXAM.exam_id}/restart`, { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+          window.location.href = (data && data.redirect_url) ? data.redirect_url : `/exam/${EXAM.exam_id}?restart=1`;
+        })
+        .catch(err => {
+          console.error("Restart error:", err);
+          window.location.href = `/exam/${EXAM.exam_id}?restart=1`;
+        });
+    }
+  }
+
+  // ── Resizer ────────────────────────────────────────────────────────────────
+  function initResizer() {
+    const resizer = document.getElementById("resizerHandle");
+    const panel = document.getElementById("questionPanel");
+    let isResizing = false;
+
+    resizer.addEventListener("mousedown", (e) => {
+      isResizing = true;
+      document.body.style.cursor = "col-resize";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isResizing) return;
+      const newWidth = e.clientX;
+      if (newWidth > 280 && newWidth < 800) {
+        panel.style.width = `${newWidth}px`;
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isResizing) {
+        isResizing = false;
+        document.body.style.cursor = "default";
+        if (fitAddon) fitAddon.fit();
+        if (term) term.focus();
+      }
+    });
+  }
+
+  // ── Modals & Drawers ───────────────────────────────────────────────────────
+  function openNotepad() {
+    document.getElementById("notepadModal").style.display = "flex";
+  }
+  function closeNotepad() {
+    saveLocalState();
+    document.getElementById("notepadModal").style.display = "none";
+  }
+  function clearNotepad() {
+    if (confirm("Clear all scratchpad notes?")) {
+      document.getElementById("notepadText").value = "";
+      saveLocalState();
+    }
+  }
+
+  function openOverview() {
+    const grid = document.getElementById("qOverviewGrid");
+    grid.innerHTML = "";
+    EXAM.questions.forEach((q, idx) => {
+      const tile = document.createElement("div");
+      let cls = "q-tile";
+      if (idx === currentIndex) cls += " current";
+      if (flaggedQuestions.has(idx)) cls += " flagged";
+      if (answeredQuestions.has(idx)) cls += " answered";
+      tile.className = cls;
+      tile.innerHTML = `
+        <div style="font-weight:700; font-size:0.9rem;">${q.id}</div>
+        <div style="font-size:0.7rem; color:#94a3b8;">${q.weight}</div>
+        ${flaggedQuestions.has(idx) ? '<div style="font-size:0.65rem; color:#ef4444;">🚩 Flagged</div>' : ''}
+        ${answeredQuestions.has(idx) ? '<div style="font-size:0.65rem; color:#10b981;">✓ Done</div>' : ''}
+      `;
+      tile.onclick = () => {
+        closeOverview();
+        renderQuestion(idx);
+      };
+      grid.appendChild(tile);
+    });
+    document.getElementById("overviewModal").style.display = "flex";
+  }
+  function closeOverview() {
+    document.getElementById("overviewModal").style.display = "none";
+  }
+
+  // ── Submission & Grading Engine ────────────────────────────────────────────
+  function confirmSubmit() {
+    const unattempted = EXAM.total_questions - answeredQuestions.size;
+    const msg = unattempted > 0
+      ? `You have ${unattempted} unattempted questions and ${flaggedQuestions.size} flagged for review.\n\nAre you sure you want to end your exam session and grade now? Your exam session will stop immediately and you will be redirected to your official pass/fail scorecard.`
+      : `Are you sure you want to end your exam session and grade now? Your exam session will stop immediately and you will be redirected to your official pass/fail scorecard.`;
+    if (confirm(msg)) {
+      submitForGrading();
+    }
+  }
+
+  function submitForGrading() {
+    // 1. Immediately freeze and stop the exam timer
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    // 2. Disconnect terminal WebSocket to prevent further edits
+    if (termSocket) {
+      try {
+        termSocket.close();
+      } catch (e) {}
+      termSocket = null;
+    }
+
+    // Clear saved session keys
+    try {
+      localStorage.removeItem(`exam_end_time_${EXAM.exam_id}`);
+      localStorage.removeItem(`exam_timer_${EXAM.exam_id}`);
+      localStorage.removeItem(`exam_flags_${EXAM.exam_id}`);
+      localStorage.removeItem(`exam_ans_${EXAM.exam_id}`);
+      localStorage.removeItem(`exam_current_q_${EXAM.exam_id}`);
+    } catch(e) {}
+
+    // 3. Compute elapsed time took to take the exam
+    const elapsedSeconds = Math.max(0, EXAM.time_seconds - examTimerSeconds);
+    const hrs = Math.floor(elapsedSeconds / 3600);
+    const mins = Math.floor((elapsedSeconds % 3600) / 60);
+    const secs = elapsedSeconds % 60;
+    const timeDisplay = hrs > 0 ? `${hrs}h ${mins}m ${secs}s` : `${mins}m ${secs}s`;
+
+    // 4. Show full-screen submission overlay
+    const modal = document.getElementById("gradeModal");
+    modal.style.display = "flex";
+    document.getElementById("gradeModalBody").innerHTML = `
+      <div style="text-align: center; padding: 2.5rem 1rem;">
+        <div class="proctor-dot" style="width: 24px; height: 24px; margin: 0 auto 1.25rem auto;"></div>
+        <h2 style="color: #f8fafc; font-size: 1.4rem;">Exam Session Ended</h2>
+        <div style="margin: 0.75rem 0; font-size: 1.15rem; color: #38bdf8; font-weight: 700;">
+          Time Taken: ${timeDisplay}
+        </div>
+        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">
+          Evaluating cluster resources and nodes against official Linux Foundation rubric...
+        </p>
+        <p style="color: #64748b; font-size: 0.8rem; margin-top: 1rem;">
+          Redirecting to your official pass/fail scorecard and solutions walkthrough...
+        </p>
+      </div>
+    `;
+
+    // 5. Submit time spent to backend and redirect to result page
+    fetch(`/api/exam/${EXAM.exam_id}/submit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ time_spent_seconds: elapsedSeconds })
+    })
+      .then(res => res.json())
+      .then(data => {
+        const dest = (data && data.redirect_url) ? data.redirect_url : `/exam/${EXAM.exam_id}/result`;
+        window.location.href = dest;
+      })
+      .catch(err => {
+        console.error("Submission error, redirecting to result page:", err);
+        window.location.href = `/exam/${EXAM.exam_id}/result`;
+      });
+  }
+
+  function renderScorecard(data) {
+    const passClass = data.passed ? "pass" : "fail";
+    const statusText = data.passed ? "PASSED CONGRATULATIONS!" : "DID NOT PASS";
+
+    let domainsHtml = "";
+    if (data.domain_scores && data.domain_scores.length > 0) {
+      domainsHtml = `
+        <h4 style="margin: 1rem 0 0.5rem 0; color: #38bdf8;">Linux Foundation Domain Weights</h4>
+        <div>
+          ${data.domain_scores.map(d => `
+            <div class="domain-row">
+              <span><strong>${d.domain}</strong> (${d.max_pct}%)</span>
+              <div style="display:flex; align-items:center; gap: 0.75rem;">
+                <span>${d.passed_count}/${d.total_count} passed</span>
+                <span style="font-weight:700; color:${d.score_pct > 0 ? '#10b981' : '#94a3b8'};">${d.score_pct}%</span>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" style="width: ${(d.score_pct / d.max_pct) * 100}%;"></div>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    let questionsHtml = "";
+    if (data.question_results && data.question_results.length > 0) {
+      questionsHtml = `
+        <h4 style="margin: 1.5rem 0 0.5rem 0; color: #38bdf8;">Question Breakdown</h4>
+        <table style="width:100%; border-collapse: collapse; font-size:0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid #334155; text-align:left; color:#94a3b8;">
+              <th style="padding:0.4rem;">Question</th>
+              <th style="padding:0.4rem;">Status</th>
+              <th style="padding:0.4rem;">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.question_results.map(r => `
+              <tr style="border-bottom: 1px solid #1e293b;">
+                <td style="padding:0.4rem; font-weight:700;">${r.id}</td>
+                <td style="padding:0.4rem;">
+                  <span style="color:${r.status === 'PASS' ? '#10b981' : '#ef4444'}; font-weight:700;">
+                    [${r.status}]
+                  </span>
+                </td>
+                <td style="padding:0.4rem; color:#cbd5e1;">${r.detail}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    document.getElementById("gradeModalBody").innerHTML = `
+      <div class="score-metric-hero">
+        <div style="text-align: center;">
+          <div class="score-num ${passClass}">${data.total_pct}%</div>
+          <div style="font-size: 0.8rem; color:#94a3b8;">Final Weighted Score</div>
+        </div>
+        <div style="border-left: 1px solid #334155; padding-left: 2rem;">
+          <h2 style="color:${data.passed ? '#10b981' : '#ef4444'};">${statusText}</h2>
+          <p style="font-size: 0.85rem; color:#94a3b8; margin-top: 0.25rem;">
+            Passing Threshold: <strong>${data.threshold}%</strong> | Questions Passed: <strong>${data.passed_questions}/${data.total_questions}</strong>
+          </p>
+        </div>
+      </div>
+
+      ${domainsHtml}
+      ${questionsHtml}
+    `;
+
+    document.getElementById("gradeModalFooter").innerHTML = `
+      <button class="btn-psi active" onclick="toggleSolutionsMode()">Review Official Solutions & Walkthrough</button>
+      <button class="btn-psi" onclick="closeGradeModal()">Close Scorecard</button>
+    `;
+  }
+
+  function toggleSolutionsMode() {
+    closeGradeModal();
+    // Insert solution box inside the active question panel
+    EXAM.questions.forEach((q, idx) => {
+      if (q.solution) {
+        // Solution is unlocked
+      }
+    });
+    alert("Solutions unlocked! Click on any question in the navigator to see its official solution and technical walkthrough.");
+    // Re-render current question with solution appended
+    const q = EXAM.questions[currentIndex];
+    if (q.solution) {
+      document.getElementById("taskBody").innerHTML += `
+        <div style="margin-top: 1.5rem; padding: 1rem; background: #1e1b4b; border: 1px solid #6366f1; border-radius: 6px;">
+          <h3 style="color: #a5b4fc; margin-top:0;">Official Solution & Walkthrough</h3>
+          <div>${formatQuestionMarkdown(q.solution)}</div>
+        </div>
+      `;
+    }
+  }
+
+  function closeGradeModal() {
+    document.getElementById("gradeModal").style.display = "none";
+  }
+
+  function showToast(msg) {
+    const toast = document.createElement("div");
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = "#1e293b";
+    toast.style.color = "#38bdf8";
+    toast.style.border = "1px solid #38bdf8";
+    toast.style.padding = "0.5rem 1rem";
+    toast.style.borderRadius = "6px";
+    toast.style.fontSize = "0.85rem";
+    toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.5)";
+    toast.style.zIndex = "9999";
+    toast.innerText = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+  }
+</script>
+
+</body>
+</html>

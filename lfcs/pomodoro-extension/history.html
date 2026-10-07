@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pomodoro History — CKA &amp; LFCS Study Timer</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-light: #1e293b;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56,189,248,0.12);
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --purple: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Top bar */
+    .topbar {
+      background: var(--bg-light);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar h1 { font-size: 18px; font-weight: 800; letter-spacing: 0.3px; }
+    .topbar .link {
+      font-size: 13px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .topbar .link:hover { background: var(--accent-dim); }
+
+    .page { max-width: 660px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      border: none;
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab.active {
+      background: var(--accent);
+      color: #0f172a;
+    }
+
+    /* Date nav */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .nav-arrow {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+    .nav-arrow:hover { background: rgba(255,255,255,0.05); }
+    .date-label {
+      font-size: 15px;
+      font-weight: 700;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    /* Timeline bar chart */
+    .timeline-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .timeline-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .timeline-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 80px;
+    }
+    .timeline-bar {
+      flex: 1;
+      min-width: 0;
+      background: rgba(56,189,248,0.2);
+      border-radius: 2px 2px 0 0;
+      transition: height 0.3s;
+      position: relative;
+    }
+    .timeline-bar.filled {
+      background: var(--accent);
+      box-shadow: 0 0 6px rgba(56,189,248,0.4);
+    }
+    .timeline-labels {
+      display: flex;
+      gap: 3px;
+      margin-top: 6px;
+    }
+    .timeline-label {
+      flex: 1;
+      text-align: center;
+      font-size: 8px;
+      color: var(--text-muted);
+    }
+
+    /* Stats */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-value.green { color: var(--green); }
+    .stat-value.amber { color: var(--amber); }
+    .stat-value.purple { color: var(--purple); }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Session list */
+    .session-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .session-header {
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .session-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      gap: 12px;
+    }
+    .session-item:last-child { border-bottom: none; }
+    .session-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .session-dot.work { background: var(--accent); }
+    .session-dot.short { background: var(--green); }
+    .session-dot.long { background: var(--purple); }
+    .session-info { flex: 1; }
+    .session-type { font-size: 13px; font-weight: 600; }
+    .session-detail { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .session-time { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+    .session-dur { font-size: 12px; color: var(--text-muted); text-align: right; }
+    .session-track { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+    .session-track.cka { background: rgba(50,108,229,0.2); color: #326ce5; }
+    .session-track.lfcs { background: rgba(233,84,32,0.2); color: #e95420; }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 10px; }
+
+    /* Export */
+    .export-btn {
+      border: none;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .export-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    /* Week view */
+    .week-bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 120px;
+      padding: 0 4px;
+    }
+    .week-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .week-bar {
+      width: 100%;
+      max-width: 40px;
+      border-radius: 4px 4px 0 0;
+      background: rgba(56,189,248,0.25);
+      transition: height 0.3s;
+    }
+    .week-bar.today { background: var(--accent); box-shadow: 0 0 8px rgba(56,189,248,0.4); }
+    .week-bar-label { font-size: 10px; font-weight: 600; color: var(--text-muted); }
+    .week-bar-count { font-size: 12px; font-weight: 800; color: var(--text); }
+
+    .footer {
+      text-align: center;
+      padding: 16px 0;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <h1>📊 Pomodoro History</h1>
+    <a href="options.html" class="link">⚙️ Settings</a>
+  </div>
+
+  <div class="page">
+
+    <!-- View tabs -->
+    <div class="tabs">
+      <button class="tab active" data-view="day">Day</button>
+      <button class="tab" data-view="session">Session</button>
+      <button class="tab" data-view="week">Week</button>
+    </div>
+
+    <!-- Date navigation -->
+    <div class="date-nav">
+      <button class="nav-arrow" id="prevBtn">◀</button>
+      <span class="date-label" id="dateLabel"></span>
+      <button class="nav-arrow" id="nextBtn">▶</button>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-card" id="timelineCard">
+      <div class="timeline-title">Activity by hour</div>
+      <div class="timeline-chart" id="timelineChart"></div>
+      <div class="timeline-labels" id="timelineLabels"></div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-label">Completed</div>
+        <div class="stat-sub" id="statTotalSub">focus sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value green" id="statBreaks">0</div>
+        <div class="stat-label">Breaks</div>
+        <div class="stat-sub" id="statBreaksSub">short + long</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value amber" id="statFocus">0h</div>
+        <div class="stat-label">Focus time</div>
+        <div class="stat-sub" id="statFocusSub"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value purple" id="statBest">—</div>
+        <div class="stat-label">Best hour</div>
+        <div class="stat-sub" id="statBestSub"></div>
+      </div>
+    </div>
+
+    <!-- Session list -->
+    <div class="session-card" id="sessionCard">
+      <div class="session-header">
+        <span id="sessionTitle">Today's sessions</span>
+        <button class="export-btn" id="exportBtn">📥 Export CSV</button>
+      </div>
+      <div id="sessionList"></div>
+    </div>
+
+    <div class="footer">
+      CKA &amp; LFCS Study Pomodoro v1.1 · <a href="http://127.0.0.1:5050" target="_blank">Open Study Todo App</a>
+    </div>
+  </div>
+
+  <script src="history.js"></script>
+</body>
+</html>
