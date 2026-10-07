@@ -10,6 +10,28 @@ Designed with **complete track modularity**: Whether you are studying exclusivel
 
 ---
 
+## 📑 Table of Contents
+
+- [📁 Repository Architecture](#repository-architecture)
+- [🎯 Choose Your Track](#choose-your-track)
+  - [☸ Option A: Preparing ONLY for CKA](#option-a-cka)
+  - [🐧 Option B: Preparing ONLY for LFCS](#option-b-lfcs)
+  - [🚀 Option C: Dual Track (Both CKA & LFCS)](#option-c-both)
+- [🖥 Lab Infrastructure (VirtualBox via Vagrant)](#lab-infrastructure)
+  - [Virtual Machine Topology](#vm-topology)
+  - [Provisioning the Machines](#provisioning-machines)
+  - [Initializing Kubernetes Cluster (Calico CNI)](#initializing-k8s)
+- [🛠 Unified Lab CLI (`./lab`)](#unified-lab-cli)
+- [💻 Mock Exams & Exam Simulators](#mock-exams)
+- [📅 Schedule Synchronization & Customization](#schedule-sync)
+  - [Interactive Customization Prompts](#calendar-prompts)
+  - [Calendar Outputs & Formats](#calendar-outputs)
+- [📜 Credits & Attributions](#credits)
+- [📄 License (MIT)](#license)
+
+---
+
+<a id="repository-architecture"></a>
 ## 📁 Repository Architecture
 
 ```text
@@ -59,14 +81,17 @@ devops-labs-mockexams-studyguides/
 ├── lab                             # 🚀 Master CLI Orchestrator (start, check, solve, reset, vm)
 ├── cka_lfcs_schedule.csv           # Master dual-track schedule
 ├── cka_lfcs_schedule.ics           # Master dual-track iCalendar file
+├── LICENSE                         # MIT Open Source License
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
+<a id="choose-your-track"></a>
 ## 🎯 Choose Your Track
 
+<a id="option-a-cka"></a>
 ### Option A: Preparing ONLY for CKA (Certified Kubernetes Administrator)
 
 You can work entirely inside the `cka/` folder without touching LFCS:
@@ -100,6 +125,7 @@ python3 generate_labs.py
 
 ---
 
+<a id="option-b-lfcs"></a>
 ### Option B: Preparing ONLY for LFCS (Linux Foundation Certified SysAdmin)
 
 You can work entirely inside the `lfcs/` folder without touching CKA:
@@ -133,6 +159,7 @@ python3 generate_labs.py
 
 ---
 
+<a id="option-c-both"></a>
 ### Option C: Preparing for BOTH CKA & LFCS Concurrently
 
 Use the root orchestrator `./lab` and unified tooling:
@@ -151,10 +178,12 @@ bash tools/start_webapp.sh
 
 ---
 
+<a id="lab-infrastructure"></a>
 ## 🖥 Lab Infrastructure (VirtualBox via Vagrant)
 
 The lab environment runs locally on Oracle VirtualBox using automated Vagrant provisioning, adapted from [KodeKloud's Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox).
 
+<a id="vm-topology"></a>
 ### Virtual Machine Topology
 
 | VM Name | Hostname | Role | OS | CPUs | RAM | Default NAT IP | Forwarded SSH Port |
@@ -164,6 +193,7 @@ The lab environment runs locally on Oracle VirtualBox using automated Vagrant pr
 | `node02` | `node02` | K8s Worker Node 2 | Ubuntu 22.04 | 1 | 1024 MB | `192.168.56.22` | `2722 -> 22` |
 | `LFCS` | `LFCS` | Linux SysAdmin Target | Ubuntu 22.04 | 2 | 2048 MB | `192.168.56.30` | `2730 -> 22` |
 
+<a id="provisioning-machines"></a>
 ### Provisioning the Machines
 
 ```bash
@@ -179,6 +209,7 @@ vagrant up controlplane node01 node02
 vagrant up LFCS
 ```
 
+<a id="initializing-k8s"></a>
 ### Initializing the Kubernetes Cluster
 1. SSH into the control plane:
    ```bash
@@ -203,6 +234,7 @@ vagrant up LFCS
 
 ---
 
+<a id="unified-lab-cli"></a>
 ## 🛠 Unified Lab CLI (`./lab`)
 
 The repository root includes a master CLI orchestrator for administering scenarios and grading across all VMs:
@@ -245,6 +277,7 @@ The repository root includes a master CLI orchestrator for administering scenari
 
 ---
 
+<a id="mock-exams"></a>
 ## 💻 Mock Exams & Exam Simulators
 
 Realistic, timed exam environments simulating the exact interface and constraints of the real certifications:
@@ -260,6 +293,7 @@ Realistic, timed exam environments simulating the exact interface and constraint
 
 ---
 
+<a id="schedule-sync"></a>
 ## 📅 Schedule Synchronization & Customization
 
 The study suite includes an **interactive calendar generator** that asks you when you want to start studying and for how long, allowing you to tailor the pacing to your availability:
@@ -273,6 +307,7 @@ cd cka && python3 generate_calendar.py   # Tailored for CKA (4 hrs/day)
 cd lfcs && python3 generate_calendar.py  # Tailored for LFCS (3 hrs/day)
 ```
 
+<a id="calendar-prompts"></a>
 ### Interactive Customization Prompts:
 1. **When do you start?**: Enter any date (`YYYY-MM-DD`), `'today'`, `'tomorrow'`, or press Enter to default to the upcoming Monday.
 2. **For how long?**:
@@ -282,6 +317,7 @@ cd lfcs && python3 generate_calendar.py  # Tailored for LFCS (3 hrs/day)
 3. **Certification Track**: Choose between `Both (Dual Track)`, `CKA Only`, or `LFCS Only`.
 4. **Planned Pauses**: Optionally insert scheduled recovery/pause weeks (e.g. for travel, family, or work commitments) which automatically shifts all remaining modules without disrupting the syllabus flow.
 
+<a id="calendar-outputs"></a>
 ### Calendar Outputs:
 - **CKA Calendar**: `cka/schedule.ics` & `cka/schedule.csv` (morning intensive blocks 08:00 - 12:00)
 - **LFCS Calendar**: `lfcs/schedule.ics` & `lfcs/schedule.csv` (afternoon intensive blocks 15:00 - 18:00)
@@ -291,7 +327,15 @@ Compatible with Google Calendar, Apple Calendar, Microsoft Outlook, Thunderbird,
 
 ---
 
+<a id="credits"></a>
 ## 📜 Credits & Attributions
 
 - Kubernetes cluster topology and provisioning scripts adapted from [KodeKloud - Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course).
 - Mock exam question formats and grading inspired by [killer.sh](https://killer.sh) and Linux Foundation exam guidelines.
+
+---
+
+<a id="license"></a>
+## 📄 License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
