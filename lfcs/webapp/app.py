@@ -36,7 +36,10 @@ if str(REPO_DIR) not in sys.path:
     sys.path.insert(0, str(REPO_DIR))
 
 from flask import Flask, jsonify, render_template, request
-from flask_sock import Sock
+try:
+    from flask_sock import Sock
+except ImportError:
+    Sock = None
 try:
     from exam_service import (
         get_all_mock_exams,
@@ -67,7 +70,7 @@ BASE_DIR = REPO_DIR
 app = Flask(__name__,
             template_folder=str(DIR / "templates"),
             static_folder=str(DIR / "static"))
-sock = Sock(app)
+sock = Sock(app) if Sock else None
 
 # ── Progress persistence ─────────────────────────────────────
 SETTINGS_FILE = DATA_DIR / "settings.json"
@@ -634,8 +637,7 @@ def api_exam_action(exam_id, action):
     return jsonify({"ok": ok, "output": out})
 
 
-@sock.route("/ws/terminal/<target>")
-def terminal_socket(ws, target):
+def _run_terminal_socket(ws, target):
     """
     Spawns an interactive PTY session connected to the target host
     (controlplane or lfcs) via SSH, with bidirectional WebSocket streaming.
@@ -712,6 +714,12 @@ def terminal_socket(ws, target):
             os.kill(pid, signal.SIGTERM)
         except OSError:
             pass
+
+
+if sock is not None:
+    @sock.route("/ws/terminal/<target>")
+    def terminal_socket(ws, target):
+        return _run_terminal_socket(ws, target)
 
 
 if __name__ == "__main__":
