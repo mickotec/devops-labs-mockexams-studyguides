@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# CKA & LFCS Daily Hands-on Lab Orchestrator
-# Designed for VirtualBox Kubernetes Cluster & Ubuntu LFCS VM
+# DevOps Labs & Mock Exams: Unified Launcher
+# Dispatches commands to dedicated cka/lab or lfcs/lab orchestrators.
 # ==============================================================================
 set -euo pipefail
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(cd "$(dirname "${SCRIPT_PATH}")" && pwd)"
-LABS_DIR="${SCRIPT_DIR}/labs"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -17,17 +16,13 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
-# VM Configuration
-K8S_MASTER="controlplane"
-K8S_WORKER1="node01"
-K8S_WORKER2="node02"
-LFCS_VM="LFCS"
-
 function banner() {
   echo -e "${CYAN}${BOLD}"
   echo "╔════════════════════════════════════════════════════════════════════╗"
-  echo "║          CKA & LFCS Daily Hands-on Practice Orchestrator          ║"
-  echo "║         Targeting: VirtualBox K8s Cluster & Ubuntu LFCS VM         ║"
+  echo "║                 DevOps Lab & Mock Exam Launcher                    ║"
+  echo "║        Each exam track is independently managed in its folder:     ║"
+  echo "║          • CKA Track:  cd cka  && ./lab                            ║"
+  echo "║          • LFCS Track: cd lfcs && ./lab                            ║"
   echo "╚════════════════════════════════════════════════════════════════════╝"
   echo -e "${NC}"
 }
@@ -35,265 +30,85 @@ function banner() {
 function usage() {
   banner
   echo -e "${BOLD}USAGE:${NC}"
-  echo "  ./lab list                 List all scheduled lab scenarios"
-  echo "  ./lab start <lab-id>       Inject lab scenario environment & display task"
-  echo "  ./lab show <lab-id>        Display scenario questions & acceptance criteria"
-  echo "  ./lab check <lab-id>       Verify and grade your lab solution"
-  echo "  ./lab solve <lab-id>       Display official walkthrough & solution"
-  echo "  ./lab reset <lab-id>       Clean up lab artifacts and restore clean state"
-  echo "  ./lab exam [mock-id]       Launch interactive killer.sh / PSI exam simulator (browser + terminal)"
-  echo "  ./lab guide [day-id]       Generate colorful daily study guide PDF (e.g. w1d1)"
-  echo "  ./lab calendar             Interactively customize study start date & duration (8w/4w)"
-  echo "  ./lab vm [status|start|stop] Manage VirtualBox lab VMs"
+  echo "  ./lab cka [cmd...]         Forward command to CKA orchestrator (cka/lab)"
+  echo "  ./lab lfcs [cmd...]        Forward command to LFCS orchestrator (lfcs/lab)"
+  echo "  ./lab list [filter]        List all labs across both CKA and LFCS"
+  echo "  ./lab start <lab-id>       Start a lab (auto-routes to cka or lfcs)"
+  echo "  ./lab show <lab-id>        Display scenario questions (auto-routes)"
+  echo "  ./lab check <lab-id>       Grade a solution (auto-routes to cka or lfcs)"
+  echo "  ./lab solve <lab-id>       Display official solution (auto-routes)"
+  echo "  ./lab reset <lab-id>       Clean up lab artifacts (auto-routes)"
+  echo "  ./lab vm [status|start|stop] Manage all lab VirtualBox VMs"
   echo "  ./lab ssh <target>         Connect to controlplane, node01, node02, or lfcs"
   echo ""
-  echo -e "${BOLD}EXAMPLES:${NC}"
-  echo "  ./lab list"
-  echo "  ./lab start w1d1-cka"
-  echo "  ./lab check w1d1-cka"
-  echo "  ./lab start w1d1-lfcs"
-  echo "  ./lab vm status"
+  echo -e "${BOLD}DEDICATED DIRECTORIES:${NC}"
+  echo "  For an isolated experience, work directly inside the track folder:"
+  echo -e "    ${YELLOW}cd cka  && ./lab list${NC}"
+  echo -e "    ${YELLOW}cd lfcs && ./lab list${NC}"
   exit 0
-}
-
-function check_prereqs() {
-  if ! command -v vboxmanage &>/dev/null; then
-    echo -e "${RED}[ERROR] VirtualBox 'vboxmanage' CLI not found.${NC}"
-    exit 1
-  fi
-}
-
-function find_lab_dir() {
-  local id="$1"
-  if [ -d "${SCRIPT_DIR}/cka/${id}" ]; then
-    echo "${SCRIPT_DIR}/cka/${id}"
-  elif [ -d "${SCRIPT_DIR}/lfcs/${id}" ]; then
-    echo "${SCRIPT_DIR}/lfcs/${id}"
-  elif [ -d "${LABS_DIR}/${id}" ]; then
-    echo "${LABS_DIR}/${id}"
-  else
-    echo ""
-  fi
-}
-
-function list_labs() {
-  local filter="${1:-}"
-  banner
-  if [ -n "$filter" ]; then
-    echo -e "${BOLD}CALENDAR-ALIGNED LAB SCENARIOS (Filter: ${filter}):${NC}"
-  else
-    echo -e "${BOLD}CALENDAR-ALIGNED LAB SCENARIOS (Weeks 1 - 8):${NC}"
-  fi
-  printf "${CYAN}%-11s %-6s %-12s %-6s %-11s %-36s${NC}\n" "LAB ID" "TRACK" "DATE" "TIME" "DIFF" "TOPIC"
-  echo "─────────────────────────────────────────────────────────────────────────────"
-  
-  local lab_sources=()
-  if [ -d "${SCRIPT_DIR}/cka" ]; then lab_sources+=("${SCRIPT_DIR}/cka"); fi
-  if [ -d "${SCRIPT_DIR}/lfcs" ]; then lab_sources+=("${SCRIPT_DIR}/lfcs"); fi
-  if [ -d "$LABS_DIR" ]; then lab_sources+=("$LABS_DIR"); fi
-
-  for lab in $(ls -d "${SCRIPT_DIR}/cka"/w* "${SCRIPT_DIR}/cka"/mock* "${SCRIPT_DIR}/lfcs"/w* "${SCRIPT_DIR}/lfcs"/mock* 2>/dev/null | sort -V); do
-    local id="$(basename "$lab")"
-    if [ -n "$filter" ]; then
-      if ! echo "$id" | grep -qi "$filter"; then
-        continue
-      fi
-    fi
-    local meta_file="${lab}/meta.env"
-    if [ -f "$meta_file" ]; then
-      source "$meta_file"
-      local diff_short="${DIFFICULTY%% (*}"
-      printf "%-11s %-6s %-12s %-6s %-11s %-36s\n" "$id" "${TRACK:-Unknown}" "${DATE:-}" "${TIME_LIMIT:-30m}" "${diff_short:-Medium}" "${TITLE:-}"
-    else
-      printf "%-11s %-6s %-12s %-6s %-11s %-36s\n" "$id" "-" "-" "-" "-" "Scenario directory exists"
-    fi
-  done
-  echo "─────────────────────────────────────────────────────────────────────────────"
-  echo -e "Tip: Filter with ${YELLOW}lab list w2${NC} or ${YELLOW}lab list cka${NC}. Start with ${YELLOW}lab start <lab-id>${NC}."
-}
-
-function vm_manager() {
-  local action="${1:-status}"
-  case "$action" in
-    status)
-      echo -e "${BOLD}VirtualBox Lab VMs Status:${NC}"
-      vboxmanage list vms | while read -r line; do
-        vm_name=$(echo "$line" | cut -d'"' -f2)
-        if [[ "$vm_name" == "controlplane" || "$vm_name" == "node01" || "$vm_name" == "node02" || "$vm_name" == "LFCS" ]]; then
-          state=$(vboxmanage showvminfo "$vm_name" --machinereadable | grep "VMState=" | cut -d'"' -f2)
-          if [ "$state" == "running" ]; then
-            echo -e "  $vm_name: ${GREEN}${BOLD}RUNNING${NC}"
-          else
-            echo -e "  $vm_name: ${YELLOW}${state}${NC}"
-          fi
-        fi
-      done
-      ;;
-    start)
-      echo -e "${BLUE}[*] Starting all lab VMs in headless mode...${NC}"
-      for vm in controlplane node01 node02 LFCS; do
-        state=$(vboxmanage showvminfo "$vm" --machinereadable 2>/dev/null | grep "VMState=" | cut -d'"' -f2 || echo "not_found")
-        if [ "$state" != "running" ] && [ "$state" != "not_found" ]; then
-          echo -e "Starting $vm..."
-          vboxmanage startvm "$vm" --type headless || true
-        else
-          echo -e "$vm is already $state."
-        fi
-      done
-      ;;
-    stop)
-      echo -e "${YELLOW}[*] Gracefully stopping lab VMs...${NC}"
-      for vm in LFCS node02 node01 controlplane; do
-        state=$(vboxmanage showvminfo "$vm" --machinereadable 2>/dev/null | grep "VMState=" | cut -d'"' -f2 || echo "not_found")
-        if [ "$state" == "running" ]; then
-          echo -e "Stopping $vm..."
-          vboxmanage controlvm "$vm" acpipowerbutton || true
-        fi
-      done
-      ;;
-    *)
-      echo "Unknown vm command: $action (use: status, start, stop)"
-      ;;
-  esac
-}
-
-function ssh_shortcut() {
-  local target="${1:-controlplane}"
-  shift || true
-  case "$target" in
-    controlplane|cp|master)
-      ssh -i ~/.ssh/id_lab vagrant@172.16.16.210 "$@"
-      ;;
-    node01|worker1|w1)
-      ssh -i ~/.ssh/id_lab vagrant@172.16.16.211 "$@"
-      ;;
-    node02|worker2|w2)
-      ssh -i ~/.ssh/id_lab vagrant@172.16.16.212 "$@"
-      ;;
-    lfcs|ubuntu)
-      ssh -i ~/.ssh/id_lab student@172.16.16.16 "$@"
-      ;;
-    *)
-      echo "Unknown target: $target. Valid targets: controlplane, node01, node02, lfcs"
-      ;;
-  esac
-}
-
-function execute_lab_script() {
-  local lab_id="$1"
-  local script_path="$2"
-
-  if [ ! -f "$script_path" ]; then
-    return 0
-  fi
-
-  # If it is an LFCS lab, execute remotely on the LFCS VM via SSH
-  if [[ "$lab_id" =~ -lfcs ]]; then
-    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null lfcs 'bash -s' < "$script_path"
-  else
-    bash "$script_path"
-  fi
 }
 
 CMD="${1:-help}"
 
 case "$CMD" in
+  cka)
+    shift || true
+    exec "${SCRIPT_DIR}/cka/lab" "$@"
+    ;;
+  lfcs)
+    shift || true
+    exec "${SCRIPT_DIR}/lfcs/lab" "$@"
+    ;;
   list|ls)
-    list_labs "${2:-}"
+    shift || true
+    filter="${1:-}"
+    if [[ "$filter" =~ cka ]]; then
+      exec "${SCRIPT_DIR}/cka/lab" list "$filter"
+    elif [[ "$filter" =~ lfcs ]]; then
+      exec "${SCRIPT_DIR}/lfcs/lab" list "$filter"
+    else
+      "${SCRIPT_DIR}/cka/lab" list "$filter"
+      echo ""
+      "${SCRIPT_DIR}/lfcs/lab" list "$filter"
+    fi
     ;;
-  start)
+  start|show|check|verify|grade|solve|solution|reset|clean)
     LAB_ID="${2:-}"
     if [ -z "$LAB_ID" ]; then
-      echo -e "${RED}[ERROR] Missing lab-id.${NC} Example: ./lab start w1d1-cka"
+      echo -e "${RED}[ERROR] Missing lab-id.${NC} Example: ./lab $CMD w1d1-cka"
       exit 1
     fi
-    TARGET_DIR="$(find_lab_dir "$LAB_ID")"
-    if [ -z "$TARGET_DIR" ] || [ ! -d "$TARGET_DIR" ]; then
-      echo -e "${RED}[ERROR] Lab '${LAB_ID}' not found.${NC}"
-      exit 1
-    fi
-    echo -e "${BLUE}[*] Initializing scenario ${BOLD}${LAB_ID}${NC}..."
-    if [ -f "${TARGET_DIR}/setup.sh" ]; then
-      execute_lab_script "$LAB_ID" "${TARGET_DIR}/setup.sh"
-    fi
-    echo ""
-    if [ -f "${TARGET_DIR}/scenario.md" ]; then
-      cat "${TARGET_DIR}/scenario.md"
-    fi
-    ;;
-  show)
-    LAB_ID="${2:-}"
-    TARGET_DIR="$(find_lab_dir "$LAB_ID")"
-    if [ -n "$TARGET_DIR" ] && [ -f "${TARGET_DIR}/scenario.md" ]; then
-      cat "${TARGET_DIR}/scenario.md"
+    if [[ "$LAB_ID" =~ -lfcs ]]; then
+      exec "${SCRIPT_DIR}/lfcs/lab" "$@"
+    elif [[ "$LAB_ID" =~ -cka ]]; then
+      exec "${SCRIPT_DIR}/cka/lab" "$@"
     else
-      echo -e "${RED}[ERROR] Scenario for ${LAB_ID} not found.${NC}"
-    fi
-    ;;
-  check|verify|grade)
-    LAB_ID="${2:-}"
-    if [ -z "$LAB_ID" ]; then
-      echo -e "${RED}[ERROR] Missing lab-id.${NC} Example: ./lab check w1d1-cka"
-      exit 1
-    fi
-    TARGET_DIR="$(find_lab_dir "$LAB_ID")"
-    if [ -z "$TARGET_DIR" ] || [ ! -f "${TARGET_DIR}/verify.sh" ]; then
-      echo -e "${RED}[ERROR] Verification script for ${LAB_ID} not found.${NC}"
-      exit 1
-    fi
-    echo -e "${CYAN}[*] Grading scenario ${BOLD}${LAB_ID}${NC}..."
-    execute_lab_script "$LAB_ID" "${TARGET_DIR}/verify.sh"
-    ;;
-  solve|solution)
-    LAB_ID="${2:-}"
-    TARGET_DIR="$(find_lab_dir "$LAB_ID")"
-    if [ -n "$TARGET_DIR" ] && [ -f "${TARGET_DIR}/solution.md" ]; then
-      cat "${TARGET_DIR}/solution.md"
-    else
-      echo -e "${RED}[ERROR] Solution for ${LAB_ID} not found.${NC}"
-    fi
-    ;;
-  reset|clean)
-    LAB_ID="${2:-}"
-    TARGET_DIR="$(find_lab_dir "$LAB_ID")"
-    if [ -n "$TARGET_DIR" ] && [ -f "${TARGET_DIR}/reset.sh" ]; then
-      execute_lab_script "$LAB_ID" "${TARGET_DIR}/reset.sh"
-      echo -e "${GREEN}[✓] Cleaned up ${LAB_ID}.${NC}"
-    else
-      echo "No custom reset script found for ${LAB_ID}."
+      if [ -d "${SCRIPT_DIR}/cka/${LAB_ID}" ]; then
+        exec "${SCRIPT_DIR}/cka/lab" "$@"
+      elif [ -d "${SCRIPT_DIR}/lfcs/${LAB_ID}" ]; then
+        exec "${SCRIPT_DIR}/lfcs/lab" "$@"
+      else
+        echo -e "${RED}[ERROR] Lab '${LAB_ID}' not found in cka/ or lfcs/.${NC}"
+        exit 1
+      fi
     fi
     ;;
   vm)
-    vm_manager "${2:-status}"
+    shift || true
+    action="${1:-status}"
+    echo -e "${BOLD}--- CKA Kubernetes VMs ---${NC}"
+    "${SCRIPT_DIR}/cka/lab" vm "$action"
+    echo -e "${BOLD}--- LFCS Linux VM ---${NC}"
+    "${SCRIPT_DIR}/lfcs/lab" vm "$action"
     ;;
   ssh)
     shift || true
-    ssh_shortcut "${@:-controlplane}"
-    ;;
-  guide)
-    shift || true
-    if [ -f "${SCRIPT_DIR}/tools/generate_daily_guide.py" ]; then
-      GUIDE_SCRIPT="${SCRIPT_DIR}/tools/generate_daily_guide.py"
+    target="${1:-controlplane}"
+    if [[ "$target" == "lfcs" || "$target" == "ubuntu" ]]; then
+      exec "${SCRIPT_DIR}/lfcs/lab" ssh
     else
-      GUIDE_SCRIPT="${SCRIPT_DIR}/generate_daily_guide.py"
+      exec "${SCRIPT_DIR}/cka/lab" ssh "$target"
     fi
-    if [ "$#" -eq 0 ]; then
-      python3 "$GUIDE_SCRIPT" "w1d1"
-    else
-      python3 "$GUIDE_SCRIPT" "$@"
-    fi
-    ;;
-  exam|simulator)
-    shift || true
-    if [ -f "${SCRIPT_DIR}/tools/start_simulator.sh" ]; then
-      bash "${SCRIPT_DIR}/tools/start_simulator.sh" "${1:-}"
-    else
-      bash "${SCRIPT_DIR}/start_simulator.sh" "${1:-}"
-    fi
-    ;;
-  calendar|schedule)
-    shift || true
-    python3 "${SCRIPT_DIR}/tools/generate_calendar.py" "$@"
     ;;
   help|*)
     usage
