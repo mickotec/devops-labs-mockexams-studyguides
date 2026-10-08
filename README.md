@@ -4,7 +4,7 @@ A comprehensive, calendar-aligned preparation suite for the **Certified Kubernet
 
 > [!IMPORTANT]
 > **Kubernetes Cluster Infrastructure Acknowledgement:**
-> The Kubernetes multi-node cluster formation and Vagrant provisioning in this repository are based on and adapted from [KodeKloud's Certified Kubernetes Administrator Course (kubeadm-clusters/virtualbox)](https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox). It has been augmented with a dedicated Ubuntu Linux machine (`LFCS`) to support comprehensive LFCS administration objectives.
+> The Kubernetes multi-node cluster formation and Vagrant provisioning in this repository are based on and adapted from <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox" target="_blank" rel="noopener noreferrer">KodeKloud's Certified Kubernetes Administrator Course (kubeadm-clusters/virtualbox)</a>. It has been augmented with a dedicated Ubuntu Linux machine (`LFCS`) to support comprehensive LFCS administration objectives.
 
 Designed with **complete track modularity**: Whether you are studying exclusively for the **CKA**, exclusively for the **LFCS**, or tackling **both certifications in tandem**, each exam track provides a completely autonomous, standalone ecosystem — including its own web dashboard, exam simulator, lab generator, study guide builder, terminal progress tracker, and Pomodoro browser extension.
 
@@ -136,7 +136,7 @@ python3 generate_labs.py
 1. Open Google Chrome or Brave and go to `chrome://extensions/`.
 2. Turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select `cka/pomodoro-extension/`.
-4. The extension is pre-configured with CKA focus sessions and direct shortcuts to the CKA webapp at `http://localhost:5051`.
+4. The extension is pre-configured with CKA focus sessions and direct shortcuts to the study webapp at `http://localhost:5050`.
 
 ---
 
@@ -183,7 +183,7 @@ python3 generate_labs.py
 1. Open Google Chrome or Brave and go to `chrome://extensions/`.
 2. Turn on **Developer mode** (top right).
 3. Click **Load unpacked** and select `lfcs/pomodoro-extension/`.
-4. The extension is pre-configured with LFCS focus sessions and direct shortcuts to the LFCS webapp at `http://localhost:5052`.
+4. The extension is pre-configured with LFCS focus sessions and direct shortcuts to the study webapp at `http://localhost:5050`.
 
 ---
 
@@ -209,7 +209,7 @@ bash tools/start_webapp.sh
 <a id="lab-infrastructure"></a>
 ## 🖥 Lab Infrastructure (VirtualBox via Vagrant)
 
-The lab environment runs locally on Oracle VirtualBox using automated Vagrant provisioning, adapted from [KodeKloud's Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox).
+The lab environment runs locally on Oracle VirtualBox using automated Vagrant provisioning, adapted from <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox" target="_blank" rel="noopener noreferrer">KodeKloud's Certified Kubernetes Administrator Course</a>.
 
 <a id="vm-topology"></a>
 ### Virtual Machine Topology
@@ -383,8 +383,8 @@ Importable directly into Google Calendar, Apple Calendar, Microsoft Outlook, Thu
 <a id="credits"></a>
 ## 📜 Credits & Attributions
 
-- Kubernetes cluster topology and provisioning scripts adapted from [KodeKloud - Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course).
-- Mock exam question formats and grading inspired by [killer.sh](https://killer.sh) and .[Linux Foundation](https://training.linuxfoundation.org/certification-catalog/) exam guidelines.
+- Kubernetes cluster topology and provisioning scripts adapted from <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course" target="_blank" rel="noopener noreferrer">KodeKloud - Certified Kubernetes Administrator Course</a>.
+- Mock exam question formats and grading inspired by <a href="https://killer.sh" target="_blank" rel="noopener noreferrer">killer.sh</a> and <a href="https://training.linuxfoundation.org/certification-catalog/" target="_blank" rel="noopener noreferrer">Linux Foundation</a> exam guidelines.
 
 ---
 

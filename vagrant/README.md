@@ -1,6 +1,6 @@
 # VirtualBox Kubernetes Cluster & LFCS Lab Environment
 
-Based on KodeKloud's [Certified Kubernetes Administrator Course (VirtualBox Kubeadm)](https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox).
+Based on KodeKloud's <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox" target="_blank" rel="noopener noreferrer">Certified Kubernetes Administrator Course (VirtualBox Kubeadm)</a>.
 
 This Vagrant configuration provisions a multi-node Kubernetes cluster (1 control plane + 2 worker nodes) along with an Ubuntu Linux Foundation Certified System Administrator (LFCS) practice machine on Oracle VirtualBox.
 
@@ -93,4 +93,4 @@ Once the nodes are provisioned, complete the cluster initialization on `controlp
 - [01-prerequisites.md](./docs/01-prerequisites.md)
 - [02-compute-resources.md](./docs/02-compute-resources.md)
 - [03-connectivity.md](./docs/03-connectivity.md)
-- Upstream: [KodeKloud Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)
+- Upstream: <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course" target="_blank" rel="noopener noreferrer">KodeKloud Certified Kubernetes Administrator Course</a>
