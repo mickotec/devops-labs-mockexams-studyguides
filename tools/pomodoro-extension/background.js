@@ -304,51 +304,35 @@ chrome.notifications.onClicked.addListener(async (notificationId) => {
 function setupContextMenus() {
   if (!chrome.contextMenus) return;
   chrome.contextMenus.removeAll(() => {
-    chrome.contextMenus.create({
-      id: "pomodoro-toggle",
-      title: "Toggle Start / Pause",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-stop",
-      title: "Stop Timer",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-reset",
-      title: "Reset Current Phase",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-start-short-break",
-      title: "Start Short Break",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-start-long-break",
-      title: "Start Long Break",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-open-settings",
-      title: "Open Settings",
-      contexts: ["action"]
-    });
-    chrome.contextMenus.create({
-      id: "pomodoro-open-history",
-      title: "Open History",
-      contexts: ["action"]
-    });
-    // Last item = extension title that opens the Study Todo App
-    chrome.contextMenus.create({
-      id: "pomodoro-open-webapp",
-      title: "CKA & LFCS Study Todo App",
-      contexts: ["action"]
+    const menus = [
+      { id: "pomodoro-toggle", title: "Toggle Start / Pause" },
+      { id: "pomodoro-stop", title: "Stop Timer" },
+      { id: "pomodoro-reset", title: "Reset Current Phase" },
+      { id: "pomodoro-start-short-break", title: "Start Short Break" },
+      { id: "pomodoro-start-long-break", title: "Start Long Break" },
+      { id: "pomodoro-open-settings", title: "Open Settings" },
+      { id: "pomodoro-open-history", title: "Open History" },
+      { id: "pomodoro-open-webapp", title: "CKA & LFCS Study Todo App" }
+    ];
+    menus.forEach(item => {
+      chrome.contextMenus.create({
+        id: item.id,
+        title: item.title,
+        contexts: ["action"]
+      }, () => {
+        if (chrome.runtime.lastError) {
+          // ignore duplicate id or context error
+        }
+      });
     });
   });
 }
 
 chrome.runtime.onInstalled.addListener(() => {
+  setupContextMenus();
+});
+
+chrome.runtime.onStartup.addListener(() => {
   setupContextMenus();
 });
 
@@ -377,7 +361,11 @@ if (chrome.contextMenus && chrome.contextMenus.onClicked) {
         chrome.tabs.create({ url: WEBAPP_URL });
         return;
       case "pomodoro-open-settings":
-        chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
+        if (chrome.runtime.openOptionsPage) {
+          chrome.runtime.openOptionsPage();
+        } else {
+          chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
+        }
         return;
       case "pomodoro-open-history":
         chrome.tabs.create({ url: chrome.runtime.getURL("history.html") });

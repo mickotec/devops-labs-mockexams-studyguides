@@ -88,6 +88,18 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.create({ url: 'http://127.0.0.1:5050' });
   });
 
+  const openSettingsLink = document.getElementById('openSettingsLink');
+  if (openSettingsLink) {
+    openSettingsLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage();
+      } else {
+        chrome.tabs.create({ url: chrome.runtime.getURL('options.html') });
+      }
+    });
+  }
+
   // Functions
   function initializeUI() {
     chrome.runtime.sendMessage({ action: 'getState' }, (response) => {
