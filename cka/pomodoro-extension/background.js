@@ -4,7 +4,7 @@ const ALARM_NAME = "pomodoro_tick";
 const WORK_MIN = 25;
 const SHORT_BREAK_MIN = 5;
 const LONG_BREAK_MIN = 15;
-const WEBAPP_URL = "http://127.0.0.1:5051";
+const WEBAPP_URL = "http://127.0.0.1:5050";
 
 // Module-level cache of user options (loaded at startup, refreshed on settingsChanged)
 let cachedOptions = { workMin: WORK_MIN, shortBreakMin: SHORT_BREAK_MIN, longBreakMin: LONG_BREAK_MIN };
@@ -312,7 +312,7 @@ function setupContextMenus() {
       { id: "pomodoro-start-long-break", title: "Start Long Break" },
       { id: "pomodoro-open-settings", title: "Open Settings" },
       { id: "pomodoro-open-history", title: "Open History" },
-      { id: "pomodoro-open-webapp", title: "CKA Study WebApp (Port 5051)" }
+      { id: "pomodoro-open-webapp", title: "Study WebApp (Port 5050)" }
     ];
     menus.forEach(item => {
       chrome.contextMenus.create({
