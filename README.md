@@ -38,6 +38,7 @@ Designed with **complete track modularity**: Whether you are studying exclusivel
 devops-labs-mockexams-studyguides/
 │
 ├── cka/                            # ☸ STANDALONE CKA TRACK
+│   ├── vagrant/                    # Dedicated CKA 3-node K8s cluster Vagrantfile & provisioning
 │   ├── lab                         # Dedicated CKA Lab CLI orchestrator (start, check, solve, reset, vm)
 │   ├── webapp/                     # Dedicated CKA web dashboard & killer.sh exam simulator (Port 5051)
 │   ├── pomodoro-extension/         # Dedicated CKA Pomodoro timer Chrome extension (links to 5051)
@@ -53,6 +54,7 @@ devops-labs-mockexams-studyguides/
 │   └── w1d1-cka/ ... w8d6-cka/     # 48 Calendar-aligned hands-on Kubernetes lab scenarios
 │
 ├── lfcs/                           # 🐧 STANDALONE LFCS TRACK
+│   ├── vagrant/                    # Dedicated LFCS single-node VM Vagrantfile & provisioning
 │   ├── lab                         # Dedicated LFCS Lab CLI orchestrator (start, check, solve, reset, vm)
 │   ├── webapp/                     # Dedicated LFCS web dashboard & PSI exam simulator (Port 5052)
 │   ├── pomodoro-extension/         # Dedicated LFCS Pomodoro timer Chrome extension (links to 5052)
@@ -99,7 +101,10 @@ You can work entirely inside the `cka/` folder without touching LFCS:
 ```bash
 cd cka
 
-# 1. Dedicated CKA Lab CLI (manage, grade, and solve Kubernetes scenarios)
+# 1. Provision ONLY the 3-node Kubernetes cluster (controlplane, node01, node02)
+./lab vm up                 # Or: cd vagrant && vagrant up
+
+# 2. Dedicated CKA Lab CLI (manage, grade, and solve Kubernetes scenarios)
 ./lab list                  # List all 48 CKA daily labs and 2 killer.sh mock exams
 ./lab start w1d1-cka        # Inject scenario into K8s cluster (controlplane, node01, node02)
 ./lab show w1d1-cka         # View scenario objectives & tasks
@@ -107,23 +112,24 @@ cd cka
 ./lab solve w1d1-cka        # Reveal step-by-step solutions
 ./lab reset w1d1-cka        # Reset scenario to clean state
 ./lab vm status             # Check cluster VM status
+./lab ssh controlplane      # Jump directly into the master node
 
-# 2. Run the terminal progress tracker & daily checklist
+# 3. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 3. Customize your study calendar (asks when you start & for how long)
+# 4. Customize your study calendar (asks when you start & for how long)
 python3 generate_calendar.py
 
-# 4. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
+# 5. Launch the dedicated CKA Web Dashboard & Killer.sh Exam Simulator (http://localhost:5051)
 bash webapp/start.sh
 
-# 5. Generate or update all 48 CKA daily HTML study guides
+# 6. Generate or update all 48 CKA daily HTML study guides
 python3 generate_guides.py
 
-# 6. Generate or rebuild all 48 CKA labs and killer.sh mock exams
+# 7. Generate or rebuild all 48 CKA labs and killer.sh mock exams
 python3 generate_labs.py
 
-# 7. Import cka/schedule.ics into Google Calendar or Thunderbird
+# 8. Import cka/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for CKA:**
@@ -142,7 +148,10 @@ You can work entirely inside the `lfcs/` folder without touching CKA:
 ```bash
 cd lfcs
 
-# 1. Dedicated LFCS Lab CLI (manage, grade, and solve Linux scenarios)
+# 1. Provision ONLY the standalone LFCS practice VM
+./lab vm up                 # Or: cd vagrant && vagrant up
+
+# 2. Dedicated LFCS Lab CLI (manage, grade, and solve Linux scenarios)
 ./lab list                  # List all 48 LFCS daily labs and 4 PSI mock exams
 ./lab start w1d1-lfcs       # Inject scenario into LFCS target VM
 ./lab show w1d1-lfcs        # View scenario objectives & tasks
@@ -150,23 +159,24 @@ cd lfcs
 ./lab solve w1d1-lfcs       # Reveal step-by-step solutions
 ./lab reset w1d1-lfcs       # Reset scenario to clean state
 ./lab vm status             # Check LFCS VM status
+./lab ssh                   # Jump directly into LFCS VM
 
-# 2. Run the terminal progress tracker & daily checklist
+# 3. Run the terminal progress tracker & daily checklist
 python3 study_todo.py
 
-# 3. Customize your study calendar (asks when you start & for how long)
+# 4. Customize your study calendar (asks when you start & for how long)
 python3 generate_calendar.py
 
-# 4. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
+# 5. Launch the dedicated LFCS Web Dashboard & PSI Exam Simulator (http://localhost:5052)
 bash webapp/start.sh
 
-# 5. Generate or update all 48 LFCS daily HTML study guides
+# 6. Generate or update all 48 LFCS daily HTML study guides
 python3 generate_guides.py
 
-# 6. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
+# 7. Generate or rebuild all 48 LFCS labs and 4 PSI mock exams
 python3 generate_labs.py
 
-# 7. Import lfcs/schedule.ics into Google Calendar or Thunderbird
+# 8. Import lfcs/schedule.ics into Google Calendar or Thunderbird
 ```
 
 **Pomodoro Extension for LFCS:**
@@ -214,17 +224,33 @@ The lab environment runs locally on Oracle VirtualBox using automated Vagrant pr
 <a id="provisioning-machines"></a>
 ### Provisioning the Machines
 
+You can spin up only the exact machines required for your study track to save CPU and RAM resources:
+
+#### 1. CKA Only (3 Nodes: `controlplane`, `node01`, `node02` — 4 vCPUs, 4 GB RAM)
 ```bash
-cd vagrant
+# Using dedicated CKA runner:
+cd cka && ./lab vm up
 
-# Spin up all 4 machines (K8s cluster + LFCS machine):
-vagrant up
+# Or directly via Vagrant:
+cd cka/vagrant && vagrant up
+```
 
-# Or spin up only the Kubernetes cluster for CKA:
-vagrant up controlplane node01 node02
+#### 2. LFCS Only (1 Node: `LFCS` — 2 vCPUs, 2 GB RAM)
+```bash
+# Using dedicated LFCS runner:
+cd lfcs && ./lab vm up
 
-# Or spin up only the Linux machine for LFCS:
-vagrant up LFCS
+# Or directly via Vagrant:
+cd lfcs/vagrant && vagrant up
+```
+
+#### 3. Dual Track / All-in-One (All 4 Nodes — 7 vCPUs, 6 GB RAM)
+```bash
+# Using root lab runner:
+./lab vm up
+
+# Or directly via root Vagrant:
+cd vagrant && vagrant up
 ```
 
 <a id="initializing-k8s"></a>

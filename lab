@@ -38,7 +38,7 @@ function usage() {
   echo "  ./lab check <lab-id>       Grade a solution (auto-routes to cka or lfcs)"
   echo "  ./lab solve <lab-id>       Display official solution (auto-routes)"
   echo "  ./lab reset <lab-id>       Clean up lab artifacts (auto-routes)"
-  echo "  ./lab vm [status|start|stop] Manage all lab VirtualBox VMs"
+  echo "  ./lab vm [status|start|stop|up|destroy] Manage all lab VirtualBox VMs (or Vagrant)"
   echo "  ./lab ssh <target>         Connect to controlplane, node01, node02, or lfcs"
   echo ""
   echo -e "${BOLD}DEDICATED DIRECTORIES:${NC}"

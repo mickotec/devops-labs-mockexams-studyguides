@@ -43,7 +43,7 @@ function usage() {
   echo "  ./lab guide [day-id]       Generate CKA daily study guide HTML (e.g. w1d1)"
   echo "  ./lab calendar             Interactively customize study start date & duration"
   echo "  ./lab todo                 Interactive terminal checklist for CKA study plan"
-  echo "  ./lab vm [status|start|stop] Manage Kubernetes VirtualBox VMs"
+  echo "  ./lab vm [status|start|stop|up|destroy] Manage Kubernetes VirtualBox VMs (or Vagrant)"
   echo "  ./lab ssh [node]           Connect to controlplane, node01, or node02"
   echo ""
   echo -e "${BOLD}EXAMPLES:${NC}"
@@ -135,8 +135,16 @@ function vm_manager() {
         fi
       done
       ;;
+    up)
+      echo -e "${BLUE}[*] Provisioning and starting CKA cluster with Vagrant...${NC}"
+      (cd "${SCRIPT_DIR}/vagrant" && vagrant up)
+      ;;
+    destroy)
+      echo -e "${YELLOW}[*] Destroying CKA cluster with Vagrant...${NC}"
+      (cd "${SCRIPT_DIR}/vagrant" && vagrant destroy -f)
+      ;;
     *)
-      echo "Unknown vm command: $action (use: status, start, stop)"
+      echo "Unknown vm command: $action (use: status, start, stop, up, destroy)"
       ;;
   esac
 }

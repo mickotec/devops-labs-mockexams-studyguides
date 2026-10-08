@@ -1,0 +1,88 @@
+# -*- mode: ruby -*-
+# vi:set ft=ruby sw=2 ts=2 sts=2:
+
+# Standalone LFCS Vagrantfile — Provisions only the LFCS practice VM:
+#   - LFCS (Ubuntu 22.04 LTS: 2 vCPUs, 2048 MB RAM)
+# Zero Kubernetes cluster overhead.
+
+BUILD_MODE = "BRIDGE"
+IP_NW = "192.168.56"
+
+# Host operating system detection
+module OS
+  def OS.windows?
+    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.mac?
+    (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.unix?
+    !OS.windows?
+  end
+
+  def OS.linux?
+    OS.unix? and not OS.mac?
+  end
+
+  def OS.jruby?
+    RUBY_ENGINE == "jruby"
+  end
+end
+
+def get_bridge_adapter()
+  if OS.windows?
+    return %x{powershell -Command "Get-NetRoute -DestinationPrefix 0.0.0.0/0 | Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription"}.chomp
+  elsif OS.linux?
+    return %x{ip route | grep default | awk '{ print $5 }'}.chomp
+  elsif OS.mac?
+    return %x{mac/mac-bridge.sh}.chomp
+  end
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.boot_timeout = 900
+  config.vm.box_check_update = false
+
+  # Provision LFCS Practice Node (Ubuntu 22.04 LTS)
+  config.vm.define "LFCS" do |node|
+    node.vm.provider "virtualbox" do |vb|
+      vb.name = "LFCS"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+    node.vm.hostname = "LFCS"
+    if BUILD_MODE == "BRIDGE"
+      node.vm.network :public_network, bridge: get_bridge_adapter()
+    else
+      node.vm.network :private_network, ip: IP_NW + ".30"
+      node.vm.network "forwarded_port", guest: 22, host: "2730"
+    end
+    node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/vagrant/setup-hosts.sh" do |s|
+      s.args = [IP_NW, BUILD_MODE, 0, 0, 0]
+    end
+    node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
+    node.vm.provision "setup-ssh", :type => "shell", :path => "ubuntu/ssh.sh"
+  end
+
+  if BUILD_MODE == "BRIDGE"
+    config.trigger.after :up do |trigger|
+      trigger.name = "Post provisioner"
+      trigger.ignore = [:destroy, :halt]
+      trigger.ruby do |env, machine|
+        ip = %x{vagrant ssh LFCS -c 'public-ip' 2>/dev/null}.chomp rescue ""
+        puts <<~EOF
+
+               🐧 LFCS Practice VM build complete!
+
+               Target Host: LFCS (Ubuntu 22.04 LTS)
+               SSH command: vagrant ssh LFCS
+               Bridge IP:   #{ip.empty? ? 'Assigned by DHCP' : ip}
+
+             EOF
+      end
+    end
+  end
+end

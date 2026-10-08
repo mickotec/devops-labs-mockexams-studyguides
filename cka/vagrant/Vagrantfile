@@ -1,0 +1,164 @@
+# -*- mode: ruby -*-
+# vi:set ft=ruby sw=2 ts=2 sts=2:
+
+# Standalone CKA Vagrantfile — Provisions only the 3-node Kubernetes cluster:
+#   - controlplane (Master Node: 2 vCPUs, 2048 MB RAM)
+#   - node01       (Worker Node 1: 1 vCPU, 1024 MB RAM)
+#   - node02       (Worker Node 2: 1 vCPU, 1024 MB RAM)
+# Zero LFCS VM overhead.
+
+BUILD_MODE = "BRIDGE"
+NUM_WORKER_NODES = 2
+IP_NW = "192.168.56"
+MASTER_IP_START = 11
+NODE_IP_START = 20
+
+# Host operating system detection
+module OS
+  def OS.windows?
+    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.mac?
+    (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.unix?
+    !OS.windows?
+  end
+
+  def OS.linux?
+    OS.unix? and not OS.mac?
+  end
+
+  def OS.jruby?
+    RUBY_ENGINE == "jruby"
+  end
+end
+
+def get_bridge_adapter()
+  if OS.windows?
+    return %x{powershell -Command "Get-NetRoute -DestinationPrefix 0.0.0.0/0 | Get-NetAdapter | Select-Object -ExpandProperty InterfaceDescription"}.chomp
+  elsif OS.linux?
+    return %x{ip route | grep default | awk '{ print $5 }'}.chomp
+  elsif OS.mac?
+    return %x{mac/mac-bridge.sh}.chomp
+  end
+end
+
+def get_machine_id(vm_name)
+  machine_id_filepath = ".vagrant/machines/#{vm_name}/virtualbox/id"
+  if not File.exist? machine_id_filepath
+    return nil
+  else
+    return File.read(machine_id_filepath)
+  end
+end
+
+def all_nodes_up()
+  if get_machine_id("controlplane").nil?
+    return false
+  end
+
+  (1..NUM_WORKER_NODES).each do |i|
+    if get_machine_id("node0#{i}").nil?
+      return false
+    end
+  end
+  return true
+end
+
+def setup_dns(node)
+  node.vm.provision "setup-hosts", :type => "shell", :path => "ubuntu/vagrant/setup-hosts.sh" do |s|
+    s.args = [IP_NW, BUILD_MODE, NUM_WORKER_NODES, MASTER_IP_START, NODE_IP_START]
+  end
+  node.vm.provision "setup-dns", type: "shell", :path => "ubuntu/update-dns.sh"
+end
+
+def provision_kubernetes_node(node)
+  setup_dns node
+  node.vm.provision "setup-ssh", :type => "shell", :path => "ubuntu/ssh.sh"
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.boot_timeout = 900
+  config.vm.box_check_update = false
+
+  # Provision Master Node
+  config.vm.define "controlplane" do |node|
+    node.vm.provider "virtualbox" do |vb|
+      vb.name = "controlplane"
+      vb.memory = 2048
+      vb.cpus = 2
+    end
+    node.vm.hostname = "controlplane"
+    if BUILD_MODE == "BRIDGE"
+      node.vm.network :public_network, bridge: get_bridge_adapter()
+    else
+      node.vm.network :private_network, ip: IP_NW + ".#{MASTER_IP_START}"
+      node.vm.network "forwarded_port", guest: 22, host: "2710"
+    end
+    provision_kubernetes_node node
+    node.vm.provision "file", source: "./ubuntu/tmux.conf", destination: "$HOME/.tmux.conf"
+    node.vm.provision "file", source: "./ubuntu/vimrc", destination: "$HOME/.vimrc"
+  end
+
+  # Provision Worker Nodes
+  (1..NUM_WORKER_NODES).each do |i|
+    config.vm.define "node0#{i}" do |node|
+      node.vm.provider "virtualbox" do |vb|
+        vb.name = "node0#{i}"
+        vb.memory = 1024
+        vb.cpus = 1
+      end
+      node.vm.hostname = "node0#{i}"
+      if BUILD_MODE == "BRIDGE"
+        node.vm.network :public_network, bridge: get_bridge_adapter()
+      else
+        node.vm.network :private_network, ip: IP_NW + ".#{NODE_IP_START + i}"
+        node.vm.network "forwarded_port", guest: 22, host: "#{2720 + i}"
+      end
+      provision_kubernetes_node node
+    end
+  end
+
+  if BUILD_MODE == "BRIDGE"
+    config.trigger.after :up do |trigger|
+      trigger.name = "Post provisioner"
+      trigger.ignore = [:destroy, :halt]
+      trigger.ruby do |env, machine|
+        if all_nodes_up()
+          puts "    Gathering IP addresses of Kubernetes nodes..."
+          nodes = ["controlplane"]
+          ips = []
+          (1..NUM_WORKER_NODES).each do |i|
+            nodes.push("node0#{i}")
+          end
+          nodes.each do |n|
+            ips.push(%x{vagrant ssh #{n} -c 'public-ip'}.chomp)
+          end
+          hosts = ""
+          ips.each_with_index do |ip, i|
+            hosts << ip << "  " << nodes[i] << "\n"
+          end
+          puts "    Setting /etc/hosts on nodes..."
+          File.open("hosts.tmp", "w") { |file| file.write(hosts) }
+          nodes.each do |node|
+            system("vagrant upload hosts.tmp /tmp/hosts.tmp #{node}")
+            system("vagrant ssh #{node} -c 'cat /tmp/hosts.tmp | sudo tee -a /etc/hosts'")
+          end
+          File.delete("hosts.tmp")
+          puts <<~EOF
+
+                 ☸ Kubernetes Cluster VM build complete!
+
+                 Control Plane and Worker Nodes are online.
+                 SSH into master: vagrant ssh controlplane
+
+               EOF
+        end
+      end
+    end
+  end
+end

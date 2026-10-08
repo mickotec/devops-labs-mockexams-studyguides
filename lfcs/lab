@@ -41,7 +41,7 @@ function usage() {
   echo "  ./lab guide [day-id]       Generate LFCS daily study guide HTML (e.g. w1d1)"
   echo "  ./lab calendar             Interactively customize study start date & duration"
   echo "  ./lab todo                 Interactive terminal checklist for LFCS study plan"
-  echo "  ./lab vm [status|start|stop] Manage LFCS VirtualBox VM"
+  echo "  ./lab vm [status|start|stop|up|destroy] Manage LFCS VirtualBox VM (or Vagrant)"
   echo "  ./lab ssh                  Connect to LFCS Ubuntu VM"
   echo ""
   echo -e "${BOLD}EXAMPLES:${NC}"
@@ -127,8 +127,16 @@ function vm_manager() {
         vboxmanage controlvm "LFCS" acpipowerbutton || true
       fi
       ;;
+    up)
+      echo -e "${BLUE}[*] Provisioning and starting LFCS VM with Vagrant...${NC}"
+      (cd "${SCRIPT_DIR}/vagrant" && vagrant up)
+      ;;
+    destroy)
+      echo -e "${YELLOW}[*] Destroying LFCS VM with Vagrant...${NC}"
+      (cd "${SCRIPT_DIR}/vagrant" && vagrant destroy -f)
+      ;;
     *)
-      echo "Unknown vm command: $action (use: status, start, stop)"
+      echo "Unknown vm command: $action (use: status, start, stop, up, destroy)"
       ;;
   esac
 }
