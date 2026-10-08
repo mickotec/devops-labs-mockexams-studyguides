@@ -20,14 +20,31 @@ This Vagrant configuration provisions a multi-node Kubernetes cluster (1 control
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- **VirtualBox** (>= 6.1 or 7.0)
-- **Vagrant** (>= 2.3)
-- Sufficient host resources: >= 4 CPUs, >= 8 GB RAM
+- **VirtualBox** (>= 6.1 or 7.0):
+  - Ubuntu / Debian: `sudo apt install virtualbox`
+  - Arch Linux: `sudo pacman -S virtualbox virtualbox-host-modules-arch`
+  - Ensure your user is added to the `vboxusers` group:
+    ```bash
+    sudo usermod -aG vboxusers $USER
+    ```
+- **Vagrant** (>= 2.3):
+  > [!IMPORTANT]
+  > **Ubuntu 24.04 LTS (Noble) & Debian 12 Notice**: `vagrant` has been removed from the default distribution apt repositories (`Package 'vagrant' has no installation candidate`). Install HashiCorp's official release package:
+  > ```bash
+  > wget https://releases.hashicorp.com/vagrant/2.4.1/vagrant_2.4.1-1_amd64.deb
+  > sudo dpkg -i vagrant_2.4.1-1_amd64.deb && rm vagrant_2.4.1-1_amd64.deb
+  > ```
+- Sufficient host resources: >= 4 CPUs, >= 8 GB RAM (or >= 4 GB RAM when running CKA-only or LFCS-only).
 
 ### 2. Networking Mode
 By default, the `Vagrantfile` supports two networking modes (configured via `BUILD_MODE` in `Vagrantfile`):
-- `BRIDGE` (default): Connects VMs directly to your LAN with routable IPs (ideal for accessing NodePort services from host browser).
-- `NAT`: Uses private host-only networking (`192.168.56.0/24`) with port forwarding.
+- `BRIDGE` (default): Connects VMs directly to your LAN with routable IPs (ideal for accessing NodePort services from host browser). Automatically detects your default gateway adapter.
+  > [!TIP]
+  > **Wi-Fi / Multi-MAC Limitations**: Some Wi-Fi routers and access points reject multiple MAC addresses over a single wireless connection, which may prevent bridged VMs from receiving a DHCP lease. If you are on Wi-Fi or encounter DHCP timeouts, switch to `NAT` mode in `Vagrantfile`:
+  > ```ruby
+  > BUILD_MODE = "NAT"
+  > ```
+- `NAT`: Uses private host-only networking (`192.168.56.0/24`) with port forwarding (`2710` for controlplane, `2721-2722` for worker nodes, `2730` for LFCS).
 
 ### 3. Spin Up the Environment
 ```bash
@@ -54,6 +71,20 @@ vagrant ssh LFCS
 ./lab ssh node01
 ./lab ssh node02
 ./lab ssh lfcs
+```
+
+### 5. Tear Down & Purge VMs
+When you finish a practice session and want to reclaim CPU, RAM, and disk storage:
+```bash
+# Destroy and clean up all VMs from the current directory:
+vagrant destroy -f
+
+# Or destroy specific nodes:
+vagrant destroy -f controlplane node01 node02
+vagrant destroy -f LFCS
+
+# Or via the unified lab CLI runner from repository root:
+./lab vm destroy
 ```
 
 ---

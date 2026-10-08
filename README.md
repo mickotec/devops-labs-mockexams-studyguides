@@ -18,9 +18,11 @@ Designed with **complete track modularity**: Whether you are studying exclusivel
   - [🐧 Option B: Preparing ONLY for LFCS](#option-b-lfcs)
   - [🚀 Option C: Dual Track (Both CKA & LFCS)](#option-c-both)
 - [🖥 Lab Infrastructure (VirtualBox via Vagrant)](#lab-infrastructure)
+  - [Prerequisites](#infrastructure-prerequisites)
   - [Virtual Machine Topology](#vm-topology)
   - [Provisioning the Machines](#provisioning-machines)
   - [Initializing Kubernetes Cluster (Calico CNI)](#initializing-k8s)
+  - [Tearing Down & Purging VMs](#teardown-vms)
 - [🛠 Unified Lab CLI (`./lab`)](#unified-lab-cli)
 - [💻 Mock Exams & Exam Simulators](#mock-exams)
 - [📅 Schedule Synchronization & Customization](#schedule-sync)
@@ -211,6 +213,24 @@ bash tools/start_webapp.sh
 
 The lab environment runs locally on Oracle VirtualBox using automated Vagrant provisioning, adapted from <a href="https://github.com/kodekloudhub/certified-kubernetes-administrator-course/tree/master/kubeadm-clusters/virtualbox" target="_blank" rel="noopener noreferrer">KodeKloud's Certified Kubernetes Administrator Course</a>.
 
+<a id="infrastructure-prerequisites"></a>
+### Prerequisites
+- **VirtualBox** (>= 6.1 or 7.0):
+  - Ubuntu / Debian: `sudo apt install virtualbox`
+  - Arch Linux: `sudo pacman -S virtualbox virtualbox-host-modules-arch`
+  - Ensure your user is in the `vboxusers` group:
+    ```bash
+    sudo usermod -aG vboxusers $USER
+    ```
+- **Vagrant** (>= 2.3):
+  > [!IMPORTANT]
+  > **Ubuntu 24.04 LTS (Noble) & Debian 12 Notice**: `vagrant` has been removed from the default distribution apt repositories (`Package 'vagrant' has no installation candidate`). Install HashiCorp's official release package:
+  > ```bash
+  > wget https://releases.hashicorp.com/vagrant/2.4.1/vagrant_2.4.1-1_amd64.deb
+  > sudo dpkg -i vagrant_2.4.1-1_amd64.deb && rm vagrant_2.4.1-1_amd64.deb
+  > ```
+- **Host Compute Resources**: >= 4 vCPUs, >= 8 GB RAM (or >= 4 GB RAM when running CKA-only or LFCS-only).
+
 <a id="vm-topology"></a>
 ### Virtual Machine Topology
 
@@ -275,6 +295,20 @@ cd vagrant && vagrant up
    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/calico.yaml
    ```
 5. Join `node01` and `node02` using the `kubeadm join` command produced by step 2.
+
+<a id="teardown-vms"></a>
+### Tearing Down & Purging VMs
+When finishing a practice session and reclaiming host resources:
+```bash
+# Gracefully stop running VMs without losing state:
+./lab vm stop
+
+# Destroy and completely purge all lab VMs:
+./lab vm destroy
+
+# Check current status of VMs across both tracks:
+./lab vm status
+```
 
 ---
 
