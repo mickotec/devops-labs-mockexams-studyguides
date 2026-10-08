@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor
 import markdown
 from weasyprint import HTML
 
-BASE_DIR = Path("/home/micko/Projects/devops/kodekloud_cka")
+BASE_DIR = Path(__file__).resolve().parent
 MD_INDEX = BASE_DIR / "cka_complete_notes.md"
 RAW_PAGES_DIR = BASE_DIR / "raw_pages"
 PDF_OUT_DIR = BASE_DIR / "pdf_guides"
