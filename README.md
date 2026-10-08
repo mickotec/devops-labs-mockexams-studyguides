@@ -391,4 +391,4 @@ Importable directly into Google Calendar, Apple Calendar, Microsoft Outlook, Thu
 <a id="license"></a>
 ## 📄 License
 
-This project is licensed under the terms of the [MIT License](LICENSE).
+This project is licensed under the terms of the <a href="LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.
