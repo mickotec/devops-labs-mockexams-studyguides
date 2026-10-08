@@ -384,7 +384,7 @@ Importable directly into Google Calendar, Apple Calendar, Microsoft Outlook, Thu
 ## 📜 Credits & Attributions
 
 - Kubernetes cluster topology and provisioning scripts adapted from [KodeKloud - Certified Kubernetes Administrator Course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course).
-- Mock exam question formats and grading inspired by [killer.sh](https://killer.sh) and Linux Foundation exam guidelines.
+- Mock exam question formats and grading inspired by [killer.sh](https://killer.sh) and .[Linux Foundation](https://training.linuxfoundation.org/certification-catalog/) exam guidelines.
 
 ---
 
