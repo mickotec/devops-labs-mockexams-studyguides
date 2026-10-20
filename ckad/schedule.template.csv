@@ -1,0 +1,529 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+"[CKAD] 8am-12pm: Multi-Container Pods & Sidecar Logging",10/12/2026,08:00 AM,10/12/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Multi-Container Pods & Sidecar Logging
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d1-ckad)",,False
+"[CKAD] 8am-12pm: Init Containers & Service Dependency Blocking",10/13/2026,08:00 AM,10/13/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Init Containers & Service Dependency Blocking
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d2-ckad)",,False
+"[CKAD] 8am-12pm: Imperative Pod & Deployment CLI Mastery",10/14/2026,08:00 AM,10/14/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Imperative Pod & Deployment CLI Mastery
+Difficulty: Easy | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d3-ckad)",,False
+"[CKAD] 8am-12pm: Advanced Output Formatting with JSONPath",10/15/2026,08:00 AM,10/15/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Advanced Output Formatting with JSONPath
+Difficulty: Medium | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d4-ckad)",,False
+"[CKAD] 8am-12pm: ReplicaSets & Deployment Scaling Strategies",10/16/2026,08:00 AM,10/16/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ReplicaSets & Deployment Scaling Strategies
+Difficulty: Easy | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 1 Milestone: Multi-Tier Core Application",10/17/2026,08:00 AM,10/17/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 1 Milestone: Multi-Tier Core Application
+Difficulty: Hard | Target Time: 40m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w1d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w1d6-ckad)",,False
+"[CKAD] 8am-12pm: Container Commands & Arguments Overrides",10/19/2026,08:00 AM,10/19/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Container Commands & Arguments Overrides
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d1-ckad)",,False
+"[CKAD] 8am-12pm: ConfigMaps from Literals, Files & Env Injection",10/20/2026,08:00 AM,10/20/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ConfigMaps from Literals, Files & Env Injection
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d2-ckad)",,False
+"[CKAD] 8am-12pm: Secrets Creation, Base64 & Safe Mounting",10/21/2026,08:00 AM,10/21/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Secrets Creation, Base64 & Safe Mounting
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d3-ckad)",,False
+"[CKAD] 8am-12pm: SecurityContexts: UID, GID & Linux Capabilities",10/22/2026,08:00 AM,10/22/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: SecurityContexts: UID, GID & Linux Capabilities
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d4-ckad)",,False
+"[CKAD] 8am-12pm: ServiceAccounts & Token Auto-mount Policies",10/23/2026,08:00 AM,10/23/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: ServiceAccounts & Token Auto-mount Policies
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 2 Milestone: Hardened Workload Configuration",10/24/2026,08:00 AM,10/24/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 2 Milestone: Hardened Workload Configuration
+Difficulty: Hard | Target Time: 40m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w2d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w2d6-ckad)",,False
+"[CKAD] 8am-12pm: Resource Requests, Limits & OOM Troubleshooting",10/26/2026,08:00 AM,10/26/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Resource Requests, Limits & OOM Troubleshooting
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d1-ckad)",,False
+"[CKAD] 8am-12pm: Manual Node Scheduling & NodeSelector",10/27/2026,08:00 AM,10/27/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Manual Node Scheduling & NodeSelector
+Difficulty: Medium | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d2-ckad)",,False
+"[CKAD] 8am-12pm: Node Affinity: Required vs Preferred",10/28/2026,08:00 AM,10/28/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Node Affinity: Required vs Preferred
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d3-ckad)",,False
+"[CKAD] 8am-12pm: Taints & Tolerations: Dedicated Workload Isolation",10/29/2026,08:00 AM,10/29/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Taints & Tolerations: Dedicated Workload Isolation
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d4-ckad)",,False
+"[CKAD] 8am-12pm: Labels, Selectors & Annotation Bulk Management",10/30/2026,08:00 AM,10/30/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Labels, Selectors & Annotation Bulk Management
+Difficulty: Easy | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 3 Milestone: Precision Workload Placement",10/31/2026,08:00 AM,10/31/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 3 Milestone: Precision Workload Placement
+Difficulty: Hard | Target Time: 40m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w3d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w3d6-ckad)",,False
+"[CKAD] 8am-12pm: Rolling Updates, Rollout History & Undo/Rollback",11/02/2026,08:00 AM,11/02/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Rolling Updates, Rollout History & Undo/Rollback
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d1-ckad)",,False
+"[CKAD] 8am-12pm: Blue-Green Deployment Cutover Pattern",11/03/2026,08:00 AM,11/03/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Blue-Green Deployment Cutover Pattern
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d2-ckad)",,False
+"[CKAD] 8am-12pm: Canary Deployment Strategy with Weighted Traffic",11/04/2026,08:00 AM,11/04/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Canary Deployment Strategy with Weighted Traffic
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d3-ckad)",,False
+"[CKAD] 8am-12pm: Batch Jobs: Completions, Parallelism & Retries",11/05/2026,08:00 AM,11/05/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Batch Jobs: Completions, Parallelism & Retries
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d4-ckad)",,False
+"[CKAD] 8am-12pm: CronJobs: Schedule Syntax & Concurrency Policies",11/06/2026,08:00 AM,11/06/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: CronJobs: Schedule Syntax & Concurrency Policies
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 4 Milestone: Resilient Canary & Scheduled Jobs",11/07/2026,08:00 AM,11/07/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 4 Milestone: Resilient Canary & Scheduled Jobs
+Difficulty: Hard | Target Time: 40m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w4d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w4d6-ckad)",,False
+"[CKAD] 8am-12pm: Liveness Probes: HTTP, Command & TCP Checks",11/09/2026,08:00 AM,11/09/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Liveness Probes: HTTP, Command & TCP Checks
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d1-ckad)",,False
+"[CKAD] 8am-12pm: Readiness Probes & Service Traffic Gating",11/10/2026,08:00 AM,11/10/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Readiness Probes & Service Traffic Gating
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d2-ckad)",,False
+"[CKAD] 8am-12pm: Startup Probes for Slow-Initializing Applications",11/11/2026,08:00 AM,11/11/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Startup Probes for Slow-Initializing Applications
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d3-ckad)",,False
+"[CKAD] 8am-12pm: Container Logging: Multi-Container & Previous Logs",11/12/2026,08:00 AM,11/12/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Container Logging: Multi-Container & Previous Logs
+Difficulty: Medium | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d4-ckad)",,False
+"[CKAD] 8am-12pm: Metrics Server & CLI Resource Monitoring",11/13/2026,08:00 AM,11/13/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Metrics Server & CLI Resource Monitoring
+Difficulty: Easy | Target Time: 20m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 5 Milestone: Comprehensive Health & Triage Suite",11/14/2026,08:00 AM,11/14/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 5 Milestone: Comprehensive Health & Triage Suite
+Difficulty: Hard | Target Time: 40m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w5d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w5d6-ckad)",,False
+"[CKAD] 8am-12pm: Services: ClusterIP, NodePort & TargetPort Matching",11/16/2026,08:00 AM,11/16/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Services: ClusterIP, NodePort & TargetPort Matching
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d1-ckad)",,False
+"[CKAD] 8am-12pm: Headless Services & StatefulSets Architecture",11/17/2026,08:00 AM,11/17/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Headless Services & StatefulSets Architecture
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d2-ckad)",,False
+"[CKAD] 8am-12pm: NetworkPolicy: Ingress Isolation & Pod Selectors",11/18/2026,08:00 AM,11/18/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: NetworkPolicy: Ingress Isolation & Pod Selectors
+Difficulty: Easy | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d3-ckad)",,False
+"[CKAD] 8am-12pm: NetworkPolicy: Egress Lockdown & DNS Resolution",11/19/2026,08:00 AM,11/19/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: NetworkPolicy: Egress Lockdown & DNS Resolution
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d4-ckad)",,False
+"[CKAD] 8am-12pm: Ingress Networking: Host, Path Rules & Rewrite Target",11/20/2026,08:00 AM,11/20/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Ingress Networking: Host, Path Rules & Rewrite Target
+Difficulty: Easy | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 6 Milestone: Microservices Network Security Sandbox",11/21/2026,08:00 AM,11/21/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 6 Milestone: Microservices Network Security Sandbox
+Difficulty: Hard | Target Time: 45m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w6d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w6d6-ckad)",,False
+"[CKAD] 8am-12pm: Volume Types: emptyDir & hostPath In-Depth",11/23/2026,08:00 AM,11/23/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Volume Types: emptyDir & hostPath In-Depth
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d1-ckad)",,False
+"[CKAD] 8am-12pm: PersistentVolumes & PersistentVolumeClaims",11/24/2026,08:00 AM,11/24/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: PersistentVolumes & PersistentVolumeClaims
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d2-ckad)",,False
+"[CKAD] 8am-12pm: StorageClasses & Dynamic Volume Provisioning",11/25/2026,08:00 AM,11/25/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: StorageClasses & Dynamic Volume Provisioning
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d3-ckad)",,False
+"[CKAD] 8am-12pm: Helm Fundamentals: Repos, Releases & Values Overrides",11/26/2026,08:00 AM,11/26/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Helm Fundamentals: Repos, Releases & Values Overrides
+Difficulty: Medium | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d4-ckad)",,False
+"[CKAD] 8am-12pm: Kustomize Basics: Overlays, Patches & Transformers",11/27/2026,08:00 AM,11/27/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Kustomize Basics: Overlays, Patches & Transformers
+Difficulty: Easy | Target Time: 30m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d5-ckad)",,False
+"[CKAD] 8am-12pm: Week 7 Milestone: Declarative GitOps Kustomize Stack",11/28/2026,08:00 AM,11/28/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Week 7 Milestone: Declarative GitOps Kustomize Stack
+Difficulty: Hard | Target Time: 45m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w7d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w7d6-ckad)",,False
+"[CKAD] 8am-12pm: Kubeconfig Architecture & Multi-Cluster Contexts",11/30/2026,08:00 AM,11/30/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Kubeconfig Architecture & Multi-Cluster Contexts
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d1-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d1-ckad)",,False
+"[CKAD] 8am-12pm: RBAC: Role & RoleBinding Scoped Authorizations",12/01/2026,08:00 AM,12/01/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: RBAC: Role & RoleBinding Scoped Authorizations
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d2-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d2-ckad)",,False
+"[CKAD] 8am-12pm: RBAC: ClusterRole & ClusterRoleBinding Global Rules",12/02/2026,08:00 AM,12/02/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: RBAC: ClusterRole & ClusterRoleBinding Global Rules
+Difficulty: Easy | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d3-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d3-ckad)",,False
+"[CKAD] 8am-12pm: Custom Resource Definitions (CRDs) & API Extensions",12/03/2026,08:00 AM,12/03/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: Custom Resource Definitions (CRDs) & API Extensions
+Difficulty: Medium | Target Time: 25m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d4-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d4-ckad)",,False
+"[CKAD] 8am-12pm: CKAD killer.sh Mock Exam 1 (Timed Simulation)",12/04/2026,08:00 AM,12/04/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: CKAD killer.sh Mock Exam 1 (Timed Simulation)
+Difficulty: Easy | Target Time: 120m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d5-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d5-ckad)",,False
+"[CKAD] 8am-12pm: CKAD killer.sh Mock Exam 2 (Timed Simulation)",12/05/2026,08:00 AM,12/05/2026,12:00 PM,False,"CKAD STUDY BLOCK (8:00 AM - 12:00 PM)
+Topic: CKAD killer.sh Mock Exam 2 (Timed Simulation)
+Difficulty: Hard | Target Time: 120m
+
+Schedule:
+08:00 AM - 08:30 AM: Deep Dive Theory & Architecture
+08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills
+09:30 AM - 09:45 AM: Movement & Hydration break
+09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w8d6-ckad)
+11:15 AM - 11:30 AM: Rest & Review
+11:30 AM - 12:00 PM: Solution Walkthrough & Verification (./lab check w8d6-ckad)",,False

@@ -36,13 +36,18 @@ if str(BASE_DIR) not in sys.path:
 from curriculum import get_curriculum
 
 CKA_DIR = BASE_DIR / "cka"
+CKAD_DIR = BASE_DIR / "ckad"
 LFCS_DIR = BASE_DIR / "lfcs"
 CKA_GUIDES_DIR = CKA_DIR / "guides"
+CKAD_GUIDES_DIR = CKAD_DIR / "guides"
 LFCS_GUIDES_DIR = LFCS_DIR / "guides"
 CKA_GUIDES_DIR.mkdir(parents=True, exist_ok=True)
+CKAD_GUIDES_DIR.mkdir(parents=True, exist_ok=True)
 LFCS_GUIDES_DIR.mkdir(parents=True, exist_ok=True)
 
-ICS_PATH = BASE_DIR / "cka_lfcs_schedule.ics"
+ICS_PATH = BASE_DIR / "study_schedule.ics"
+if not ICS_PATH.exists():
+    ICS_PATH = BASE_DIR / "cka_lfcs_schedule.ics"
 if not ICS_PATH.exists():
     ICS_PATH = TOOLS_DIR / "cka_lfcs_schedule.ics"
 
@@ -73,6 +78,8 @@ def parse_ics_schedule(ics_file: Path):
 
             if "[CKA]" in summary:
                 schedule[d]["events"]["cka"] = {"summary": summary, "desc": desc}
+            elif "[CKAD]" in summary:
+                schedule[d]["events"]["ckad"] = {"summary": summary, "desc": desc}
             elif "[LFCS]" in summary:
                 schedule[d]["events"]["lfcs"] = {"summary": summary, "desc": desc}
             elif "[RECOVERY]" in summary:
@@ -565,6 +572,149 @@ def build_cka_html_for_day(week: int, day: int, schedule_data: dict) -> str:
 """
 
 
+def build_ckad_html_for_day(week: int, day: int, schedule_data: dict) -> str:
+    """Builds dedicated CKAD Daily Study Guide."""
+    day_offset = get_day_offset(week, day)
+    day_dt = START_DATE + timedelta(days=day_offset)
+    date_key = day_dt.strftime("%Y%m%d")
+    date_formatted = day_dt.strftime("%A, %B %d, %Y")
+
+    day_info = schedule_data.get(date_key, {})
+    events = day_info.get("events", {})
+
+    ckad_event = events.get("ckad", {})
+    rec_event = events.get("recovery", {})
+
+    ckad_title = ckad_event.get("summary", f"Week {week} Day {day} CKAD").replace("[CKAD]", "").strip(" :0123456789apmAPM-")
+    ckad_items = extract_schedule_items(ckad_event.get("desc", ""))
+    rec_items = extract_schedule_items(rec_event.get("desc", ""))
+
+    curr = get_curriculum(week, day, track="ckad")
+    ckad_theory_html = curr.get("ckad_theory_html", curr.get("theory_html", ""))
+    ckad_svg = curr.get("ckad_svg", curr.get("svg", ""))
+    ckad_aliases = curr.get("ckad_aliases", curr.get("aliases", ""))
+    checklist = [item for item in curr.get("checklist", []) if item[0] == "CKAD"]
+    if not checklist:
+        checklist = curr.get("checklist", [])
+
+    ckad_lab_dir = CKAD_DIR / f"w{week}d{day}-ckad"
+    ckad_sc_text = (ckad_lab_dir / "scenario.md").read_text(encoding="utf-8") if (ckad_lab_dir / "scenario.md").exists() else ""
+    ckad_so_text = (ckad_lab_dir / "solution.md").read_text(encoding="utf-8") if (ckad_lab_dir / "solution.md").exists() else ""
+
+    ckad_sc_html = md_to_html(ckad_sc_text)
+    ckad_so_html = md_to_html(ckad_so_text)
+
+    ckad_agenda = render_agenda_card("CKAD Application Deep Dive", "badge-primary", "08:00 AM - 12:00 PM", ckad_items, "#ecfdf5")
+    rec_agenda = render_agenda_card("Cognitive Recovery & Integration", "badge-rec", "12:00 PM - 03:00 PM", rec_items, "#f8fafc")
+
+    checklist_rows = ""
+    for track, competency, verify_cmd in checklist:
+        checklist_rows += f"""
+        <tr>
+          <td><span class="badge badge-primary">{track}</span></td>
+          <td>{competency}</td>
+          <td><code>{html.escape(verify_cmd)}</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        """
+
+    css = get_shared_css(primary_accent="#059669", secondary_accent="#34d399",
+                         header_gradient="linear-gradient(135deg, #064e3b 0%, #065f46 50%, #059669 100%)")
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CKAD Master Daily Study Guide — Week {week} Day {day} ({date_formatted})</title>
+  <style>
+    {css}
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER BANNER ==================== -->
+  <div class="header-banner">
+    <div class="badges-row">
+      <span class="badge badge-cal">📅 Week {week} Day {day}</span>
+      <span class="badge badge-date">{date_formatted}</span>
+      <span class="badge badge-primary">☸ CKAD Track</span>
+      <span class="badge badge-rec">Application Mastery</span>
+    </div>
+    <h1>CKAD Master Daily Study Guide</h1>
+    <div class="subtitle">{html.escape(ckad_title)}</div>
+    <div style="font-size: 8.4pt; opacity: 0.95; line-height: 1.35;">
+      <strong>Target:</strong> VirtualBox Kubernetes Cluster (<code>controlplane</code>, <code>node01</code>, <code>node02</code>)<br>
+      <strong>Orchestrator:</strong> <code>./lab start w{week}d{day}-ckad</code> • <code>./lab check w{week}d{day}-ckad</code> • <code>./lab solve w{week}d{day}-ckad</code>
+    </div>
+  </div>
+
+  <h2>📅 Scheduled Study Block (from study_schedule.ics)</h2>
+  <p>
+    Focused hands-on application developer study block. Build speed and muscle memory on imperative commands, manifests, and cluster troubleshooting.
+  </p>
+
+  {ckad_agenda}
+  {rec_agenda}
+
+  <!-- ==================== ARCHITECTURAL DEEP DIVE ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">☸ CKAD Application Architecture Deep Dive: {html.escape(ckad_title)}</h2>
+  
+  {ckad_theory_html}
+
+  <div class="diagram-container">
+    {ckad_svg}
+  </div>
+
+  <!-- ==================== HANDS-ON LAB WALKTHROUGH ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🛠 Hands-on Lab Walkthrough: w{week}d{day}-ckad</h2>
+  
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">🎯 Lab Scenario Objectives &amp; Tasks</div>
+    {ckad_sc_html}
+  </div>
+
+  <div class="callout callout-tip avoid-break">
+    <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
+    {ckad_so_html}
+  </div>
+
+  <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">⚡ CKAD Speed Drills &amp; Daily Readiness Matrix</h2>
+
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">☸ Essential Kubectl Shortcuts &amp; Terminal Aliases (.bashrc)</div>
+    <pre><code>{html.escape(ckad_aliases)}</code></pre>
+  </div>
+
+  <h3>Daily Self-Assessment Checklist</h3>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 10%;">Track</th>
+        <th style="width: 48%;">Core Competency / Question</th>
+        <th style="width: 30%;">Verification Command</th>
+        <th style="width: 12%;">Mastery</th>
+      </tr>
+    </thead>
+    <tbody>
+      {checklist_rows}
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>CKAD Official Preparation Guide • Week {week} Day {day}</span>
+    <span>Orchestrator: <code>./lab check w{week}d{day}-ckad</code></span>
+  </div>
+
+</body>
+</html>
+"""
+
+
 def build_lfcs_html_for_day(week: int, day: int, schedule_data: dict) -> str:
     """Builds dedicated LFCS Daily Study Guide."""
     day_offset = get_day_offset(week, day)
@@ -744,7 +894,7 @@ def generate_single_day(week: int, day: int, schedule_data: dict, track: str = "
     generated = []
 
     # CKA Guide
-    if track in ["both", "cka"]:
+    if track in ["both", "cka", "all"]:
         cka_html = build_cka_html_for_day(week, day, schedule_data)
         out_html = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}.html"
         out_pdf = CKA_GUIDES_DIR / f"CKA_Daily_Study_Guide_W{week}D{day}.pdf"
@@ -755,8 +905,20 @@ def generate_single_day(week: int, day: int, schedule_data: dict, track: str = "
             sz_kb = out_html.stat().st_size / 1024
             print(f"[✓] CKA  W{week}D{day} -> {out_html.name} ({sz_kb:.1f} KB)")
 
+    # CKAD Guide
+    if track in ["ckad", "all"]:
+        ckad_html = build_ckad_html_for_day(week, day, schedule_data)
+        out_html = CKAD_GUIDES_DIR / f"CKAD_Daily_Study_Guide_W{week}D{day}.html"
+        out_pdf = CKAD_GUIDES_DIR / f"CKAD_Daily_Study_Guide_W{week}D{day}.pdf"
+        out_html.write_text(ckad_html, encoding="utf-8")
+        compile_pdf(out_html, out_pdf)
+        generated.append(out_html)
+        if verbose:
+            sz_kb = out_html.stat().st_size / 1024
+            print(f"[✓] CKAD W{week}D{day} -> {out_html.name} ({sz_kb:.1f} KB)")
+
     # LFCS Guide
-    if track in ["both", "lfcs"]:
+    if track in ["both", "lfcs", "all"]:
         lfcs_html = build_lfcs_html_for_day(week, day, schedule_data)
         out_html = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}.html"
         out_pdf = LFCS_GUIDES_DIR / f"LFCS_Daily_Study_Guide_W{week}D{day}.pdf"
@@ -784,10 +946,14 @@ def main():
     for a in args:
         if a.lower() in ["--cka", "-cka"]:
             track = "cka"
+        elif a.lower() in ["--ckad", "-ckad"]:
+            track = "ckad"
         elif a.lower() in ["--lfcs", "-lfcs"]:
             track = "lfcs"
         elif a.lower() in ["--both", "-both"]:
             track = "both"
+        elif a.lower() in ["--all-tracks", "--all", "-all"]:
+            track = "all"
         else:
             clean_args.append(a)
 

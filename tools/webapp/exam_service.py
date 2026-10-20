@@ -29,6 +29,14 @@ CKA_DOMAINS = {
     "Services & Networking": 20.0
 }
 
+CKAD_DOMAINS = {
+    "Application Environment, Configuration and Security": 25.0,
+    "Application Design and Build": 20.0,
+    "Application Deployment": 20.0,
+    "Services and Networking": 20.0,
+    "Application Observability and Maintenance": 15.0
+}
+
 LFCS_DOMAINS = {
     "Operations Deployment": 25.0,
     "Networking": 25.0,
@@ -38,10 +46,14 @@ LFCS_DOMAINS = {
 }
 
 def load_mock_labs():
-    """Loads raw mock labs from curriculum.cka and curriculum.lfcs."""
+    """Loads raw mock labs from curriculum.cka, curriculum.lfcs, and curriculum.ckad."""
     from curriculum.cka.labs_mocks import MOCK_LABS as CKA_M
     from curriculum.lfcs.labs_mocks import MOCK_LABS as LFCS_M
-    return {lab["lab_id"]: lab for lab in (CKA_M + LFCS_M)}
+    try:
+        from curriculum.ckad.labs_mocks import MOCK_LABS as CKAD_M
+    except ImportError:
+        CKAD_M = []
+    return {lab["lab_id"]: lab for lab in (CKA_M + LFCS_M + CKAD_M)}
 
 
 def get_question_context(track, exam_id, q_num, q_text, domain):
@@ -52,7 +64,7 @@ def get_question_context(track, exam_id, q_num, q_text, domain):
     text_lower = q_text.lower()
     domain_lower = domain.lower()
 
-    if track == "CKA":
+    if track in ("CKA", "CKAD"):
         if "ssh node01" in text_lower or ("static pod" in text_lower and "node01" in text_lower):
             return "ssh node01", "node01"
         elif "ssh node02" in text_lower or ("node02" in text_lower and ("kubelet" in text_lower or "diagnose" in text_lower or "stopped" in text_lower)):
@@ -162,8 +174,15 @@ def get_exam_metadata(exam_id):
     lab = labs[exam_id]
     track = lab.get("track", "CKA")
     questions = parse_exam_questions(lab)
-    domains = CKA_DOMAINS if track == "CKA" else LFCS_DOMAINS
-    pass_score = "66%" if track == "CKA" else "67%"
+    if track == "CKA":
+        domains = CKA_DOMAINS
+        pass_score = "66%"
+    elif track == "CKAD":
+        domains = CKAD_DOMAINS
+        pass_score = "66%"
+    else:
+        domains = LFCS_DOMAINS
+        pass_score = "67%"
 
     return {
         "exam_id": exam_id,
@@ -180,10 +199,10 @@ def get_exam_metadata(exam_id):
     }
 
 def get_all_mock_exams():
-    """Returns summary cards of all 4 mock exams."""
+    """Returns summary cards of all mock exams across CKA, CKAD, and LFCS."""
     labs = load_mock_labs()
     result = []
-    order = ["mock-cka-1", "mock-cka-2", "mock-lfcs-1", "mock-lfcs-2", "mock-lfcs-3", "mock-lfcs-4"]
+    order = ["mock-cka-1", "mock-cka-2", "mock-ckad-1", "mock-ckad-2", "mock-lfcs-1", "mock-lfcs-2", "mock-lfcs-3", "mock-lfcs-4"]
     for eid in order:
         if eid in labs:
             lab = labs[eid]
@@ -193,9 +212,9 @@ def get_all_mock_exams():
                 "track": track,
                 "title": lab.get("title"),
                 "time_limit": lab.get("time", "120m"),
-                "passing_score": "66%" if track == "CKA" else "67%",
+                "passing_score": "66%" if track in ("CKA", "CKAD") else "67%",
                 "difficulty": "Hard (Exam Simulation)",
-                "target": "VirtualBox K8s Cluster (controlplane, node01, node02)" if track == "CKA" else "VirtualBox Ubuntu VM (LFCS)"
+                "target": "VirtualBox K8s Cluster (controlplane, node01, node02)" if track in ("CKA", "CKAD") else "VirtualBox Ubuntu VM (LFCS)"
             })
     return result
 

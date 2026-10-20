@@ -39,6 +39,5 @@ Apply: `kubectl apply -f /opt/k8s-manifests/broken-app.yaml`
 
 3. Deploy event-streamer:
 ```bash
-kubectl run event-streamer -n fintech --image=busybox:1.36 --restart=Always -- \
-  sh -c "while true; do echo '[STREAM] Transaction event at $(date)' >> /tmp/stream.log; sleep 5; done"
+kubectl run event-streamer -n fintech --image=busybox:1.36 --restart=Always --   sh -c "while true; do echo '[STREAM] Transaction event at $(date)' >> /tmp/stream.log; sleep 5; done"
 ```

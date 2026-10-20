@@ -1,0 +1,29 @@
+# [CKAD W6D5-CKAD] Ingress Networking: Host, Path Rules & Rewrite Target
+
+**Date:** 2026-11-20  
+**Time Limit:** 30m  
+**Difficulty:** Easy  
+**Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
+
+---
+
+## 📋 Scenario Overview
+Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.
+
+---
+
+## 🎯 Candidate Tasks
+
+### Task 1: Ingress Networking: Host, Path Rules & Rewrite Target
+1. Work in namespace `ckad-w6d5` on the cluster.
+2. Objective: Ingress controller routing /app and /api with rewrite.
+3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
+4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+
+---
+
+## 🔍 Validation
+Run the automated grader:
+```bash
+./lab check w6d5-ckad
+```

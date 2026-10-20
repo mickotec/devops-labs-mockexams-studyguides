@@ -1,0 +1,396 @@
+Kodekloud CKAD Learning Modules
+
+Introduction
+7 Lessons
+
+	Module Content
+
+	Introduction
+
+	Kubernetes Series of Courses
+
+	Kubernetes for Beginners Course
+	Certification Details
+
+	
+
+Core Concepts
+31 Lessons
+
+	Module Content
+
+	Recap: Architecture
+
+	Docker-vs-ContainerD
+
+	A Note on Docker Deprecation
+
+	Recap: Pods
+
+	YAML Basics
+	Recap: Pods with YAML
+
+	Recap: Demo - Creating Pods with YAML
+
+	Introduction to Kubernetes Practice Test
+
+	Lab: Kubernetes - CKAD - Pods
+	Solution - Pods (optional)
+	
+	Edit Pods
+	Recap: ReplicaSets
+
+	Lab: Kubernetes - CKAD - ReplicaSets
+	Solution: ReplicaSets (optional)
+
+	Recap: Deployments
+
+	Lab: Kubernetes - CKAD - Deployments
+	Solution: Deployments (optional)
+
+	Recap: Namespaces
+
+	Lab: Kubernetes - CKAD - Namespaces
+	Solution: Namespaces (optional)
+
+	Services
+
+	Services - Cluster IP
+
+	Lab: CKAD - Kubernetes Services
+	Solution: Services (optional)
+
+	Certification Tip: Imperative Commands!
+	Certification Tip: Formatting Output with kubectl
+	Kubectl Explain Command
+	
+	Lab: Imperative Commands
+	Solution: Imperative Commands (optional)
+
+
+Configuration
+37 Lessons
+
+	Module Content
+
+	Define, build and modify container images
+
+	Lab: Docker Images
+	Commands and Arguments in Docker
+
+	Commands and Arguments in Kubernetes
+
+	A quick note on editing Pods and Deployments
+	Lab: Kubernetes - CKAD - Commands and Arguments
+	Solution: Commands and Arguments (Optional)
+
+	Environment Variables
+
+	ConfigMaps
+	
+	Lab: Kubernetes - CKAD - ConfigMaps
+	Solution: ConfigMaps (Optional)
+	
+	Secrets
+	
+	A quick note about Secrets!
+	Lab: Kubernetes - CKAD - Secrets
+	Additional Resource
+	Solution: Secrets (Optional)
+	
+	Demo: Encrypting Secret Data at Rest
+
+	Pre-requisite: Security in Docker
+	
+	Security Contexts
+
+	Lab: Kubernetes - CKAD - Security Contexts
+	Solutions-Security Contexts
+	
+	Resource Requirements
+
+	Lab: Kubernetes - CKAD - Resource Limits
+	Solutions: Resource Requirements
+
+	Service Account
+
+	Lab: Kubernetes - CKAD - Service Account
+	Solutions: Service Account
+
+	Stay Updated!
+	Taints and Tolerations
+
+	Lab: Taints and Toleration
+	Solution: Taints and Tolerations (Optional)
+
+	Node Selectors Logging
+
+	Node Affinity
+
+	Lab: Node Affinity
+	Solution: Node Affinity (Optional)
+
+	Taints & Tolerations vs Node Affinity
+
+
+
+Multi-Container Pods
+6 Lessons
+
+	Module Content
+
+	Multi-Container Pods
+	
+	Multi-container Pods Design Patterns
+
+	Lab: Kubernetes CKAD - Multi Container Pods
+	Init Containers
+	Lab: Init Containers
+	Solution: Init Containers (Optional)
+	
+Observability
+10 Lessons
+
+	Module Content
+
+	Readiness Probes
+
+	Liveness Probes
+
+	Lab: Kubernetes - CKAD - Readiness Probes
+	Solution: Readiness and Liveness Probes
+
+	Logging
+
+	Lab: Kubernetes - CKAD - Logging
+	Solution: Logging (optional)
+
+	Monitoring
+
+	Lab: Kubernetes - CKAD - Monitoring
+	Solution - Monitoring (optional)
+
+
+POD Design
+15 Lessons
+
+	Module Content
+
+	Labels, Selectors & Annotations
+
+	Lab: Kubernetes - CKAD - Labels and Selectors
+	Solution: Labels and Selectors (optional)
+
+	Rolling Updates & Rollbacks
+	
+	Updating a Deployment
+
+	Lab: Kubernetes - CKAD - Rolling Updates and Rollbacks
+	Solution: Rolling Updates and Rollbacks (optional)
+
+	Deployment Strategy - Blue Green
+
+	Deployment Strategy - Canary
+
+	Lab: Deployment strategies
+	Solution: Deployment strategies
+
+	Jobs
+
+	Cron Jobs
+
+	Lab: Kubernetes - CKAD - Jobs and CronJobs
+	Solution: Jobs and Cronjobs (optional)
+	
+
+Services & Networking
+11 Lessons
+
+	Module Content
+
+
+	Network Policies
+
+	Developing network policies
+
+	Lab: Kubernetes - CKAD - Network Policies
+	Solution: Network Policies (optional)
+
+	Ingress Networking
+
+	Article: Ingress
+	Lab: CKAD - Ingress Networking - 1
+	Solution: Ingress Networking - 1
+
+	Lab: CKAD - Ingress Networking - 2
+	Solution: Ingress Networking - 2
+
+	FAQ: What is the rewrite-target option?
+
+State Persistence
+16 Lessons
+
+	Module Content
+
+	Introduction to Docker Storage
+
+	Storage in Docker
+
+	Volume Driver Plugins in Docker
+
+	Volumes in Kubernetes
+
+	Persistent Volumes
+
+	Persistent Volume Claims
+
+	Using PVCs in Pods
+	Lab: Kubernetes - CKAD - Persistent Volumes
+	Solution: Persistent Volumes and Persistent Volume Claims (optional)
+
+	Note on optional topics
+	Storage Classes
+
+	Lab: Storage Class
+	Why Stateful Sets?
+
+	Stateful Sets Introduction
+
+	Headless Services
+
+	Storage in StatefulSets
+
+
+Security
+29 Lessons
+
+	Module Content
+
+	Kubernetes Security Primitives
+	
+	Authentication
+	
+	Article on Setting up Basic Authentication
+	Important Updates
+	KubeConfig
+	
+	Lab: KubeConfig
+	Solution KubeConfig
+
+	API Groups
+
+	Authorization
+
+	Role Based Access Controls
+
+	Lab: Role Based Access Controls
+	Solution Role Based Access Controls
+
+	Cluster Roles
+
+	Lab: Cluster Roles
+	Solution Cluster Roles
+
+	Admission Controllers
+
+	Lab: Admission Controllers
+	Solution: Admission Controllers
+
+	Validating and Mutating Admission Controllers
+
+	Lab: Validating and Mutating Admission Controllers
+
+	API Versions
+
+	API Deprecations
+	
+	Lab: API Versions/Deprecations
+	Solution: API Versions/Deprecations
+	
+	Custom Resource Definition
+	
+	🆕 Lab: Custom Resource Definition (2025 Updates)
+	Custom Controllers
+	
+	Operator Framework
+	
+
+Helm Fundamentals
+7 Lessons
+
+	Module Content
+
+	Helm Introduction
+	
+	Install Helm
+	
+	Lab: Install Helm
+	Solution: Install Helm
+
+	Helm Concept
+
+	Lab: Helm Concepts
+	Solution: Helm Concepts
+	
+Kustomize Basics
+22 Lessons
+
+	Module Content
+
+
+	🆕 Kustomize Problem Statement and Ideology
+
+	🆕 Kustomize vs Helm
+
+	🆕 Installation/Setup
+
+	🆕 The kustomization.yaml File
+
+	🆕 Kustomize Output
+
+	🆕 Kustomize ApiVersion and Kind
+
+	🆕 Managing Directories
+
+	🆕 Managing Directories Demo
+
+	🆕 Lab: Managing Directories(Kustomize)
+
+	🆕 Common Transformers
+
+	🆕 Image Transformers
+
+	🆕 Transformers Demo
+
+	🆕 Lab: Transformers
+
+	🆕 Patches Intro
+
+	🆕 Different Types of Patches
+
+	🆕 Patches Dictionary
+
+	🆕 Patches List
+
+	🆕 Lab: Patches
+
+	🆕 Overlays
+
+	🆕 Lab: Overlay
+
+	🆕 Components
+
+	🆕 Lab: Components
+
+
+Mock Exams
+7 Lessons
+
+
+
+Mock Exam Introduction
+Mock Exam - 1
+Mock Exam - 1 - Solution
+
+Mock Exam - 2
+Mock Exam - 2 - Solution

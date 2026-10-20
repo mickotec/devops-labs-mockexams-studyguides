@@ -36,10 +36,22 @@ from curriculum.lfcs.labs_week7 import WEEK_7_LABS as LFCS_W7
 from curriculum.lfcs.labs_week8 import WEEK_8_LABS as LFCS_W8
 from curriculum.lfcs.labs_mocks import MOCK_LABS as LFCS_MOCKS
 
+from curriculum.ckad.labs_week1 import WEEK_1_LABS as CKAD_W1
+from curriculum.ckad.labs_week2 import WEEK_2_LABS as CKAD_W2
+from curriculum.ckad.labs_week3 import WEEK_3_LABS as CKAD_W3
+from curriculum.ckad.labs_week4 import WEEK_4_LABS as CKAD_W4
+from curriculum.ckad.labs_week5 import WEEK_5_LABS as CKAD_W5
+from curriculum.ckad.labs_week6 import WEEK_6_LABS as CKAD_W6
+from curriculum.ckad.labs_week7 import WEEK_7_LABS as CKAD_W7
+from curriculum.ckad.labs_week8 import WEEK_8_LABS as CKAD_W8
+from curriculum.ckad.labs_mocks import MOCK_LABS as CKAD_MOCKS
+
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(TOOLS_DIR) if os.path.basename(TOOLS_DIR) == "tools" else TOOLS_DIR
 CKA_DIR = os.path.join(REPO_DIR, "cka")
 LFCS_DIR = os.path.join(REPO_DIR, "lfcs")
+CKAD_DIR = os.path.join(REPO_DIR, "ckad")
+os.makedirs(CKAD_DIR, exist_ok=True)
 
 CKA_WEEKS = [
     (1, CKA_W1), (2, CKA_W2), (3, CKA_W3), (4, CKA_W4),
@@ -49,18 +61,27 @@ LFCS_WEEKS = [
     (1, LFCS_W1), (2, LFCS_W2), (3, LFCS_W3), (4, LFCS_W4),
     (5, LFCS_W5), (6, LFCS_W6), (7, LFCS_W7), (8, LFCS_W8),
 ]
+CKAD_WEEKS = [
+    (1, CKAD_W1), (2, CKAD_W2), (3, CKAD_W3), (4, CKAD_W4),
+    (5, CKAD_W5), (6, CKAD_W6), (7, CKAD_W7), (8, CKAD_W8),
+]
 
 def make_executable(path):
     st = os.stat(path)
     os.chmod(path, st.st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
 
 def write_lab(lab_id, track, date_str, title, diff, time_limit, tasks, setup_code, verify_code, solution_code, reset_code):
-    parent_dir = CKA_DIR if track.upper() == "CKA" else LFCS_DIR
+    if track.upper() == "CKA":
+        parent_dir = CKA_DIR
+    elif track.upper() == "CKAD":
+        parent_dir = CKAD_DIR
+    else:
+        parent_dir = LFCS_DIR
     lab_dir = os.path.join(parent_dir, lab_id)
     os.makedirs(lab_dir, exist_ok=True)
 
     # 1. meta.env
-    pass_score = "66%" if (lab_id.startswith("mock-") and track == "CKA") else ("67%" if lab_id.startswith("mock-") else "100%")
+    pass_score = "66%" if (lab_id.startswith("mock-") and track in ("CKA", "CKAD")) else ("67%" if lab_id.startswith("mock-") else "100%")
     with open(os.path.join(lab_dir, "meta.env"), "w", encoding="utf-8") as f:
         f.write(f"""TRACK="{track}"
 DATE="{date_str}"
@@ -72,7 +93,7 @@ PASSING_SCORE="{pass_score}"
 
     # 2. scenario.md
     with open(os.path.join(lab_dir, "scenario.md"), "w", encoding="utf-8") as f:
-        target_str = "VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)" if track == "CKA" else "VirtualBox Ubuntu VM (`LFCS`) / Linux Terminal"
+        target_str = "VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)" if track in ("CKA", "CKAD") else "VirtualBox Ubuntu VM (`LFCS`) / Linux Terminal"
         pass_line = f"\n**Passing Score:** {pass_score}  " if lab_id.startswith("mock-") else ""
         f.write(f"""# [{track} {lab_id.upper()}] {title}
 
@@ -115,7 +136,9 @@ echo "[✓] Environment ready. Review tasks with: ./lab show {lab_id}"
     # 4. verify.sh
     verify_path = os.path.join(lab_dir, "verify.sh")
     with open(verify_path, "w", encoding="utf-8") as f:
-        if lab_id.startswith("mock-") and track == "CKA":
+        if verify_code.strip().startswith("#!/usr/bin/env bash"):
+            f.write(verify_code)
+        elif lab_id.startswith("mock-") and track == "CKA":
             score_block = f"""
 PCT_STOR=$(awk "BEGIN {{printf \\"%.1f\\", $SCORE_STOR * 10.0 / $TOTAL_STOR}}")
 PCT_TROUBLE=$(awk "BEGIN {{printf \\"%.1f\\", $SCORE_TROUBLE * 30.0 / $TOTAL_TROUBLE}}")
@@ -147,6 +170,19 @@ else
   echo -e "${{RED}}Score below passing threshold (66.0%). Current: ${{TOTAL_PCT}}%. Review domain competencies or run: ./lab solve {lab_id}${{NC}}"
   exit 1
 fi"""
+            f.write(f"""#!/usr/bin/env bash
+set -uo pipefail
+
+RED='\\033[0;31m'
+GREEN='\\033[0;32m'
+BOLD='\\033[1m'
+NC='\\033[0m'
+
+echo -e "${{BOLD}}Evaluating {lab_id}: {title}...${{NC}}"
+{verify_code}
+
+{score_block}
+""")
         elif lab_id.startswith("mock-") and track == "LFCS":
             score_block = f"""
 PCT_OPS=$(awk "BEGIN {{printf \\"%.1f\\", $SCORE_OPS * 25.0 / $TOTAL_OPS}}")
@@ -179,6 +215,19 @@ else
   echo -e "${{RED}}Score below passing threshold (67.0%). Current: ${{TOTAL_PCT}}%. Review domain competencies or run: ./lab solve {lab_id}${{NC}}"
   exit 1
 fi"""
+            f.write(f"""#!/usr/bin/env bash
+set -uo pipefail
+
+RED='\\033[0;31m'
+GREEN='\\033[0;32m'
+BOLD='\\033[1m'
+NC='\\033[0m'
+
+echo -e "${{BOLD}}Evaluating {lab_id}: {title}...${{NC}}"
+{verify_code}
+
+{score_block}
+""")
         else:
             score_block = f"""echo "──────────────────────────────────────────────"
 echo -e "Final Score: ${{BOLD}}${{SCORE}}/${{TOTAL}}${{NC}}"
@@ -189,8 +238,7 @@ else
   echo -e "${{RED}}Checks incomplete. Review scenario tasks or run: ./lab solve {lab_id}${{NC}}"
   exit 1
 fi"""
-
-        f.write(f"""#!/usr/bin/env bash
+            f.write(f"""#!/usr/bin/env bash
 set -uo pipefail
 
 RED='\\033[0;31m'
@@ -296,6 +344,46 @@ def main():
             mock["lab_id"],
             "LFCS",
             mock["date"],
+            mock["title"],
+            mock["diff"],
+            mock["time"],
+            mock["tasks"],
+            mock["setup"],
+            mock["verify"],
+            mock["solution"],
+            mock["reset"]
+        )
+        total_generated += 1
+
+    # Generate CKAD Weeks 1-8
+    for week_num, days_data in CKAD_WEEKS:
+        print(f"--> Processing CKAD Week {week_num} ({len(days_data)} days)...")
+        for item in days_data:
+            d = item["day"]
+            date_str = item["date"]
+            ckad_id = f"w{week_num}d{d}-ckad"
+            write_lab(
+                ckad_id,
+                "CKAD",
+                date_str,
+                item["title"],
+                item["diff"],
+                item["time"],
+                item["tasks"],
+                item["setup"],
+                item["verify"],
+                item["solution"],
+                item["reset"]
+            )
+            total_generated += 1
+
+    # Generate CKAD Mock Exams
+    print(f"--> Processing CKAD Mock Exams ({len(CKAD_MOCKS)} mock exams)...")
+    for mock in CKAD_MOCKS:
+        write_lab(
+            mock["lab_id"],
+            "CKAD",
+            mock.get("date", "2026-11-20"),
             mock["title"],
             mock["diff"],
             mock["time"],

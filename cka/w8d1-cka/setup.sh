@@ -31,7 +31,7 @@ spec:
   containers:
   - name: connector
     image: busybox:1.36
-    command: ["sh", "-c", "if [ -z \"$DB_HOST\" ]; then exit 1; else sleep 3600; fi"]
+    command: ["sh", "-c", "if [ -z "$DB_HOST" ]; then exit 1; else sleep 3600; fi"]
 EOF
 '
 echo "[✓] Environment ready. Review tasks with: ./lab show w8d1-cka"

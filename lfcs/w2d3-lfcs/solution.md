@@ -3,7 +3,8 @@
 ### Tasks & Official Solution
 1. Awk user extraction:
 ```bash
-awk -F: '$3 >= 1000 { printf "User: %s (UID: %s, Shell: %s)\n", $1, $3, $7 }' /etc/passwd > /var/tmp/regular_users.txt
+awk -F: '$3 >= 1000 { printf "User: %s (UID: %s, Shell: %s)
+", $1, $3, $7 }' /etc/passwd > /var/tmp/regular_users.txt
 ```
 
 2. Sed transformations:

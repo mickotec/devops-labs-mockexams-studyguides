@@ -7,6 +7,7 @@ to dedicated CKA and LFCS subpackages for all 8 weeks (48 active days).
 import re
 from . import cka
 from . import lfcs
+from . import ckad
 
 class _MergedWeek:
     """Wrapper that merges CKA and LFCS daily content and exposes day methods and docstrings."""
@@ -71,6 +72,8 @@ def get_curriculum(week: int, day: int, track: str = None) -> dict:
             return lfcs.get_curriculum(week, day)
         elif tr == "cka":
             return cka.get_curriculum(week, day)
+        elif tr == "ckad":
+            return ckad.get_curriculum(week, day)
 
     wk_obj = WEEKS.get(week)
     if wk_obj:

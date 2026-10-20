@@ -22,6 +22,7 @@ function banner() {
   echo "║                 DevOps Lab & Mock Exam Launcher                    ║"
   echo "║        Each exam track is independently managed in its folder:     ║"
   echo "║          • CKA Track:  cd cka  && ./lab                            ║"
+  echo "║          • CKAD Track: cd ckad && ./lab                            ║"
   echo "║          • LFCS Track: cd lfcs && ./lab                            ║"
   echo "╚════════════════════════════════════════════════════════════════════╝"
   echo -e "${NC}"
@@ -31,19 +32,22 @@ function usage() {
   banner
   echo -e "${BOLD}USAGE:${NC}"
   echo "  ./lab cka [cmd...]         Forward command to CKA orchestrator (cka/lab)"
+  echo "  ./lab ckad [cmd...]        Forward command to CKAD orchestrator (ckad/lab)"
   echo "  ./lab lfcs [cmd...]        Forward command to LFCS orchestrator (lfcs/lab)"
-  echo "  ./lab list [filter]        List all labs across both CKA and LFCS"
-  echo "  ./lab start <lab-id>       Start a lab (auto-routes to cka or lfcs)"
+  echo "  ./lab list [filter]        List all labs across CKA, CKAD, and LFCS"
+  echo "  ./lab start <lab-id>       Start a lab (auto-routes to cka, ckad, or lfcs)"
   echo "  ./lab show <lab-id>        Display scenario questions (auto-routes)"
-  echo "  ./lab check <lab-id>       Grade a solution (auto-routes to cka or lfcs)"
+  echo "  ./lab check <lab-id>       Grade a solution (auto-routes to cka, ckad, or lfcs)"
   echo "  ./lab solve <lab-id>       Display official solution (auto-routes)"
   echo "  ./lab reset <lab-id>       Clean up lab artifacts (auto-routes)"
+  echo "  ./lab calendar             Launch unified Study Calendar & Schedule Generator"
   echo "  ./lab vm [status|start|stop|up|destroy] Manage all lab VirtualBox VMs (or Vagrant)"
   echo "  ./lab ssh <target>         Connect to controlplane, node01, node02, or lfcs"
   echo ""
   echo -e "${BOLD}DEDICATED DIRECTORIES:${NC}"
   echo "  For an isolated experience, work directly inside the track folder:"
   echo -e "    ${YELLOW}cd cka  && ./lab list${NC}"
+  echo -e "    ${YELLOW}cd ckad && ./lab list${NC}"
   echo -e "    ${YELLOW}cd lfcs && ./lab list${NC}"
   exit 0
 }
@@ -55,19 +59,31 @@ case "$CMD" in
     shift || true
     exec "${SCRIPT_DIR}/cka/lab" "$@"
     ;;
+  ckad)
+    shift || true
+    exec "${SCRIPT_DIR}/ckad/lab" "$@"
+    ;;
   lfcs)
     shift || true
     exec "${SCRIPT_DIR}/lfcs/lab" "$@"
     ;;
+  calendar|schedule)
+    shift || true
+    python3 "${SCRIPT_DIR}/tools/generate_calendar.py" "$@"
+    ;;
   list|ls)
     shift || true
     filter="${1:-}"
-    if [[ "$filter" =~ cka ]]; then
+    if [[ "$filter" =~ ckad ]]; then
+      exec "${SCRIPT_DIR}/ckad/lab" list "$filter"
+    elif [[ "$filter" =~ cka ]]; then
       exec "${SCRIPT_DIR}/cka/lab" list "$filter"
     elif [[ "$filter" =~ lfcs ]]; then
       exec "${SCRIPT_DIR}/lfcs/lab" list "$filter"
     else
       "${SCRIPT_DIR}/cka/lab" list "$filter"
+      echo ""
+      "${SCRIPT_DIR}/ckad/lab" list "$filter"
       echo ""
       "${SCRIPT_DIR}/lfcs/lab" list "$filter"
     fi
@@ -75,20 +91,24 @@ case "$CMD" in
   start|show|check|verify|grade|solve|solution|reset|clean)
     LAB_ID="${2:-}"
     if [ -z "$LAB_ID" ]; then
-      echo -e "${RED}[ERROR] Missing lab-id.${NC} Example: ./lab $CMD w1d1-cka"
+      echo -e "${RED}[ERROR] Missing lab-id.${NC} Example: ./lab $CMD w1d1-ckad"
       exit 1
     fi
-    if [[ "$LAB_ID" =~ -lfcs ]]; then
+    if [[ "$LAB_ID" =~ -ckad ]]; then
+      exec "${SCRIPT_DIR}/ckad/lab" "$@"
+    elif [[ "$LAB_ID" =~ -lfcs ]]; then
       exec "${SCRIPT_DIR}/lfcs/lab" "$@"
     elif [[ "$LAB_ID" =~ -cka ]]; then
       exec "${SCRIPT_DIR}/cka/lab" "$@"
     else
-      if [ -d "${SCRIPT_DIR}/cka/${LAB_ID}" ]; then
+      if [ -d "${SCRIPT_DIR}/ckad/${LAB_ID}" ]; then
+        exec "${SCRIPT_DIR}/ckad/lab" "$@"
+      elif [ -d "${SCRIPT_DIR}/cka/${LAB_ID}" ]; then
         exec "${SCRIPT_DIR}/cka/lab" "$@"
       elif [ -d "${SCRIPT_DIR}/lfcs/${LAB_ID}" ]; then
         exec "${SCRIPT_DIR}/lfcs/lab" "$@"
       else
-        echo -e "${RED}[ERROR] Lab '${LAB_ID}' not found in cka/ or lfcs/.${NC}"
+        echo -e "${RED}[ERROR] Lab '${LAB_ID}' not found in ckad/, cka/, or lfcs/.${NC}"
         exit 1
       fi
     fi
@@ -96,7 +116,7 @@ case "$CMD" in
   vm)
     shift || true
     action="${1:-status}"
-    echo -e "${BOLD}--- CKA Kubernetes VMs ---${NC}"
+    echo -e "${BOLD}--- Kubernetes Cluster VMs (CKA & CKAD) ---${NC}"
     "${SCRIPT_DIR}/cka/lab" vm "$action"
     echo -e "${BOLD}--- LFCS Linux VM ---${NC}"
     "${SCRIPT_DIR}/lfcs/lab" vm "$action"

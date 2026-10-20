@@ -6,7 +6,8 @@ mkdir -p /tmp/pkg-source
 cat << "EOF" > /tmp/pkg-source/hello.c
 #include <stdio.h>
 int main() {
-    printf("LFCS Source Compilation Successful: v1.0.0\n");
+    printf("LFCS Source Compilation Successful: v1.0.0
+");
     return 0;
 }
 EOF

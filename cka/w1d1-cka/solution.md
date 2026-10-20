@@ -1,5 +1,6 @@
-# [CKA W1D1-CKA] Solution Walkthrough: Kubernetes Architecture & Container Runtimes
+# [CKA W1D1-CKA] Solution & Technical Walkthrough
 
+### Tasks & Official Solution
 ### Task 1: Fix kube-scheduler
 1. SSH into `controlplane`:
    `ssh controlplane`

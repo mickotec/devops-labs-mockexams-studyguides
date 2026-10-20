@@ -45,7 +45,8 @@ def main():
     is_interactive = (sys.stdin.isatty() and not args.non_interactive and not (args.start_date and args.duration_weeks)) or args.interactive
 
     if is_interactive:
-        start_date, duration_weeks, _, pauses, _, lfcs_time = prompt_user_inputs(default_track="lfcs")
+        start_date, duration_weeks, _, pauses, *rest = prompt_user_inputs(default_track="lfcs")
+        lfcs_time = rest[-1] if rest else None
     else:
         start_date = resolve_start_date(args.start_date or "")
         duration_weeks = resolve_duration(args.duration_weeks or "8")

@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """
-CKA & LFCS Study Calendar & Schedule Generator
-Interactively customizes the study calendar based on:
- 1. When the learner wants to start studying (Start Date)
- 2. Study duration / pacing (8-Week Standard, 4-Week Intensive Sprint, or Custom)
- 3. Target certification track (Both Dual-Track, CKA Only, or LFCS Only)
- 4. Optional pause / recovery weeks
+Study Calendar & Schedule Generator
+Interactively customizes the study calendar for all permutations of:
+  - CKA (Certified Kubernetes Administrator)
+  - CKAD (Certified Kubernetes Application Developer)
+  - LFCS (Linux Foundation Certified System Administrator)
+
+Supports:
+ 1. Custom start date (today, tomorrow, next monday, or any YYYY-MM-DD)
+ 2. Pacing duration (8-Week Standard Comprehensive or 4-Week Intensive Sprint)
+ 3. Track selection: any permutation of {CKA, CKAD, LFCS}
+ 4. Scheduled pause / recovery weeks
+ 5. Flexible daily time windows with automated cognitive recovery blocks
 
 Outputs synchronized RFC 5545 iCalendar (.ics) and Google Calendar (.csv) files.
 """
@@ -18,6 +24,19 @@ from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+TOOLS_DIR = REPO_ROOT / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+
+from curriculum.ckad.labs_week1 import WEEK_1_LABS as _CKAD_W1
+from curriculum.ckad.labs_week2 import WEEK_2_LABS as _CKAD_W2
+from curriculum.ckad.labs_week3 import WEEK_3_LABS as _CKAD_W3
+from curriculum.ckad.labs_week4 import WEEK_4_LABS as _CKAD_W4
+from curriculum.ckad.labs_week5 import WEEK_5_LABS as _CKAD_W5
+from curriculum.ckad.labs_week6 import WEEK_6_LABS as _CKAD_W6
+from curriculum.ckad.labs_week7 import WEEK_7_LABS as _CKAD_W7
+from curriculum.ckad.labs_week8 import WEEK_8_LABS as _CKAD_W8
+_CKAD_ALL = _CKAD_W1 + _CKAD_W2 + _CKAD_W3 + _CKAD_W4 + _CKAD_W5 + _CKAD_W6 + _CKAD_W7 + _CKAD_W8
 
 # ── 8-Week Standard Curriculum (48 Days) ──────────────────────────────────
 DAYS_CURRICULUM_8WEEK = [
@@ -278,6 +297,19 @@ DAYS_CURRICULUM_8WEEK = [
      "lfcs_desc": "03:00 PM - 04:30 PM: Comprehensive review of personal command cheat sheets (LVM, systemd, networking, permissions, regex)\n04:30 PM - 04:45 PM: Movement break\n04:45 PM - 06:00 PM: Final confidence check across all LFCS exam domains\nFinal Milestone Gate cleared!"}
 ]
 
+for i, day_dict in enumerate(DAYS_CURRICULUM_8WEEK):
+    if i < len(_CKAD_ALL):
+        lab = _CKAD_ALL[i]
+        day_dict["ckad_title"] = lab["title"]
+        day_dict["ckad_desc"] = (
+            f"08:00 AM - 08:30 AM: Deep Dive Theory & Architecture\n"
+            f"08:30 AM - 09:30 AM: Imperative & Declarative Manifest Drills\n"
+            f"09:30 AM - 09:45 AM: Movement & Hydration break\n"
+            f"09:45 AM - 11:15 AM: Hands-on Practice Lab (./lab start w{day_dict['week']}d{lab.get('day', 1)}-ckad)\n"
+            f"11:15 AM - 11:30 AM: Rest & Review\n"
+            f"11:30 AM - 12:00 PM: Solution Walkthrough & Verification"
+        )
+
 # ── 4-Week Intensive Sprint Curriculum (24 Days) ──────────────────────────
 CKA_DAYS_4WEEK = [
     {"week": 1, "day_num": 1, "cka_title": "Kubernetes Architecture & Container Runtimes",
@@ -381,6 +413,61 @@ LFCS_DAYS_4WEEK = [
      "lfcs_desc": "03:00-03:10: Final exam setup\n03:10-04:25: 20-question rapid-fire LFCS mock (all domains)\n04:25-04:35: Walk break\n04:35-05:30: Final error ledger consolidation\n05:30-06:00: Certification gate review across all LFCS domains"}
 ]
 
+CKAD_DAYS_4WEEK = [
+    # Week 1: Core Design & Multi-Container Pods
+    {"week": 1, "day_num": 1, "ckad_title": "Multi-Container Pods & Sidecar Logging",
+     "ckad_desc": "08:00-08:30: Multi-container pod architecture & shared volumes\n08:30-09:30: Sidecar pattern implementation drills\n09:30-09:45: Break\n09:45-11:15: Lab: Deploy multi-container pod with shared volume logger\n11:15-11:30: Review\n11:30-12:00: Verification & logs analysis"},
+    {"week": 1, "day_num": 2, "ckad_title": "Init Containers & Dependency Readiness",
+     "ckad_desc": "08:00-08:30: initContainers lifecycle & sequential execution\n08:30-09:30: Dependency blocking and service readiness check\n09:30-09:45: Break\n09:45-11:15: Lab: Configure init container waiting for backend service\n11:15-11:30: Review\n11:30-12:00: Verification drills"},
+    {"week": 1, "day_num": 3, "ckad_title": "Imperative Pod & Deployment CLI Mastery",
+     "ckad_desc": "08:00-08:30: kubectl run, create deployment, expose, --dry-run=client -o yaml\n08:30-09:30: 10 imperative speed drills under 5 minutes\n09:30-09:45: Break\n09:45-11:15: Lab: Rapid workload generation from CLI flags\n11:15-11:30: Review\n11:30-12:00: Speed verification"},
+    {"week": 1, "day_num": 4, "ckad_title": "JSONPath Output Filtering & Formatting",
+     "ckad_desc": "08:00-08:30: jsonpath syntax: items[*], status.podIP, range, custom-columns\n08:30-09:30: Complex jsonpath filtering expressions\n09:30-09:45: Break\n09:45-11:15: Lab: Extract node IPs, image versions, and pod phases to files\n11:15-11:30: Review\n11:30-12:00: Grader validation"},
+    {"week": 1, "day_num": 5, "ckad_title": "ReplicaSets & Deployment Scaling Strategies",
+     "ckad_desc": "08:00-08:30: ReplicaSet controller, matchLabels, scaling commands\n08:30-09:30: Deployment scale, autoscale (HPA preview)\n09:30-09:45: Break\n09:45-11:15: Lab: Scale workloads and troubleshoot orphaned pods\n11:15-11:30: Review\n11:30-12:00: Verification"},
+    {"week": 1, "day_num": 6, "ckad_title": "Week 1 Milestone: Multi-Tier Core Application",
+     "ckad_desc": "08:00-08:30: Multi-tier architecture synthesis (frontend, backend, cache)\n08:30-09:30: Comprehensive imperative & YAML drafting\n09:30-09:45: Break\n09:45-11:15: Lab: Timed milestone sprint covering Week 1 concepts\n11:15-11:30: Review\n11:30-12:00: End-of-week verification"},
+    # Week 2: Workload Configuration & Security
+    {"week": 2, "day_num": 1, "ckad_title": "Container Commands & Arguments Overrides",
+     "ckad_desc": "08:00-08:30: Entrypoint & Cmd vs command & args\n08:30-09:30: Passing environment variables into arguments\n09:30-09:45: Break\n09:45-11:15: Lab: Override entrypoint and pass dynamic parameters\n11:15-11:30: Review\n11:30-12:00: Grader verification"},
+    {"week": 2, "day_num": 2, "ckad_title": "ConfigMaps: Literals, Files & Volume Mounts",
+     "ckad_desc": "08:00-08:30: ConfigMap sources (literal, from-file, env-file)\n08:30-09:30: Consuming as env, envFrom, and volumeMounts\n09:30-09:45: Break\n09:45-11:15: Lab: Inject app configuration via mounted properties\n11:15-11:30: Review\n11:30-12:00: Hot reload inspection"},
+    {"week": 2, "day_num": 3, "ckad_title": "Secrets: Base64 Encoding & Secure Consumption",
+     "ckad_desc": "08:00-08:30: Secret types (generic, tls, docker-registry), base64 encoding\n08:30-09:30: Mounting secrets as read-only volumes\n09:30-09:45: Break\n09:45-11:15: Lab: Create and mount database credentials securely\n11:15-11:30: Review\n11:30-12:00: Verification"},
+    {"week": 2, "day_num": 4, "ckad_title": "SecurityContexts: UID, GID & Capabilities",
+     "ckad_desc": "08:00-08:30: runAsUser, runAsGroup, fsGroup, readOnlyRootFilesystem\n08:30-09:30: Linux capabilities (add NET_ADMIN, drop ALL)\n09:30-09:45: Break\n09:45-11:15: Lab: Harden pod security context against privilege escalation\n11:15-11:30: Review\n11:30-12:00: Security validation"},
+    {"week": 2, "day_num": 5, "ckad_title": "ServiceAccounts & API Token Security",
+     "ckad_desc": "08:00-08:30: ServiceAccount concept, default SA, projected tokens\n08:30-09:30: automountServiceAccountToken=false best practices\n09:30-09:45: Break\n09:45-11:15: Lab: Assign custom SA and disable token mounting\n11:15-11:30: Review\n11:30-12:00: Token mount verification"},
+    {"week": 2, "day_num": 6, "ckad_title": "Week 2 Milestone: Hardened Workload Configuration",
+     "ckad_desc": "08:00-08:30: Configuration & security integration review\n08:30-09:30: Hardened pod YAML sprint\n09:30-09:45: Break\n09:45-11:15: Lab: Build completely hardened multi-tier app with ConfigMaps & Secrets\n11:15-11:30: Review\n11:30-12:00: End-of-week grading"},
+    # Week 3: Resource Quotas, Scheduling & Persistence
+    {"week": 3, "day_num": 1, "ckad_title": "Resource Requests, Limits & OOM Troubleshooting",
+     "ckad_desc": "08:00-08:30: CPU/memory requests vs limits, QoS classes (Guaranteed, Burstable, BestEffort)\n08:30-09:30: OOMKilled troubleshooting & LimitRanges\n09:30-09:45: Break\n09:45-11:15: Lab: Restrict pod resources and diagnose crashing container\n11:15-11:30: Review\n11:30-12:00: Grader validation"},
+    {"week": 3, "day_num": 2, "ckad_title": "Manual Node Scheduling, NodeSelector & NodeAffinity",
+     "ckad_desc": "08:00-08:30: nodeName manual binding, nodeSelector labels\n08:30-09:30: nodeAffinity required vs preferred terms\n09:30-09:45: Break\n09:45-11:15: Lab: Schedule workloads to dedicated worker nodes\n11:15-11:30: Review\n11:30-12:00: Node placement check"},
+    {"week": 3, "day_num": 3, "ckad_title": "Multi-Container Adapter Pattern",
+     "ckad_desc": "08:00-08:30: Adapter pattern: normalizing heterogeneous output/metrics\n08:30-09:30: Shared volume transformation scripts\n09:30-09:45: Break\n09:45-11:15: Lab: Implement adapter container transforming custom logs to Prometheus\n11:15-11:30: Review\n11:30-12:00: Verification"},
+    {"week": 3, "day_num": 4, "ckad_title": "Volumes: emptyDir & hostPath Storage",
+     "ckad_desc": "08:00-08:30: Ephemeral volumes (emptyDir memory vs disk), hostPath use cases\n08:30-09:30: Mount paths, subPath, readOnly mounts\n09:30-09:45: Break\n09:45-11:15: Lab: Configure emptyDir cache for high-throughput container\n11:15-11:30: Review\n11:30-12:00: Volume persistence testing"},
+    {"week": 3, "day_num": 5, "ckad_title": "PersistentVolumes, PVCs & Pod Mounting",
+     "ckad_desc": "08:00-08:30: PV lifecycle, accessModes (RWO, ROX, RWX), reclaim policies\n08:30-09:30: PVC binding requirements, storage requests\n09:30-09:45: Break\n09:45-11:15: Lab: Create PV, bind PVC, and mount into pod\n11:15-11:30: Review\n11:30-12:00: Data retention verification"},
+    {"week": 3, "day_num": 6, "ckad_title": "Week 3 Milestone: Stateful Workload & Storage",
+     "ckad_desc": "08:00-08:30: Stateful persistence architecture review\n08:30-09:30: Storage troubleshooting drills\n09:30-09:45: Break\n09:45-11:15: Lab: Complete stateful service deployment with bound storage\n11:15-11:30: Review\n11:30-12:00: Milestone assessment"},
+    # Week 4: Deployment Strategies, Helm, Kustomize & Mock Exams
+    {"week": 4, "day_num": 1, "ckad_title": "Rolling Updates, MaxSurge & Instant Rollbacks",
+     "ckad_desc": "08:00-08:30: maxSurge, maxUnavailable, strategy.type=RollingUpdate\n08:30-09:30: kubectl rollout pause/resume/status/undo\n09:30-09:45: Break\n09:45-11:15: Lab: Perform zero-downtime rolling update and rollback\n11:15-11:30: Review\n11:30-12:00: Rollout verification"},
+    {"week": 4, "day_num": 2, "ckad_title": "Blue/Green & Canary Deployment Patterns",
+     "ckad_desc": "08:00-08:30: Service selector switching for Blue/Green; pod ratio routing for Canary\n08:30-09:30: Traffic management and testing\n09:30-09:45: Break\n09:45-11:15: Lab: Implement Blue/Green cutover and Canary percentage rollout\n11:15-11:30: Review\n11:30-12:00: Traffic validation"},
+    {"week": 4, "day_num": 3, "ckad_title": "Helm Package Management: Install, Upgrade & Values",
+     "ckad_desc": "08:00-08:30: Helm architecture, repo add/update, search, install, upgrade\n08:30-09:30: Overriding values with --set and values.yaml\n09:30-09:45: Break\n09:45-11:15: Lab: Deploy and customize bitnami/nginx chart with custom values\n11:15-11:30: Review\n11:30-12:00: Release validation"},
+    {"week": 4, "day_num": 4, "ckad_title": "Kustomize: Bases, Overlays, Patches & Resources",
+     "ckad_desc": "08:00-08:30: kustomization.yaml structure, bases and overlays pattern\n08:30-09:30: patchesStrategicMerge, namePrefix, commonLabels\n09:30-09:45: Break\n09:45-11:15: Lab: Apply environment overlays (dev vs prod) via kubectl -k\n11:15-11:30: Review\n11:30-12:00: Kustomize build validation"},
+    {"week": 4, "day_num": 5, "ckad_title": "CKAD killer.sh Mock Exam 1 (Strict 120m Simulation)",
+     "ckad_desc": "08:00-08:15: Terminal isolation & setup\n08:15-10:15: 16-Question killer.sh CKAD Mock Exam 1 (Strict timed simulation)\n10:15-10:45: Fresh air walk & cognitive recovery\n10:45-12:00: In-depth question review & error ledger analysis (Passing threshold: 66%)"},
+    {"week": 4, "day_num": 6, "ckad_title": "CKAD killer.sh Mock Exam 2 & Final Exam Readiness Gate",
+     "ckad_desc": "08:00-08:15: Final exam simulator setup\n08:15-10:15: 16-Question killer.sh CKAD Mock Exam 2 (Strict timed simulation)\n10:15-10:45: Cognitive recovery break\n10:45-12:00: Final domain audit & certification gate clearance\nReady for Official CKAD Exam!"}
+]
+
 
 # ── Date Helpers ──────────────────────────────────────────────────────────
 def get_upcoming_monday(ref_date: datetime = None) -> datetime:
@@ -429,15 +516,98 @@ def resolve_duration(input_str: str) -> int:
     return 8
 
 
-def resolve_track(input_str: str) -> str:
-    raw = input_str.strip().lower()
-    if not raw or raw in ("1", "both", "all", "dual"):
-        return "both"
+def parse_track_selection(input_str) -> list:
+    """Parses track input into a canonical list of active tracks.
+    Supports all 7 non-empty permutations of {CKA, CKAD, LFCS}:
+      1. cka
+      2. ckad
+      3. lfcs
+      4. cka+ckad
+      5. cka+lfcs
+      6. ckad+lfcs
+      7. cka+ckad+lfcs (all)
+    """
+    if isinstance(input_str, list):
+        selected = set(str(x).strip().lower() for x in input_str)
+        order = ["cka", "ckad", "lfcs"]
+        res = [t for t in order if t in selected]
+        return res if res else ["cka", "lfcs"]
+
+    raw = str(input_str or "").strip().lower()
+    if not raw or raw in ("1", "default", "cka+lfcs", "cka,lfcs", "lfcs,cka", "both", "dual"):
+        return ["cka", "lfcs"]
     if raw in ("2", "cka"):
-        return "cka"
-    if raw in ("3", "lfcs"):
-        return "lfcs"
-    return "both"
+        return ["cka"]
+    if raw in ("3", "ckad"):
+        return ["ckad"]
+    if raw in ("4", "lfcs"):
+        return ["lfcs"]
+    if raw in ("5", "cka+ckad", "cka,ckad", "ckad,cka"):
+        return ["cka", "ckad"]
+    if raw in ("6", "ckad+lfcs", "ckad,lfcs", "lfcs,ckad"):
+        return ["ckad", "lfcs"]
+    if raw in ("7", "all", "all three", "triple", "cka,ckad,lfcs", "cka+ckad+lfcs"):
+        return ["cka", "ckad", "lfcs"]
+
+    parts = re.split(r"[,+/\s]+", raw)
+    selected = set()
+    for p in parts:
+        p = p.strip()
+        if p in ("cka", "k8s", "admin"): selected.add("cka")
+        elif p in ("ckad", "developer", "dev"): selected.add("ckad")
+        elif p in ("lfcs", "linux", "sysadmin"): selected.add("lfcs")
+        elif p in ("all", "triple"): selected.update(["cka", "ckad", "lfcs"])
+        elif p in ("both", "dual"): selected.update(["cka", "lfcs"])
+
+    order = ["cka", "ckad", "lfcs"]
+    res = [t for t in order if t in selected]
+    return res if res else ["cka", "lfcs"]
+
+
+def resolve_track(input_str) -> list:
+    """Backward-compatibility helper returning canonical track list."""
+    return parse_track_selection(input_str)
+
+
+def get_default_times(active_tracks: list) -> tuple:
+    """Returns recommended default time windows (cka_time, ckad_time, lfcs_time)
+    dynamically adapted for single, dual, or triple tracks.
+    """
+    if len(active_tracks) == 1:
+        t = active_tracks[0]
+        if t == "cka":
+            return (parse_time_window("", "08:00 AM", "12:00 PM"), None, None)
+        elif t == "ckad":
+            return (None, parse_time_window("", "08:00 AM", "12:00 PM"), None)
+        else: # lfcs
+            return (None, None, parse_time_window("", "08:00 AM", "12:00 PM"))
+
+    elif len(active_tracks) == 2:
+        if active_tracks == ["cka", "lfcs"]:
+            return (
+                parse_time_window("", "08:00 AM", "12:00 PM"),
+                None,
+                parse_time_window("", "03:00 PM", "06:00 PM")
+            )
+        elif active_tracks == ["cka", "ckad"]:
+            return (
+                parse_time_window("", "08:00 AM", "11:30 AM"),
+                parse_time_window("", "01:00 PM", "04:30 PM"),
+                None
+            )
+        else: # ["ckad", "lfcs"]
+            return (
+                None,
+                parse_time_window("", "08:00 AM", "12:00 PM"),
+                parse_time_window("", "03:00 PM", "06:00 PM")
+            )
+
+    else: # all 3: ["cka", "ckad", "lfcs"]
+        return (
+            parse_time_window("", "07:30 AM", "10:30 AM"),
+            parse_time_window("", "11:00 AM", "02:00 PM"),
+            parse_time_window("", "03:30 PM", "06:30 PM")
+        )
 
 
 def resolve_pause_weeks(input_str: str) -> list:
@@ -517,8 +687,8 @@ def format_event_description(track: str, time_window: dict, topic: str, original
     end_label = time_window["csv_end"]
 
     is_standard = (
-        (track == "CKA" and start_label == "08:00 AM" and end_label == "12:00 PM") or
-        (track == "LFCS" and start_label == "03:00 PM" and end_label == "06:00 PM")
+        (track.upper() in ("CKA", "CKAD") and start_label == "08:00 AM" and end_label == "12:00 PM") or
+        (track.upper() == "LFCS" and start_label == "03:00 PM" and end_label == "06:00 PM")
     )
     if is_standard:
         return f"{track} STUDY BLOCK ({start_label} - {end_label})\nTopic: {topic}\n\nSchedule:\n{original_desc}"
@@ -546,8 +716,9 @@ def format_event_description(track: str, time_window: dict, topic: str, original
 def prompt_user_inputs(default_track: str = None) -> tuple:
     print()
     print("╔════════════════════════════════════════════════════════════════════╗")
-    print("║          CKA & LFCS Study Calendar & Schedule Generator            ║")
+    print("║               Study Calendar & Schedule Generator                  ║")
     print("║     Generates calendar-aligned .ics (iCal) and .csv schedules     ║")
+    print("║       Supporting any permutation of CKA, CKAD, and LFCS tracks    ║")
     print("╚════════════════════════════════════════════════════════════════════╝")
     print()
 
@@ -580,18 +751,22 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
         print(f"   ✓ Duration selected: {duration_weeks} Weeks\n")
         break
 
-    # 3. Track selection
-    if default_track in ("cka", "lfcs"):
-        track = default_track
-        print(f"🎯 [Step 3/5] Certification Track: {track.upper()} (Preselected)\n")
+    # 3. Track selection (Permutations of the 3 options)
+    if default_track and default_track.lower() in ("cka", "ckad", "lfcs"):
+        active_tracks = [default_track.lower()]
+        print(f"🎯 [Step 3/5] Certification Track: {default_track.upper()} (Preselected)\n")
     else:
-        print("🎯 [Step 3/5] Which certification track are you preparing for?")
-        print("   [1] Both CKA & LFCS (Dual Track) [Default]")
+        print("🎯 [Step 3/5] Which certification tracks do you want to include?")
+        print("   [1] CKA & LFCS Dual Track (Administrator & Linux) [Default]")
         print("   [2] CKA Only (Certified Kubernetes Administrator)")
-        print("   [3] LFCS Only (Linux Foundation Certified SysAdmin)")
-        val = input("   Select track [1-3, default: 1]: ").strip()
-        track = resolve_track(val)
-        print(f"   ✓ Track selected: {track.upper()}\n")
+        print("   [3] CKAD Only (Certified Kubernetes Application Developer)")
+        print("   [4] LFCS Only (Linux Foundation Certified SysAdmin)")
+        print("   [5] CKA & CKAD Dual Track (Full Kubernetes Mastery)")
+        print("   [6] CKAD & LFCS Dual Track (Developer & Linux Administration)")
+        print("   [7] All Three: CKA, CKAD & LFCS (Triple Track Marathon)")
+        val = input("   Select track permutation [1-7 or e.g. 'cka,ckad', default: 1]: ").strip()
+        active_tracks = parse_track_selection(val)
+        print(f"   ✓ Track permutation selected: {' + '.join(t.upper() for t in active_tracks)}\n")
 
     # 4. Scheduled Pauses
     print("⏸️  [Step 4/5] Do you want to schedule any pause or break weeks?")
@@ -605,40 +780,56 @@ def prompt_user_inputs(default_track: str = None) -> tuple:
 
     # 5. Daily Study Hours
     print("🕐 [Step 5/5] What specific hours of the day do you want to study?")
+    def_cka, def_ckad, def_lfcs = get_default_times(active_tracks)
     cka_time = None
+    ckad_time = None
     lfcs_time = None
 
-    if track in ("both", "cka"):
-        print("   Enter your preferred CKA daily time window (e.g. '4am to 12pm', '8am to 12pm', '06:00-10:00')")
+    if "cka" in active_tracks:
+        print(f"   Enter your preferred CKA daily time window (e.g. '08:00 AM - 12:00 PM', '{def_cka['label']}')")
         while True:
-            val = input("   CKA Study Hours [default: 08:00 AM - 12:00 PM]: ").strip()
-            cka_time = parse_time_window(val, default_start="08:00 AM", default_end="12:00 PM")
+            val = input(f"   CKA Study Hours [default: {def_cka['csv_start']} - {def_cka['csv_end']}]: ").strip()
+            cka_time = parse_time_window(val, default_start=def_cka['csv_start'], default_end=def_cka['csv_end'])
             if cka_time:
                 print(f"   ✓ CKA daily study block: {cka_time['csv_start']} - {cka_time['csv_end']} ({cka_time['label']})\n")
                 break
-            print("   [!] Could not parse time window. Format example: '4am to 12pm' or '08:00 AM - 12:00 PM'.")
+            print("   [!] Could not parse time window. Format example: '8am to 12pm' or '08:00 AM - 12:00 PM'.")
 
-    if track in ("both", "lfcs"):
-        print("   Enter your preferred LFCS daily time window (e.g. '6pm to 8pm', '3pm to 6pm', '18:00-21:00')")
+    if "ckad" in active_tracks:
+        print(f"   Enter your preferred CKAD daily time window (e.g. '08:00 AM - 12:00 PM', '{def_ckad['label']}')")
         while True:
-            val = input("   LFCS Study Hours [default: 03:00 PM - 06:00 PM]: ").strip()
-            lfcs_time = parse_time_window(val, default_start="03:00 PM", default_end="06:00 PM")
+            val = input(f"   CKAD Study Hours [default: {def_ckad['csv_start']} - {def_ckad['csv_end']}]: ").strip()
+            ckad_time = parse_time_window(val, default_start=def_ckad['csv_start'], default_end=def_ckad['csv_end'])
+            if ckad_time:
+                print(f"   ✓ CKAD daily study block: {ckad_time['csv_start']} - {ckad_time['csv_end']} ({ckad_time['label']})\n")
+                break
+            print("   [!] Could not parse time window. Format example: '11am to 2pm' or '11:00 AM - 02:00 PM'.")
+
+    if "lfcs" in active_tracks:
+        print(f"   Enter your preferred LFCS daily time window (e.g. '03:00 PM - 06:00 PM', '{def_lfcs['label']}')")
+        while True:
+            val = input(f"   LFCS Study Hours [default: {def_lfcs['csv_start']} - {def_lfcs['csv_end']}]: ").strip()
+            lfcs_time = parse_time_window(val, default_start=def_lfcs['csv_start'], default_end=def_lfcs['csv_end'])
             if lfcs_time:
                 print(f"   ✓ LFCS daily study block: {lfcs_time['csv_start']} - {lfcs_time['csv_end']} ({lfcs_time['label']})\n")
                 break
-            print("   [!] Could not parse time window. Format example: '6pm to 8pm' or '03:00 PM - 06:00 PM'.")
+            print("   [!] Could not parse time window. Format example: '3pm to 6pm' or '03:00 PM - 06:00 PM'.")
 
-    return start_date, duration_weeks, track, pauses, cka_time, lfcs_time
+    return start_date, duration_weeks, active_tracks, pauses, cka_time, ckad_time, lfcs_time
 
 
 # ── Schedule Event Builders ───────────────────────────────────────────────
-def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: list = None, cka_time: dict = None, lfcs_time: dict = None) -> list:
+def build_events(start_date: datetime, duration_weeks: int, track, pauses: list = None, cka_time: dict = None, ckad_time: dict = None, lfcs_time: dict = None) -> list:
     if pauses is None:
         pauses = []
-    if cka_time is None:
-        cka_time = parse_time_window("", "08:00 AM", "12:00 PM")
-    if lfcs_time is None:
-        lfcs_time = parse_time_window("", "03:00 PM", "06:00 PM")
+    active_tracks = parse_track_selection(track)
+    def_cka, def_ckad, def_lfcs = get_default_times(active_tracks)
+    if cka_time is None and "cka" in active_tracks:
+        cka_time = def_cka
+    if ckad_time is None and "ckad" in active_tracks:
+        ckad_time = def_ckad
+    if lfcs_time is None and "lfcs" in active_tracks:
+        lfcs_time = def_lfcs
 
     events = []
     now_stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -688,12 +879,14 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                 current_week += 1
             else:
                 cka = CKA_DAYS_4WEEK[placed]
+                ckad = CKAD_DAYS_4WEEK[placed]
                 lfcs = LFCS_DAYS_4WEEK[placed]
                 ds = curr.strftime("%Y%m%d")
                 csv_date = curr.strftime("%m/%d/%Y")
 
-                if track in ("both", "cka"):
-                    events.append({
+                day_candidates = []
+                if "cka" in active_tracks and cka_time:
+                    day_candidates.append({
                         "uid": f"cka-w{cka['week']}d{cka['day_num']}@{ds}",
                         "subject": f"[CKA] {cka_time['label']}: {cka['cka_title']}",
                         "start_dt": f"{ds}T{cka_time['ics_start']}",
@@ -702,32 +895,30 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                         "csv_start": cka_time["csv_start"],
                         "csv_end": cka_time["csv_end"],
                         "desc": format_event_description("CKA", cka_time, cka["cka_title"], cka["cka_desc"]),
-                        "type": "CKA"
+                        "type": "CKA",
+                        "t_start": cka_time["t_start"],
+                        "t_end": cka_time["t_end"],
+                        "label": cka_time["label"]
                     })
 
-                if track == "both":
-                    if cka_time["t_end"] <= lfcs_time["t_start"]:
-                        gap_minutes = (lfcs_time["t_start"][0]*60 + lfcs_time["t_start"][1]) - (cka_time["t_end"][0]*60 + cka_time["t_end"][1])
-                        if gap_minutes >= 45:
-                            rec_ics_start = cka_time["ics_end"]
-                            rec_ics_end = lfcs_time["ics_start"]
-                            rec_csv_start = cka_time["csv_end"]
-                            rec_csv_end = lfcs_time["csv_start"]
-                            rec_label = f"{cka_time['label'].split('-')[-1]}-{lfcs_time['label'].split('-')[0]}"
-                            events.append({
-                                "uid": f"rec-w{cka['week']}d{cka['day_num']}@{ds}",
-                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
-                                "start_dt": f"{ds}T{rec_ics_start}",
-                                "end_dt": f"{ds}T{rec_ics_end}",
-                                "csv_date": csv_date,
-                                "csv_start": rec_csv_start,
-                                "csv_end": rec_csv_end,
-                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious lunch & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Terminal & desk prep for LFCS",
-                                "type": "RECOVERY"
-                            })
+                if "ckad" in active_tracks and ckad_time:
+                    day_candidates.append({
+                        "uid": f"ckad-w{ckad['week']}d{ckad['day_num']}@{ds}",
+                        "subject": f"[CKAD] {ckad_time['label']}: {ckad['ckad_title']}",
+                        "start_dt": f"{ds}T{ckad_time['ics_start']}",
+                        "end_dt": f"{ds}T{ckad_time['ics_end']}",
+                        "csv_date": csv_date,
+                        "csv_start": ckad_time["csv_start"],
+                        "csv_end": ckad_time["csv_end"],
+                        "desc": format_event_description("CKAD", ckad_time, ckad["ckad_title"], ckad["ckad_desc"]),
+                        "type": "CKAD",
+                        "t_start": ckad_time["t_start"],
+                        "t_end": ckad_time["t_end"],
+                        "label": ckad_time["label"]
+                    })
 
-                if track in ("both", "lfcs"):
-                    events.append({
+                if "lfcs" in active_tracks and lfcs_time:
+                    day_candidates.append({
                         "uid": f"lfcs-w{lfcs['week']}d{lfcs['day_num']}@{ds}",
                         "subject": f"[LFCS] {lfcs_time['label']}: {lfcs['lfcs_title']}",
                         "start_dt": f"{ds}T{lfcs_time['ics_start']}",
@@ -736,8 +927,35 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                         "csv_start": lfcs_time["csv_start"],
                         "csv_end": lfcs_time["csv_end"],
                         "desc": format_event_description("LFCS", lfcs_time, lfcs["lfcs_title"], lfcs["lfcs_desc"]),
-                        "type": "LFCS"
+                        "type": "LFCS",
+                        "t_start": lfcs_time["t_start"],
+                        "t_end": lfcs_time["t_end"],
+                        "label": lfcs_time["label"]
                     })
+
+                day_candidates.sort(key=lambda x: x["t_start"])
+                for c_idx, c_ev in enumerate(day_candidates):
+                    events.append(c_ev)
+                    if c_idx < len(day_candidates) - 1:
+                        next_ev = day_candidates[c_idx + 1]
+                        gap_min = (next_ev["t_start"][0]*60 + next_ev["t_start"][1]) - (c_ev["t_end"][0]*60 + c_ev["t_end"][1])
+                        if gap_min >= 30:
+                            rec_ics_start = c_ev["end_dt"].split("T")[-1]
+                            rec_ics_end = next_ev["start_dt"].split("T")[-1]
+                            rec_csv_start = c_ev["csv_end"]
+                            rec_csv_end = next_ev["csv_start"]
+                            rec_label = f"{c_ev['label'].split('-')[-1]}-{next_ev['label'].split('-')[0]}"
+                            events.append({
+                                "uid": f"rec-{c_ev['type'].lower()}-{next_ev['type'].lower()}-w{current_week}d{placed+1}@{ds}",
+                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
+                                "start_dt": f"{ds}T{rec_ics_start}",
+                                "end_dt": f"{ds}T{rec_ics_end}",
+                                "csv_date": csv_date,
+                                "csv_start": rec_csv_start,
+                                "csv_end": rec_csv_end,
+                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious meal & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Mental reset and desk prep for next session",
+                                "type": "RECOVERY"
+                            })
 
                 placed += 1
 
@@ -794,9 +1012,9 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                 ds = curr.strftime("%Y%m%d")
                 csv_date = curr.strftime("%m/%d/%Y")
 
-                # CKA Event
-                if track in ("both", "cka"):
-                    events.append({
+                day_candidates = []
+                if "cka" in active_tracks and cka_time:
+                    day_candidates.append({
                         "uid": f"cka-w{day['week']}d{placed+1}@{ds}",
                         "subject": f"[CKA] {cka_time['label']}: {day['cka_title']}",
                         "start_dt": f"{ds}T{cka_time['ics_start']}",
@@ -805,34 +1023,30 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                         "csv_start": cka_time["csv_start"],
                         "csv_end": cka_time["csv_end"],
                         "desc": format_event_description("CKA", cka_time, day["cka_title"], day["cka_desc"]),
-                        "type": "CKA"
+                        "type": "CKA",
+                        "t_start": cka_time["t_start"],
+                        "t_end": cka_time["t_end"],
+                        "label": cka_time["label"]
                     })
 
-                # Midday Recovery
-                if track == "both":
-                    if cka_time["t_end"] <= lfcs_time["t_start"]:
-                        gap_minutes = (lfcs_time["t_start"][0]*60 + lfcs_time["t_start"][1]) - (cka_time["t_end"][0]*60 + cka_time["t_end"][1])
-                        if gap_minutes >= 45:
-                            rec_ics_start = cka_time["ics_end"]
-                            rec_ics_end = lfcs_time["ics_start"]
-                            rec_csv_start = cka_time["csv_end"]
-                            rec_csv_end = lfcs_time["csv_start"]
-                            rec_label = f"{cka_time['label'].split('-')[-1]}-{lfcs_time['label'].split('-')[0]}"
-                            events.append({
-                                "uid": f"recovery-w{day['week']}d{placed+1}@{ds}",
-                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
-                                "start_dt": f"{ds}T{rec_ics_start}",
-                                "end_dt": f"{ds}T{rec_ics_end}",
-                                "csv_date": csv_date,
-                                "csv_start": rec_csv_start,
-                                "csv_end": rec_csv_end,
-                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious meal & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Terminal & desk prep for LFCS",
-                                "type": "RECOVERY"
-                            })
+                if "ckad" in active_tracks and ckad_time:
+                    day_candidates.append({
+                        "uid": f"ckad-w{day['week']}d{placed+1}@{ds}",
+                        "subject": f"[CKAD] {ckad_time['label']}: {day['ckad_title']}",
+                        "start_dt": f"{ds}T{ckad_time['ics_start']}",
+                        "end_dt": f"{ds}T{ckad_time['ics_end']}",
+                        "csv_date": csv_date,
+                        "csv_start": ckad_time["csv_start"],
+                        "csv_end": ckad_time["csv_end"],
+                        "desc": format_event_description("CKAD", ckad_time, day["ckad_title"], day.get("ckad_desc", "")),
+                        "type": "CKAD",
+                        "t_start": ckad_time["t_start"],
+                        "t_end": ckad_time["t_end"],
+                        "label": ckad_time["label"]
+                    })
 
-                # LFCS Event
-                if track in ("both", "lfcs"):
-                    events.append({
+                if "lfcs" in active_tracks and lfcs_time:
+                    day_candidates.append({
                         "uid": f"lfcs-w{day['week']}d{placed+1}@{ds}",
                         "subject": f"[LFCS] {lfcs_time['label']}: {day['lfcs_title']}",
                         "start_dt": f"{ds}T{lfcs_time['ics_start']}",
@@ -841,8 +1055,35 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
                         "csv_start": lfcs_time["csv_start"],
                         "csv_end": lfcs_time["csv_end"],
                         "desc": format_event_description("LFCS", lfcs_time, day["lfcs_title"], day["lfcs_desc"]),
-                        "type": "LFCS"
+                        "type": "LFCS",
+                        "t_start": lfcs_time["t_start"],
+                        "t_end": lfcs_time["t_end"],
+                        "label": lfcs_time["label"]
                     })
+
+                day_candidates.sort(key=lambda x: x["t_start"])
+                for c_idx, c_ev in enumerate(day_candidates):
+                    events.append(c_ev)
+                    if c_idx < len(day_candidates) - 1:
+                        next_ev = day_candidates[c_idx + 1]
+                        gap_min = (next_ev["t_start"][0]*60 + next_ev["t_start"][1]) - (c_ev["t_end"][0]*60 + c_ev["t_end"][1])
+                        if gap_min >= 30:
+                            rec_ics_start = c_ev["end_dt"].split("T")[-1]
+                            rec_ics_end = next_ev["start_dt"].split("T")[-1]
+                            rec_csv_start = c_ev["csv_end"]
+                            rec_csv_end = next_ev["csv_start"]
+                            rec_label = f"{c_ev['label'].split('-')[-1]}-{next_ev['label'].split('-')[0]}"
+                            events.append({
+                                "uid": f"rec-{c_ev['type'].lower()}-{next_ev['type'].lower()}-w{day['week']}d{placed+1}@{ds}",
+                                "subject": f"[RECOVERY] {rec_label}: Cognitive Reset & Physical Regeneration",
+                                "start_dt": f"{ds}T{rec_ics_start}",
+                                "end_dt": f"{ds}T{rec_ics_end}",
+                                "csv_date": csv_date,
+                                "csv_start": rec_csv_start,
+                                "csv_end": rec_csv_end,
+                                "desc": f"COGNITIVE RECOVERY & INTEGRATION ({rec_csv_start} - {rec_csv_end})\n• Nutritious meal & total screen detachment\n• Aerobic exercise / brisk walk outside (BDNF boost)\n• Power nap or Non-Sleep Deep Rest (NSDR)\n• Mental reset and desk prep for next session",
+                                "type": "RECOVERY"
+                            })
 
                 placed += 1
 
@@ -852,11 +1093,11 @@ def build_events(start_date: datetime, duration_weeks: int, track: str, pauses: 
 
 
 # ── Serializers ───────────────────────────────────────────────────────────
-def generate_ics(events: list, output_path: Path, cal_name: str = "CKA & LFCS Study Plan"):
+def generate_ics(events: list, output_path: Path, cal_name: str = "Study Schedule"):
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Antigravity AI//CKA LFCS Schedule Generator//EN",
+        "PRODID:-//Antigravity AI//Study Schedule Generator//EN",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         f"X-WR-CALNAME:{cal_name}"
@@ -899,31 +1140,49 @@ def generate_csv(events: list, output_path: Path):
 
 
 # ── Execution Orchestrator ────────────────────────────────────────────────
-def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses: list, output_dir: Path = None, cka_time: dict = None, lfcs_time: dict = None):
+def run_generator(start_date: datetime, duration_weeks: int, track, pauses: list, output_dir: Path = None, cka_time: dict = None, ckad_time: dict = None, lfcs_time: dict = None):
     if output_dir is None:
         output_dir = REPO_ROOT
-    if cka_time is None:
-        cka_time = parse_time_window("", "08:00 AM", "12:00 PM")
-    if lfcs_time is None:
-        lfcs_time = parse_time_window("", "03:00 PM", "06:00 PM")
+    active_tracks = parse_track_selection(track)
+    def_cka, def_ckad, def_lfcs = get_default_times(active_tracks)
+    if cka_time is None and "cka" in active_tracks:
+        cka_time = def_cka
+    if ckad_time is None and "ckad" in active_tracks:
+        ckad_time = def_ckad
+    if lfcs_time is None and "lfcs" in active_tracks:
+        lfcs_time = def_lfcs
 
-    events = build_events(start_date, duration_weeks, track, pauses, cka_time=cka_time, lfcs_time=lfcs_time)
+    events = build_events(start_date, duration_weeks, active_tracks, pauses, cka_time=cka_time, ckad_time=ckad_time, lfcs_time=lfcs_time)
     written_files = []
 
+    track_code = "+".join(active_tracks)
     track_title = {
-        "both": "CKA & LFCS Dual Certification Track",
-        "cka": "CKA (Certified Kubernetes Administrator) Study Track",
-        "lfcs": "LFCS (Linux Foundation Certified SysAdmin) Study Track"
-    }.get(track, "Study Track")
+        "cka": "CKA (Certified Kubernetes Administrator) Track",
+        "ckad": "CKAD (Certified Kubernetes Application Developer) Track",
+        "lfcs": "LFCS (Linux Foundation Certified SysAdmin) Track",
+        "cka+ckad": "CKA & CKAD Kubernetes Dual Track",
+        "cka+lfcs": "CKA & LFCS Dual Certification Track",
+        "ckad+lfcs": "CKAD & LFCS Developer & Linux Dual Track",
+        "cka+ckad+lfcs": "CKA, CKAD & LFCS Triple Certification Marathon"
+    }.get(track_code, f"{track_code.upper()} Track")
 
-    if track == "both":
-        root_ics = output_dir / "cka_lfcs_schedule.ics"
-        root_csv = output_dir / "cka_lfcs_schedule.csv"
-        generate_ics(events, root_ics, track_title)
-        generate_csv(events, root_csv)
-        written_files.extend([root_ics, root_csv])
+    # 1. Output Root Unified Schedules
+    root_ics = output_dir / "study_schedule.ics"
+    root_csv = output_dir / "study_schedule.csv"
+    generate_ics(events, root_ics, track_title)
+    generate_csv(events, root_csv)
+    written_files.extend([root_ics, root_csv])
 
-        # Filter and write dedicated track schedules
+    # Backwards compatibility: if CKA and LFCS are both included, also write cka_lfcs_schedule.ics
+    if "cka" in active_tracks and "lfcs" in active_tracks:
+        cka_lfcs_ics = output_dir / "cka_lfcs_schedule.ics"
+        cka_lfcs_csv = output_dir / "cka_lfcs_schedule.csv"
+        generate_ics(events, cka_lfcs_ics, track_title)
+        generate_csv(events, cka_lfcs_csv)
+        written_files.extend([cka_lfcs_ics, cka_lfcs_csv])
+
+    # 2. Output Dedicated Individual Track Calendars
+    if "cka" in active_tracks:
         cka_evs = [e for e in events if e.get("type") in ("CKA", "REST")]
         cka_ics = output_dir / "cka" / "schedule.ics"
         cka_csv = output_dir / "cka" / "schedule.csv"
@@ -931,6 +1190,15 @@ def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses:
         generate_csv(cka_evs, cka_csv)
         written_files.extend([cka_ics, cka_csv])
 
+    if "ckad" in active_tracks:
+        ckad_evs = [e for e in events if e.get("type") in ("CKAD", "REST")]
+        ckad_ics = output_dir / "ckad" / "schedule.ics"
+        ckad_csv = output_dir / "ckad" / "schedule.csv"
+        generate_ics(ckad_evs, ckad_ics, "CKAD Certified Kubernetes Application Developer Track")
+        generate_csv(ckad_evs, ckad_csv)
+        written_files.extend([ckad_ics, ckad_csv])
+
+    if "lfcs" in active_tracks:
         lfcs_evs = [e for e in events if e.get("type") in ("LFCS", "REST")]
         lfcs_ics = output_dir / "lfcs" / "schedule.ics"
         lfcs_csv = output_dir / "lfcs" / "schedule.csv"
@@ -938,35 +1206,22 @@ def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses:
         generate_csv(lfcs_evs, lfcs_csv)
         written_files.extend([lfcs_ics, lfcs_csv])
 
-    elif track == "cka":
-        cka_ics = output_dir / "cka" / "schedule.ics"
-        cka_csv = output_dir / "cka" / "schedule.csv"
-        generate_ics(events, cka_ics, track_title)
-        generate_csv(events, cka_csv)
-        written_files.extend([cka_ics, cka_csv])
-
-    elif track == "lfcs":
-        lfcs_ics = output_dir / "lfcs" / "schedule.ics"
-        lfcs_csv = output_dir / "lfcs" / "schedule.csv"
-        generate_ics(events, lfcs_ics, track_title)
-        generate_csv(events, lfcs_csv)
-        written_files.extend([lfcs_ics, lfcs_csv])
-
-    # End date calculation
     last_event = events[-1] if events else None
     end_str = last_event["csv_date"] if last_event else "N/A"
 
     print("══════════════════════════════════════════════════════════════════════")
     print("✅ STUDY SCHEDULE GENERATED SUCCESSFULLY!")
     print("══════════════════════════════════════════════════════════════════════")
-    print(f"Certification Track: {track_title}")
-    print(f"Start Date:          {start_date.strftime('%A, %B %d, %Y')}")
-    print(f"Target Finish:       {end_str}")
-    print(f"Duration:            {duration_weeks} Weeks ({len(events)} calendar events)")
-    if track in ("both", "cka"):
-        print(f"CKA Study Block:     {cka_time['csv_start']} - {cka_time['csv_end']} ({cka_time['label']})")
-    if track in ("both", "lfcs"):
-        print(f"LFCS Study Block:    {lfcs_time['csv_start']} - {lfcs_time['csv_end']} ({lfcs_time['label']})")
+    print(f"Certification Tracks: {track_title}")
+    print(f"Start Date:           {start_date.strftime('%A, %B %d, %Y')}")
+    print(f"Target Finish:        {end_str}")
+    print(f"Duration:             {duration_weeks} Weeks ({len(events)} calendar events)")
+    if "cka" in active_tracks and cka_time:
+        print(f"CKA Study Block:      {cka_time['csv_start']} - {cka_time['csv_end']} ({cka_time['label']})")
+    if "ckad" in active_tracks and ckad_time:
+        print(f"CKAD Study Block:     {ckad_time['csv_start']} - {ckad_time['csv_end']} ({ckad_time['label']})")
+    if "lfcs" in active_tracks and lfcs_time:
+        print(f"LFCS Study Block:     {lfcs_time['csv_start']} - {lfcs_time['csv_end']} ({lfcs_time['label']})")
     print()
     print("Exported Files:")
     for f in written_files:
@@ -976,35 +1231,40 @@ def run_generator(start_date: datetime, duration_weeks: int, track: str, pauses:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="CKA & LFCS Study Calendar Generator")
+    parser = argparse.ArgumentParser(description="Study Calendar & Schedule Generator (CKA, CKAD, LFCS)")
     parser.add_argument("-s", "--start", "--start-date", dest="start_date", help="Start date (YYYY-MM-DD, 'today', 'tomorrow', 'next monday')")
     parser.add_argument("-w", "--weeks", "--duration", dest="duration_weeks", type=str, help="Duration in weeks (e.g. 8 or 4)")
-    parser.add_argument("-t", "--track", choices=["both", "cka", "lfcs"], default=None, help="Certification track")
+    parser.add_argument("-t", "--track", default=None, help="Certification track permutation (e.g. 'cka', 'ckad', 'lfcs', 'cka,ckad', 'cka,lfcs', 'ckad,lfcs', 'all')")
     parser.add_argument("-p", "--pause", dest="pauses", default="", help="Scheduled pause weeks, comma-separated (e.g. '2,3')")
-    parser.add_argument("--cka-time", dest="cka_time", default="", help="Preferred CKA study hours (e.g. '4am to 12pm')")
-    parser.add_argument("--lfcs-time", dest="lfcs_time", default="", help="Preferred LFCS study hours (e.g. '6pm to 8pm')")
+    parser.add_argument("--cka-time", dest="cka_time", default="", help="Preferred CKA study hours (e.g. '8am to 12pm')")
+    parser.add_argument("--ckad-time", dest="ckad_time", default="", help="Preferred CKAD study hours (e.g. '11am to 2pm')")
+    parser.add_argument("--lfcs-time", dest="lfcs_time", default="", help="Preferred LFCS study hours (e.g. '3pm to 6pm')")
     parser.add_argument("--time", "--study-time", dest="time_window", default="", help="Preferred daily study hours")
     parser.add_argument("-i", "--interactive", action="store_true", help="Force interactive prompt")
     parser.add_argument("-y", "--yes", "--non-interactive", dest="non_interactive", action="store_true", help="Non-interactive batch mode")
 
     args = parser.parse_args()
 
-    # Determine if we should prompt interactively
     is_interactive = (sys.stdin.isatty() and not args.non_interactive and not (args.start_date and args.duration_weeks)) or args.interactive
 
     if is_interactive:
-        start_date, duration_weeks, track, pauses, cka_time, lfcs_time = prompt_user_inputs(default_track=args.track)
+        start_date, duration_weeks, active_tracks, pauses, cka_time, ckad_time, lfcs_time = prompt_user_inputs(default_track=args.track)
     else:
         start_date = resolve_start_date(args.start_date or "")
         duration_weeks = resolve_duration(args.duration_weeks or "8")
-        track = args.track or "both"
+        active_tracks = parse_track_selection(args.track)
         pauses = resolve_pause_weeks(args.pauses or "")
-        cka_val = args.cka_time or (args.time_window if track in ("cka", "both") else "")
-        lfcs_val = args.lfcs_time or (args.time_window if track == "lfcs" else "")
-        cka_time = parse_time_window(cka_val, "08:00 AM", "12:00 PM")
-        lfcs_time = parse_time_window(lfcs_val, "03:00 PM", "06:00 PM")
+        def_cka, def_ckad, def_lfcs = get_default_times(active_tracks)
 
-    run_generator(start_date, duration_weeks, track, pauses, cka_time=cka_time, lfcs_time=lfcs_time)
+        cka_val = args.cka_time or (args.time_window if "cka" in active_tracks and len(active_tracks) == 1 else "")
+        ckad_val = args.ckad_time or (args.time_window if "ckad" in active_tracks and len(active_tracks) == 1 else "")
+        lfcs_val = args.lfcs_time or (args.time_window if "lfcs" in active_tracks and len(active_tracks) == 1 else "")
+
+        cka_time = parse_time_window(cka_val, def_cka["csv_start"], def_cka["csv_end"]) if def_cka else None
+        ckad_time = parse_time_window(ckad_val, def_ckad["csv_start"], def_ckad["csv_end"]) if def_ckad else None
+        lfcs_time = parse_time_window(lfcs_val, def_lfcs["csv_start"], def_lfcs["csv_end"]) if def_lfcs else None
+
+    run_generator(start_date, duration_weeks, active_tracks, pauses, cka_time=cka_time, ckad_time=ckad_time, lfcs_time=lfcs_time)
 
 
 if __name__ == "__main__":

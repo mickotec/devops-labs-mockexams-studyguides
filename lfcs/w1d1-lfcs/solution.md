@@ -1,5 +1,6 @@
-# [LFCS W1D1-LFCS] Solution Walkthrough: Consoles, Navigation & System Documentation
+# [LFCS W1D1-LFCS] Solution & Technical Walkthrough
 
+### Tasks & Official Solution
 1. Documentation discovery:
 ```bash
 apropos "partition table" > /var/tmp/lfcs-doc-search.txt
