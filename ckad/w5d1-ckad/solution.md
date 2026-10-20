@@ -1,14 +1,14 @@
 # [CKAD W5D1-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Liveness Probes: HTTP, Command & TCP Checks
+### Official Solution: Labels & Selectors
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w5d1 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+# 1. Query matching pods:
+kubectl get pods -n ckad-w5d1 -l "tier in (backend, cache), env!=dev" -o jsonpath="{.items[*].metadata.name}" | tr " " "
+" > /tmp/matched-pods.txt
 
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w5d1
-
-# 3. Check status:
-kubectl get pods -n ckad-w5d1
+# 2. Apply annotation:
+kubectl annotate pods -n ckad-w5d1 -l "tier in (backend, cache), env!=dev" release.version=v3.2
+'
 ```

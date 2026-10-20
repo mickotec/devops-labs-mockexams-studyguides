@@ -1,4 +1,4 @@
-# [CKAD W5D1-CKAD] Liveness Probes: HTTP, Command & TCP Checks
+# [CKAD W5D1-CKAD] Labels, Set-Based Selectors & Annotations
 
 **Date:** 2026-11-09  
 **Time Limit:** 25m  
@@ -14,11 +14,12 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Liveness Probes: HTTP, Command & TCP Checks
-1. Work in namespace `ckad-w5d1` on the cluster.
-2. Objective: Detecting deadlock and restarting failed containers.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Filter Pods & Apply Metadata
+1. In namespace `ckad-w5d1`, there are several pods with various labels.
+2. Filter the pods using set-based selector syntax for:
+   `tier in (backend, cache), env!=dev`
+3. Save the names of all matching pods to `/tmp/matched-pods.txt` on node `controlplane`.
+4. Add the annotation `release.version=v3.2` to all matching pods in namespace `ckad-w5d1`.
 
 ---
 

@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Node Affinity: Required vs Preferred in namespace ckad-w3d3..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w3d3 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w3d3.\033[0m"
+echo "[*] Evaluating CKAD W3D3: Ambassador Pattern in ckad-w3d3-apps..."
+
+PHASE=$(ssh controlplane 'kubectl get pod client-ambassador -n ckad-w3d3-apps -o jsonpath="{.status.phase}" 2>/dev/null || echo "Missing"')
+LOG=$(ssh controlplane 'kubectl exec client-ambassador -c client -n ckad-w3d3-apps -- cat /tmp/proxy.log 2>/dev/null || echo ""')
+
+if [ "$PHASE" == "Running" ] && [[ "$LOG" =~ "AMBASSADOR_CONNECTED" ]]; then
+  echo -e "[0;32m[PASS] Client successfully accessed remote database through localhost ambassador proxy.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Phase: $PHASE | Proxy log: '$LOG'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

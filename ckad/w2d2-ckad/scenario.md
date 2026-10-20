@@ -1,4 +1,4 @@
-# [CKAD W2D2-CKAD] ConfigMaps from Literals, Files & Env Injection
+# [CKAD W2D2-CKAD] ConfigMaps & Environment Variable Injections
 
 **Date:** 2026-10-20  
 **Time Limit:** 25m  
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: ConfigMaps from Literals, Files & Env Injection
-1. Work in namespace `ckad-w2d2` on the cluster.
-2. Objective: Injecting configuration as env and volume mounts.
-3. Deploy or configure workload named `ckad-app` using image `alpine:3.19`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create ConfigMap & Inject via envFrom
+1. In namespace `ckad-w2d2`, create a ConfigMap named `backend-config` with keys:
+   - `DB_HOST=postgres.internal`
+   - `DB_PORT=5432`
+   - `CACHE_TTL=3600`
+2. Deploy Pod `app-server` using image `busybox:1.36` sleeping continuously (`sleep 3600`).
+3. Inject ALL keys from `backend-config` into the container using `envFrom.configMapRef`.
+4. Also define an individual environment variable named `APP_ENV` with literal value `"production"` directly in `spec.containers[0].env`.
 
 ---
 

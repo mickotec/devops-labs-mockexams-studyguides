@@ -1,145 +1,221 @@
+"""CKAD Curriculum Content: Week 6
+Week 6: Services, Networking & Ingress
 """
-CKAD Curriculum Content: Week 6 (Days 1 to 6)
-Services & Advanced Networking
-"""
-from .svg_helpers import wrap_svg, card, code_box, arrow
 
 def get_day_1():
-    theory = """
-    <h3>CKAD Week 6 Day 1: Services: ClusterIP, NodePort & TargetPort Matching</h3>
-    <p><strong>Overview:</strong> Exposing pods and validating endpoints. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Services: ClusterIP, NodePort & TargetPort Matching</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D1: Services: ClusterIP, NodePort & TargetPort Matching</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Exposing pods and validating endpoints</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Services: ClusterIP, NodePort & TargetPort Matching")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Services: ClusterIP, NodePort & TargetPort Matching in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Services expose applications with stable virtual IPs (ClusterIP) or node ports (NodePort) routing to container targetPorts.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 1: Kubernetes Services: ClusterIP, NodePort & Port Mapping</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgsvc='kubectl get svc'\nalias kgep='kubectl get endpoints'"""
+    checklist = [('CKAD', 'Create ClusterIP and NodePort services using kubectl expose', 'kubectl expose deploy web --port=80 --target-port=8080')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_2():
-    theory = """
-    <h3>CKAD Week 6 Day 2: Headless Services & StatefulSets Architecture</h3>
-    <p><strong>Overview:</strong> clusterIP None with stable network identities. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Headless Services & StatefulSets Architecture</li>
-      <li><strong>Target Image / Workload:</strong> <code>redis:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D2: Headless Services & StatefulSets Architecture</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">clusterIP None with stable network identities</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Headless Services & StatefulSets Architecture")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Headless Services & StatefulSets Architecture in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Headless Services (<code>clusterIP: None</code>) provide direct CoreDNS SRV and A record resolution for stateful pods.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 2: Headless Services & Direct Stateful Pod Discovery</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias knslookup='kubectl run test-dns --image=busybox --rm -it -- nslookup'"""
+    checklist = [('CKAD', 'Create Headless Service by setting clusterIP: None', 'kubectl explain svc.spec.clusterIP')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_3():
-    theory = """
-    <h3>CKAD Week 6 Day 3: NetworkPolicy: Ingress Isolation & Pod Selectors</h3>
-    <p><strong>Overview:</strong> Restricting incoming traffic to database pods. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> NetworkPolicy: Ingress Isolation & Pod Selectors</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D3: NetworkPolicy: Ingress Isolation & Pod Selectors</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Restricting incoming traffic to database pods</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "NetworkPolicy: Ingress Isolation & Pod Selectors")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve NetworkPolicy: Ingress Isolation & Pod Selectors in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Default-deny NetworkPolicies enforce zero-trust isolation by dropping all incoming or outgoing traffic across the namespace.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 3: NetworkPolicies: Default Ingress & Egress Namespace Isolation</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgnp='kubectl get netpol'"""
+    checklist = [('CKAD', 'Create default deny ingress policy using empty podSelector', 'kubectl explain netpol.spec')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_4():
-    theory = """
-    <h3>CKAD Week 6 Day 4: NetworkPolicy: Egress Lockdown & DNS Resolution</h3>
-    <p><strong>Overview:</strong> Default deny egress while allowing CoreDNS port 53. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> NetworkPolicy: Egress Lockdown & DNS Resolution</li>
-      <li><strong>Target Image / Workload:</strong> <code>busybox:1.36</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D4: NetworkPolicy: Egress Lockdown & DNS Resolution</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Default deny egress while allowing CoreDNS port 53</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "NetworkPolicy: Egress Lockdown & DNS Resolution")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve NetworkPolicy: Egress Lockdown & DNS Resolution in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Granular NetworkPolicies whitelist traffic strictly from authorized pods, namespaces, and explicit TCP/UDP ports.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 4: NetworkPolicies: Fine-Grained Pod & Namespace Selector Rules</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kdnp='kubectl describe netpol'"""
+    checklist = [('CKAD', 'Allow ingress from pods matching specific labels on port 8080', 'from: [{podSelector: {matchLabels: {app: web}}}]')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_5():
-    theory = """
-    <h3>CKAD Week 6 Day 5: Ingress Networking: Host, Path Rules & Rewrite Target</h3>
-    <p><strong>Overview:</strong> Ingress controller routing /app and /api with rewrite. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Ingress Networking: Host, Path Rules & Rewrite Target</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D5: Ingress Networking: Host, Path Rules & Rewrite Target</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Ingress controller routing /app and /api with rewrite</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Ingress Networking: Host, Path Rules & Rewrite Target")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Ingress Networking: Host, Path Rules & Rewrite Target in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Ingress controllers manage external HTTP routing into cluster services based on host headers and URL path prefixes.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 5: Ingress Networking: Host & Path-Based HTTP Routing</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kging='kubectl get ingress'"""
+    checklist = [('CKAD', 'Create Ingress with host-based routing imperatively', "kubectl create ingress store --rule='store.internal/api*=api-svc:80'")]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_6():
-    theory = """
-    <h3>CKAD Week 6 Day 6: Week 6 Milestone: Microservices Network Security Sandbox</h3>
-    <p><strong>Overview:</strong> Securing multi-tier application with NetworkPolicies & Ingress. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Week 6 Milestone: Microservices Network Security Sandbox</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 45m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W6D6: Week 6 Milestone: Microservices Network Security Sandbox</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Securing multi-tier application with NetworkPolicies & Ingress</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 45m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Week 6 Milestone: Microservices Network Security Sandbox")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Week 6 Milestone: Microservices Network Security Sandbox in under 45m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Use <code>rewrite-target</code> annotations and regex path capture groups to strip prefixes before forwarding requests to backends.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 6 Day 6: Ingress URL Rewriting, Annotations & TLS Termination</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kinganno='kubectl get ingress -o jsonpath="{.items[*].metadata.annotations}"'"""
+    checklist = [('CKAD', 'Configure nginx.ingress.kubernetes.io/rewrite-target annotation', 'annotations: {nginx.ingress.kubernetes.io/rewrite-target: /}')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_content(day: int) -> dict:

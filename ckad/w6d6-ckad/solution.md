@@ -1,14 +1,27 @@
 # [CKAD W6D6-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Week 6 Milestone: Microservices Network Security Sandbox
+### Official Solution: Ingress Rewrite-Target
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w6d6 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w6d6
-
-# 3. Check status:
-kubectl get pods -n ckad-w6d6
+ssh controlplane 'cat << "EOF_ING" | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-rewrite-ingress
+  namespace: ckad-w6d6
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: service-api
+            port:
+              number: 80
+EOF_ING
+'
 ```

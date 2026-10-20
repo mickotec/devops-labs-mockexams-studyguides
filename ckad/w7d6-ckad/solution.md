@@ -1,14 +1,54 @@
 # [CKAD W7D6-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Week 7 Milestone: Declarative GitOps Kustomize Stack
+### Official Solution: StatefulSets
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w7d6 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w7d6
-
-# 3. Check status:
-kubectl get pods -n ckad-w7d6
+ssh controlplane 'cat << "EOF_STS" | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: ckad-w7d6
+spec:
+  clusterIP: None
+  selector:
+    app: redis-node
+  ports:
+  - port: 6379
+    targetPort: 6379
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+  namespace: ckad-w7d6
+spec:
+  serviceName: redis-service
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis-node
+  template:
+    metadata:
+      labels:
+        app: redis-node
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 200Mi
+EOF_STS
+'
 ```

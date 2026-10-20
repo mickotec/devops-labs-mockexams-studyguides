@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Batch Jobs: Completions, Parallelism & Retries in namespace ckad-w4d4..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w4d4 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w4d4.\033[0m"
+echo "[*] Evaluating CKAD W4D4: Previous Logs Extraction in ckad-w4d4..."
+
+LOG_CONTENT=$(ssh controlplane 'cat /tmp/fatal-sync.log 2>/dev/null || echo ""')
+if [[ "$LOG_CONTENT" =~ "FATAL" ]]; then
+  echo -e "[0;32m[PASS] Fatal crash log correctly captured in /tmp/fatal-sync.log.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] /tmp/fatal-sync.log missing or does not contain FATAL log.[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

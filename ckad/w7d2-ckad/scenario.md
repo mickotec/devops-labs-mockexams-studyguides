@@ -1,7 +1,7 @@
-# [CKAD W7D2-CKAD] PersistentVolumes & PersistentVolumeClaims
+# [CKAD W7D2-CKAD] PersistentVolumes: AccessModes & Reclaim Policies
 
 **Date:** 2026-11-24  
-**Time Limit:** 30m  
+**Time Limit:** 25m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: PersistentVolumes & PersistentVolumeClaims
-1. Work in namespace `ckad-w7d2` on the cluster.
-2. Objective: Static volume provisioning and ReadWriteOnce binding.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create PersistentVolume
+1. Create a PersistentVolume named `app-storage-pv`:
+   - Capacity: `2Gi`
+   - `accessModes`: `ReadWriteOnce`
+   - `persistentVolumeReclaimPolicy`: `Retain`
+   - `storageClassName`: `manual-storage`
+   - `hostPath`: `/mnt/k8s-pv-data` (type: `DirectoryOrCreate`)
+2. Verify that `app-storage-pv` reports status `Available`.
 
 ---
 

@@ -1,14 +1,31 @@
 # [CKAD W3D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Manual Node Scheduling & NodeSelector
+### Official Solution: Adapter Pattern
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w3d2 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w3d2
-
-# 3. Check status:
-kubectl get pods -n ckad-w3d2
+ssh controlplane 'cat << "EOF_POD" | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: metric-adapter-pod
+  namespace: ckad-w3d2
+spec:
+  volumes:
+  - name: metrics-vol
+    emptyDir: {}
+  containers:
+  - name: app
+    image: busybox:1.36
+    command: ["sh", "-c", "while true; do echo 'cpu_usage: 42' > /var/metrics/system.raw; sleep 2; done"]
+    volumeMounts:
+    - name: metrics-vol
+      mountPath: /var/metrics
+  - name: adapter
+    image: busybox:1.36
+    command: ["sh", "-c", "while true; do [ -f /var/metrics/system.raw ] && echo 'node_cpu_usage 42' > /var/metrics/metrics.prom; sleep 2; done"]
+    volumeMounts:
+    - name: metrics-vol
+      mountPath: /var/metrics
+EOF_POD
+'
 ```

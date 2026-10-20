@@ -1,8 +1,8 @@
-# [CKAD W6D6-CKAD] Week 6 Milestone: Microservices Network Security Sandbox
+# [CKAD W6D6-CKAD] Ingress Rewrite-Target & Path Regex
 
 **Date:** 2026-11-21  
-**Time Limit:** 45m  
-**Difficulty:** Hard  
+**Time Limit:** 25m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Week 6 Milestone: Microservices Network Security Sandbox
-1. Work in namespace `ckad-w6d6` on the cluster.
-2. Objective: Securing multi-tier application with NetworkPolicies & Ingress.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Configure URL Rewrite Annotation
+1. In namespace `ckad-w6d6`, deploy backend service `service-api:80`.
+2. Create Ingress `api-rewrite-ingress`:
+   - Annotation: `nginx.ingress.kubernetes.io/rewrite-target: /$2`
+   - Path: `/api(/|$)(.*)` with `pathType: ImplementationSpecific`
+   - Backend: `service-api` on port `80`
+3. Verify the rewrite-target annotation is active on the Ingress resource.
 
 ---
 

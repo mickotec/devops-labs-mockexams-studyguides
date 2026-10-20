@@ -1,14 +1,27 @@
 # [CKAD W8D4-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Custom Resource Definitions (CRDs) & API Extensions
+### Official Solution: API Deprecations
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w8d4 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=crd -n ckad-w8d4
-
-# 3. Check status:
-kubectl get pods -n ckad-w8d4
+ssh controlplane 'cat << "EOF_FIX" > /tmp/deprecated-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: legacy-ingress
+  namespace: ckad-w8d4
+spec:
+  rules:
+  - host: legacy.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-svc
+            port:
+              number: 80
+EOF_FIX
+kubectl apply -f /tmp/deprecated-ingress.yaml
+'
 ```

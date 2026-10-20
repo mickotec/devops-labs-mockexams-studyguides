@@ -1,14 +1,24 @@
 # [CKAD W3D5-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Labels, Selectors & Annotation Bulk Management
+### Official Solution: Taints & Tolerations
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w3d5 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w3d5
-
-# 3. Check status:
-kubectl get pods -n ckad-w3d5
+ssh controlplane 'cat << "EOF_POD" | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: analytics-engine
+  namespace: ckad-w3d5
+spec:
+  nodeName: node01
+  tolerations:
+  - key: dedicated
+    operator: Equal
+    value: analytics
+    effect: NoSchedule
+  containers:
+  - name: engine
+    image: nginx:alpine
+EOF_POD
+'
 ```

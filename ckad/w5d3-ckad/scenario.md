@@ -1,8 +1,8 @@
-# [CKAD W5D3-CKAD] Startup Probes for Slow-Initializing Applications
+# [CKAD W5D3-CKAD] Rollback Strategies & Historical Revisions
 
 **Date:** 2026-11-11  
 **Time Limit:** 25m  
-**Difficulty:** Easy  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,11 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Startup Probes for Slow-Initializing Applications
-1. Work in namespace `ckad-w5d3` on the cluster.
-2. Objective: failureThreshold and periodSeconds for slow containers.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Roll Back Faulty Deployment Revision
+1. In namespace `ckad-w5d3`, deployment `checkout-api` is broken in revision 2 because an invalid image (`nginx:bad-tag-xyz`) was deployed.
+2. Inspect rollout history using `kubectl rollout history deployment checkout-api -n ckad-w5d3`.
+3. Roll back the deployment to healthy revision 1 using `kubectl rollout undo`.
+4. Verify that the deployment restores running pods with image `nginx:1.24-alpine` and all 3 replicas become ready.
 
 ---
 

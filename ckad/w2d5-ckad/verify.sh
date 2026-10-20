@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating ServiceAccounts & Token Auto-mount Policies in namespace ckad-w2d5..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w2d5 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w2d5.\033[0m"
+echo "[*] Evaluating CKAD W2D5: SecurityContexts & Capabilities in ckad-w2d5..."
+
+PHASE=$(ssh controlplane 'kubectl get pod locked-container -n ckad-w2d5 -o jsonpath="{.status.phase}" 2>/dev/null || echo "Missing"')
+READY=$(ssh controlplane 'kubectl get pod locked-container -n ckad-w2d5 -o jsonpath="{.status.containerStatuses[0].ready}" 2>/dev/null || echo "false"')
+UID_VAL=$(ssh controlplane 'kubectl get pod locked-container -n ckad-w2d5 -o jsonpath="{.spec.securityContext.runAsUser}" 2>/dev/null || echo 0')
+READONLY=$(ssh controlplane 'kubectl get pod locked-container -n ckad-w2d5 -o jsonpath="{.spec.containers[0].securityContext.readOnlyRootFilesystem}" 2>/dev/null || echo "false"')
+
+if [ "$PHASE" == "Running" ] && [ "$READY" == "true" ] && [ "$UID_VAL" -eq 2000 ] && [ "$READONLY" == "true" ]; then
+  echo -e "[0;32m[PASS] Pod locked-container running as non-root (UID 2000) with readOnlyRootFilesystem.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Phase: $PHASE, Ready: $READY, UID: $UID_VAL (expected 2000), ReadOnly: $READONLY (expected true).[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

@@ -1,4 +1,4 @@
-# [CKAD W7D1-CKAD] Volume Types: emptyDir & hostPath In-Depth
+# [CKAD W7D1-CKAD] Volumes: emptyDir Memory Cache & hostPath
 
 **Date:** 2026-11-23  
 **Time Limit:** 25m  
@@ -14,11 +14,12 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Volume Types: emptyDir & hostPath In-Depth
-1. Work in namespace `ckad-w7d1` on the cluster.
-2. Objective: Ephemeral storage and node filesystem sharing.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Configure In-Memory emptyDir Volume
+1. In namespace `ckad-w7d1`, deploy Pod `cache-node` with image `busybox:1.36`.
+2. Configure an `emptyDir` volume named `ram-cache` with `medium: Memory` and `sizeLimit: 64Mi`.
+3. Mount `ram-cache` at `/cache` inside the container.
+4. Also mount a `hostPath` volume named `host-logs` at `/node-logs` (path: `/var/log`, type: `Directory`, readOnly: true).
+5. Verify `cache-node` runs and `df -T /cache` inside the pod reports `tmpfs`.
 
 ---
 

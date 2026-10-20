@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating NetworkPolicy: Ingress Isolation & Pod Selectors in namespace ckad-w6d3..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w6d3 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w6d3.\033[0m"
+echo "[*] Evaluating CKAD W6D3: Default Deny NetworkPolicy in ckad-w6d3..."
+
+TYPES=$(ssh controlplane 'kubectl get netpol default-deny-ingress -n ckad-w6d3 -o jsonpath="{.spec.policyTypes[*]}" 2>/dev/null || echo ""')
+RULES=$(ssh controlplane 'kubectl get netpol default-deny-ingress -n ckad-w6d3 -o jsonpath="{.spec.ingress}" 2>/dev/null || echo "NONE"')
+
+if [[ "$TYPES" =~ "Ingress" ]] && [ "$RULES" == "NONE" -o "$RULES" == "[]" ]; then
+  echo -e "[0;32m[PASS] default-deny-ingress NetworkPolicy active with empty ingress rule (default-deny).[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] policyTypes: '$TYPES' | ingress rules: '$RULES'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

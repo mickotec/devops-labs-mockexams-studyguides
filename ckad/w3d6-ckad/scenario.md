@@ -1,8 +1,8 @@
-# [CKAD W3D6-CKAD] Week 3 Milestone: Precision Workload Placement
+# [CKAD W3D6-CKAD] Node Selectors & Required NodeAffinity
 
 **Date:** 2026-10-31  
-**Time Limit:** 40m  
-**Difficulty:** Hard  
+**Time Limit:** 25m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,11 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Week 3 Milestone: Precision Workload Placement
-1. Work in namespace `ckad-w3d6` on the cluster.
-2. Objective: Deploying multi-node pod topology with taints and affinity.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Attract Pods Using Required NodeAffinity
+1. Label worker node `node02` with label `storage-tier=nvme`.
+2. In namespace `ckad-w3d6`, create a Pod named `fast-io-worker` with image `redis:alpine`.
+3. Configure `spec.affinity.nodeAffinity` using `requiredDuringSchedulingIgnoredDuringExecution` requiring that `storage-tier` is `In` values `["nvme"]`.
+4. Verify that `fast-io-worker` schedules exclusively onto `node02` and enters `Running` state.
 
 ---
 

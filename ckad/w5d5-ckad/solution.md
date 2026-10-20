@@ -1,14 +1,29 @@
 # [CKAD W5D5-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Metrics Server & CLI Resource Monitoring
+### Official Solution: Canary Deployment
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w5d5 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=metrics-server -n ckad-w5d5
-
-# 3. Check status:
-kubectl get pods -n ckad-w5d5
+ssh controlplane 'cat << "EOF_DEPLOY" | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-canary
+  namespace: ckad-w5d5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+      track: canary
+  template:
+    metadata:
+      labels:
+        app: catalog
+        track: canary
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.25-alpine
+EOF_DEPLOY
+'
 ```

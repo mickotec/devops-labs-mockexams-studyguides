@@ -1,8 +1,8 @@
-# [CKAD W6D3-CKAD] NetworkPolicy: Ingress Isolation & Pod Selectors
+# [CKAD W6D3-CKAD] NetworkPolicies: Default Ingress Denial
 
 **Date:** 2026-11-18  
-**Time Limit:** 30m  
-**Difficulty:** Easy  
+**Time Limit:** 25m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: NetworkPolicy: Ingress Isolation & Pod Selectors
-1. Work in namespace `ckad-w6d3` on the cluster.
-2. Objective: Restricting incoming traffic to database pods.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Isolate Namespace with Default-Deny
+1. In namespace `ckad-w6d3`, deploy Pod `secure-db` running `redis:alpine` exposed by service `db-svc:6379`.
+2. Create a NetworkPolicy named `default-deny-ingress`:
+   - Match all pods in namespace `ckad-w6d3` (`podSelector: {}`).
+   - `policyTypes`: `[Ingress]`.
+   - Leave `ingress` rules empty to deny all incoming connections.
+3. Verify policy is created and inspect policy types using `kubectl describe netpol`.
 
 ---
 

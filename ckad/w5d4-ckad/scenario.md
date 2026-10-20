@@ -1,7 +1,7 @@
-# [CKAD W5D4-CKAD] Container Logging: Multi-Container & Previous Logs
+# [CKAD W5D4-CKAD] Blue-Green Deployment Cutover
 
 **Date:** 2026-11-12  
-**Time Limit:** 20m  
+**Time Limit:** 30m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,15 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Container Logging: Multi-Container & Previous Logs
-1. Work in namespace `ckad-w5d4` on the cluster.
-2. Objective: Extracting logs from crashing pods with --previous.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Atomic Cutover to Green Release
+1. In namespace `ckad-w5d4`, service `web-portal` currently routes to Blue release (`version=v1`).
+2. Deploy the Green release:
+   - Deployment Name: `portal-green`
+   - Replicas: `3`
+   - Labels: `app=portal,version=v2`
+   - Image: `nginx:1.25-alpine`
+3. Verify `portal-green` achieves 3/3 Ready status.
+4. Atomically update Service `web-portal` selector to route 100% of incoming traffic to `version: v2`.
 
 ---
 

@@ -1,8 +1,8 @@
-# [CKAD W8D5-CKAD] CKAD killer.sh Mock Exam 1 (Timed Simulation)
+# [CKAD W8D5-CKAD] Helm Package Management & Value Overrides
 
 **Date:** 2026-12-04  
-**Time Limit:** 120m  
-**Difficulty:** Easy  
+**Time Limit:** 25m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,12 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: CKAD killer.sh Mock Exam 1 (Timed Simulation)
-1. Work in namespace `ckad-w8d5` on the cluster.
-2. Objective: 16 Real-World Questions, 120 Minutes, Official Weights.
-3. Deploy or configure workload named `ckad-app` using image `mock-ckad-1`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Configure Helm Chart Release
+1. In namespace `ckad-w8d5`, verify Helm is installed on `controlplane`.
+2. A sample chart directory exists at `/tmp/sample-chart`.
+3. Install a release named `frontend-app` from `/tmp/sample-chart` into namespace `ckad-w8d5`:
+   - Override `replicaCount`: set to `3` using `--set replicaCount=3`
+4. Verify the release status using `helm list -n ckad-w8d5` and ensure 3 pods are running.
 
 ---
 

@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Blue-Green Deployment Cutover Pattern in namespace ckad-w4d2..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w4d2 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w4d2.\033[0m"
+echo "[*] Evaluating CKAD W4D2: Liveness Probes in ckad-w4d2..."
+
+PHASE=$(ssh controlplane 'kubectl get pod health-monitor -n ckad-w4d2 -o jsonpath="{.status.phase}" 2>/dev/null || echo "Missing"')
+RESTARTS=$(ssh controlplane 'kubectl get pod health-monitor -n ckad-w4d2 -o jsonpath="{.status.containerStatuses[0].restartCount}" 2>/dev/null || echo 99')
+PROBE=$(ssh controlplane 'kubectl get pod health-monitor -n ckad-w4d2 -o jsonpath="{.spec.containers[0].livenessProbe.exec.command}" 2>/dev/null || echo ""')
+
+if [ "$PHASE" == "Running" ] && [ "$RESTARTS" -eq 0 ] && [[ "$PROBE" =~ "healthy" ]]; then
+  echo -e "[0;32m[PASS] Pod health-monitor running 1/1 with active exec liveness probe (0 restarts).[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Phase: $PHASE, Restarts: $RESTARTS (expected 0), Probe: '$PROBE'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

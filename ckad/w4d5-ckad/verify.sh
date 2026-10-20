@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating CronJobs: Schedule Syntax & Concurrency Policies in namespace ckad-w4d5..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w4d5 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w4d5.\033[0m"
+echo "[*] Evaluating CKAD W4D5: kubectl top in kube-system..."
+
+SAVED_POD=$(ssh controlplane 'cat /tmp/top-cpu-pod.txt 2>/dev/null | tr -d "[:space:]"')
+TOP_POD=$(ssh controlplane 'kubectl top pod -n kube-system --sort-by=cpu --no-headers 2>/dev/null | head -n 1 | awk "{print \$1}" | tr -d "[:space:]"')
+
+if [ -n "$SAVED_POD" ] && [ "$SAVED_POD" == "$TOP_POD" ]; then
+  echo -e "[0;32m[PASS] Top CPU pod identified accurately: $SAVED_POD[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Saved pod: '$SAVED_POD' vs Actual top pod: '$TOP_POD'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

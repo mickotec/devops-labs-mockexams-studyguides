@@ -1,7 +1,7 @@
-# [CKAD W6D2-CKAD] Headless Services & StatefulSets Architecture
+# [CKAD W6D2-CKAD] Headless Services & Direct Pod Discovery
 
 **Date:** 2026-11-17  
-**Time Limit:** 30m  
+**Time Limit:** 25m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Headless Services & StatefulSets Architecture
-1. Work in namespace `ckad-w6d2` on the cluster.
-2. Objective: clusterIP None with stable network identities.
-3. Deploy or configure workload named `ckad-app` using image `redis:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create Headless Service for Clustered Pods
+1. In namespace `ckad-w6d2`, deploy two pods named `db-node-0` and `db-node-1` with labels `app=database` using image `redis:alpine`.
+2. Create a Headless Service named `db-headless` (`clusterIP: None`):
+   - Selector: `app=database`
+   - Port: `6379`
+   - TargetPort: `6379`
+3. Verify `clusterIP` is set to `None` and running `nslookup db-headless.ckad-w6d2.svc.cluster.local` returns both pod IPs.
 
 ---
 

@@ -1,14 +1,23 @@
 # [CKAD W7D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: PersistentVolumes & PersistentVolumeClaims
+### Official Solution: PersistentVolume
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w7d2 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w7d2
-
-# 3. Check status:
-kubectl get pods -n ckad-w7d2
+ssh controlplane 'cat << "EOF_PV" | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app-storage-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual-storage
+  hostPath:
+    path: /mnt/k8s-pv-data
+    type: DirectoryOrCreate
+EOF_PV
+'
 ```

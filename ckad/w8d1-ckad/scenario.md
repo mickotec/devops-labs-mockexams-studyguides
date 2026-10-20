@@ -1,4 +1,4 @@
-# [CKAD W8D1-CKAD] Kubeconfig Architecture & Multi-Cluster Contexts
+# [CKAD W8D1-CKAD] Kubeconfig Files & Context Management
 
 **Date:** 2026-11-30  
 **Time Limit:** 25m  
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Kubeconfig Architecture & Multi-Cluster Contexts
-1. Work in namespace `ckad-w8d1` on the cluster.
-2. Objective: Clusters, users, contexts, and active context switching.
-3. Deploy or configure workload named `ckad-app` using image `kubeconfig`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create Custom Context & Set Default Namespace
+1. On node `controlplane`, create a working kubeconfig copy at `/tmp/custom-kubeconfig`.
+2. Configure a new context named `developer-ctx` in `/tmp/custom-kubeconfig`:
+   - `cluster`: `kubernetes`
+   - `user`: `kubernetes-admin`
+   - `namespace`: `ckad-dev-ns`
+3. Set the current-context of `/tmp/custom-kubeconfig` to `developer-ctx`.
+4. Verify that running `kubectl --kubeconfig=/tmp/custom-kubeconfig config current-context` outputs `developer-ctx`.
 
 ---
 

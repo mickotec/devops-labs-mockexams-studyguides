@@ -1,8 +1,8 @@
-# [CKAD W1D3-CKAD] Imperative Pod & Deployment CLI Mastery
+# [CKAD W1D3-CKAD] ReplicaSets, Label Selectors & Pod Adoption
 
 **Date:** 2026-10-14  
-**Time Limit:** 20m  
-**Difficulty:** Easy  
+**Time Limit:** 30m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,15 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Imperative Pod & Deployment CLI Mastery
-1. Work in namespace `ckad-w1d3` on the cluster.
-2. Objective: Rapid kubectl run and create with dry-run.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create ReplicaSet & Adopt Orphaned Pod
+1. In namespace `ckad-w1d3`, there is an unmanaged pod named `orphan-web` with label `app=frontend`.
+2. Create a ReplicaSet named `frontend-rs` in namespace `ckad-w1d3`:
+   - `spec.replicas`: `3`
+   - `spec.selector.matchLabels`: `app=frontend,tier=web`
+   - Pod Template Image: `nginx:1.24-alpine`
+   - Template Labels: `app=frontend,tier=web`
+3. Modify the labels of `orphan-web` to add `tier=web` so that `frontend-rs` acquires it.
+4. Verify that total pods matching `app=frontend,tier=web` in namespace `ckad-w1d3` equals exactly 3.
 
 ---
 

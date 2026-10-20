@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CKAD Master Daily Study Guide — Week 5 Day 5 (Friday, October 30, 2026)</title>
+  <style>
+    
+    @page {
+      size: A4 portrait;
+      margin: 11mm 11mm 11mm 11mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Adwaita Sans', 'Liberation Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 9.3pt;
+      line-height: 1.45;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .page-break { page-break-before: always; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+    .header-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #059669 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 9px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      border-bottom: 4px solid #34d399;
+    }
+    .header-banner h1 {
+      margin: 0 0 4px 0;
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .header-banner .subtitle {
+      font-size: 10.5pt;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 7.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary { background-color: #059669; color: #ffffff; }
+    .badge-rec { background-color: #059669; color: #ffffff; }
+    .badge-date { background-color: #334155; color: #f1f5f9; }
+    .badge-cal { background-color: #475569; color: #ffffff; }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title { border-bottom-color: #059669; color: #059669; }
+
+    h3 {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    .callout {
+      border-radius: 7px;
+      padding: 9px 12px;
+      margin: 8px 0;
+      font-size: 8.6pt;
+      line-height: 1.4;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .callout-info { background-color: #f0f9ff; border-left: 4px solid #0284c7; color: #0369a1; }
+    .callout-warning { background-color: #fffbeb; border-left: 4px solid #f59e0b; color: #92400e; }
+    .callout-tip { background-color: #ecfdf5; border-left: 4px solid #10b981; color: #065f46; }
+    .callout-exam { background-color: #fdf2f8; border-left: 4px solid #ec4899; color: #9d174d; }
+    .callout-title {
+      font-weight: bold;
+      font-size: 9pt;
+      margin-bottom: 4px;
+    }
+
+    .diagram-container {
+      text-align: center;
+      margin: 10px 0;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .diagram-svg {
+      width: 100%;
+      max-height: 290px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 8px 11px;
+      border-radius: 6px;
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 7.8pt;
+      line-height: 1.36;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 5px 0 7px 0;
+      border: 1px solid #334155;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    code {
+      font-family: 'JetBrainsMono Nerd Font', 'Adwaita Mono', monospace;
+      font-size: 8.1pt;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 3px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+    }
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 7px 0;
+      font-size: 8pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    th, td {
+      padding: 5px 7px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7pt;
+      letter-spacing: 0.5px;
+    }
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .task-title {
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-size: 9.2pt;
+    }
+    .section-subhead {
+      font-weight: bold;
+      color: #059669;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 2px;
+    }
+    .doc-list {
+      margin: 3px 0 6px 18px;
+      padding: 0;
+    }
+    .doc-list li {
+      margin-bottom: 3px;
+    }
+
+    .page-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 7.2pt;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER BANNER ==================== -->
+  <div class="header-banner">
+    <div class="badges-row">
+      <span class="badge badge-cal">📅 Week 5 Day 5</span>
+      <span class="badge badge-date">Friday, October 30, 2026</span>
+      <span class="badge badge-primary">☸ CKAD Track</span>
+      <span class="badge badge-rec">Application Mastery</span>
+    </div>
+    <h1>CKAD Master Daily Study Guide</h1>
+    <div class="subtitle">ReplicaSets &amp; Deployment Scaling Strategies</div>
+    <div style="font-size: 8.4pt; opacity: 0.95; line-height: 1.35;">
+      <strong>Target:</strong> VirtualBox Kubernetes Cluster (<code>controlplane</code>, <code>node01</code>, <code>node02</code>)<br>
+      <strong>Orchestrator:</strong> <code>./lab start w5d5-ckad</code> • <code>./lab check w5d5-ckad</code> • <code>./lab solve w5d5-ckad</code>
+    </div>
+  </div>
+
+  <h2>📅 Scheduled Study Block (from study_schedule.ics)</h2>
+  <p>
+    Focused hands-on application developer study block. Build speed and muscle memory on imperative commands, manifests, and cluster troubleshooting.
+  </p>
+
+  
+    <div style="background-color: #ecfdf5; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-primary">CKAD Application Deep Dive</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 08:00 AM - 12:00 PM</span>
+      </div>
+      
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">08:00 AM</span>
+          <span style="color: #1e293b;">08:30 AM: Deep Dive Theory & Architecture</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">08:30 AM</span>
+          <span style="color: #1e293b;">09:30 AM: Imperative & Declarative Manifest Drills</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">09:30 AM</span>
+          <span style="color: #1e293b;">09:45 AM: Movement & Hydration break</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">09:45 AM</span>
+          <span style="color: #1e293b;">11:15 AM: Hands-on Practice Lab (./lab start w1d5-ckad)</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">11:15 AM</span>
+          <span style="color: #1e293b;">11:30 AM: Rest & Review</span>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 4px; font-size: 8.2pt;">
+          <span style="font-family: monospace; font-weight: bold; color: #64748b; white-space: nowrap; min-width: 125px;">11:30 AM</span>
+          <span style="color: #1e293b;">12:00 PM: Solution Walkthrough & Verification</span>
+        </div>
+        
+    </div>
+    
+  
+    <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 7px; padding: 10px 12px; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 5px;">
+        <span class="badge badge-rec">Cognitive Recovery & Integration</span>
+        <span style="font-size: 8.5pt; font-weight: bold; color: #475569;">🕒 12:00 PM - 03:00 PM</span>
+      </div>
+      
+    </div>
+    
+
+  <!-- ==================== ARCHITECTURAL DEEP DIVE ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">☸ CKAD Application Architecture Deep Dive: ReplicaSets &amp; Deployment Scaling Strategies</h2>
+  
+  <p>Canary deployments split incoming traffic between stable baseline and canary replicas matching a shared service selector.</p>
+
+  <div class="diagram-container">
+    <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 5: Deployment Strategies: Canary Traffic Splitting</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>
+  </div>
+
+  <!-- ==================== HANDS-ON LAB WALKTHROUGH ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">🛠 Hands-on Lab Walkthrough: w5d5-ckad</h2>
+  
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">🎯 Lab Scenario Objectives &amp; Tasks</div>
+    <div class="section-subhead">📋 Scenario Overview</div>
+<p>Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.</p>
+<div class="section-subhead">🎯 Candidate Tasks</div>
+<div class="task-title">📌 Task 1: Deploy Canary Workload</div>
+<ol class="doc-list">
+<li>In namespace <code>ckad-w5d5</code>, service <code>catalog-svc</code> routes traffic to pods with label <code>app=catalog</code>.</li>
+<li>Existing baseline deployment <code>catalog-stable</code> has <code>4</code> replicas of <code>nginx:1.24-alpine</code> with labels <code>app=catalog,track=stable</code>.</li>
+<li>Create Canary deployment named <code>catalog-canary</code>:</li>
+</ol>
+<ul class="doc-list">
+<li>Replicas: <code>1</code></li>
+<li>Labels: <code>app=catalog,track=canary</code></li>
+<li>Image: <code>nginx:1.25-alpine</code></li>
+</ul>
+<ol class="doc-list">
+<li>Verify that total endpoints for service <code>catalog-svc</code> equals <code>5</code> (4 stable + 1 canary, 20% traffic split).</li>
+</ol>
+<div class="section-subhead">🔍 Validation</div>
+<p>Run the automated grader:</p>
+<pre><code>./lab check w5d5-ckad</code></pre>
+  </div>
+
+  <div class="callout callout-tip avoid-break">
+    <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
+    <div class="task-title">📌 Tasks &amp; Official Solution</div>
+<div class="task-title">📌 Official Solution: Canary Deployment</div>
+<pre><code>ssh controlplane &#x27;cat &lt;&lt; &quot;EOF_DEPLOY&quot; | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-canary
+  namespace: ckad-w5d5
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+      track: canary
+  template:
+    metadata:
+      labels:
+        app: catalog
+        track: canary
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.25-alpine
+EOF_DEPLOY
+&#x27;</code></pre>
+  </div>
+
+  <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
+  <div class="page-break"></div>
+  <h2 class="section-title">⚡ CKAD Speed Drills &amp; Daily Readiness Matrix</h2>
+
+  <div class="callout callout-info avoid-break">
+    <div class="callout-title">☸ Essential Kubectl Shortcuts &amp; Terminal Aliases (.bashrc)</div>
+    <pre><code>alias kgp=&#x27;kubectl get pods -l app=store&#x27;</code></pre>
+  </div>
+
+  <h3>Daily Self-Assessment Checklist</h3>
+  <table class="avoid-break">
+    <thead>
+      <tr>
+        <th style="width: 10%;">Track</th>
+        <th style="width: 48%;">Core Competency / Question</th>
+        <th style="width: 30%;">Verification Command</th>
+        <th style="width: 12%;">Mastery</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+        <tr>
+          <td><span class="badge badge-primary">CKAD</span></td>
+          <td>Structure deployments sharing common service labels for Canary routing</td>
+          <td><code>selector: {app: catalog}</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <div class="page-footer">
+    <span>CKAD Official Preparation Guide • Week 5 Day 5</span>
+    <span>Orchestrator: <code>./lab check w5d5-ckad</code></span>
+  </div>
+
+</body>
+</html>

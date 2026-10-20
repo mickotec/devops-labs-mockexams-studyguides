@@ -1,8 +1,8 @@
-# [CKAD W6D4-CKAD] NetworkPolicy: Egress Lockdown & DNS Resolution
+# [CKAD W6D4-CKAD] NetworkPolicies: Pod & Port Specific Ingress Rules
 
 **Date:** 2026-11-19  
 **Time Limit:** 30m  
-**Difficulty:** Medium  
+**Difficulty:** Hard  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: NetworkPolicy: Egress Lockdown & DNS Resolution
-1. Work in namespace `ckad-w6d4` on the cluster.
-2. Objective: Default deny egress while allowing CoreDNS port 53.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Allow Ingress Only From Authorized Pod
+1. In namespace `ckad-w6d4`, target pod `api-backend` has label `tier=backend`.
+2. Create a NetworkPolicy named `allow-frontend-only`:
+   - Apply policy to pods matching `tier=backend`.
+   - `policyTypes`: `[Ingress]`.
+   - Allow ingress traffic ONLY from pods in the same namespace matching label `tier=frontend`.
+   - Restrict allowed port strictly to TCP port `8080`.
+3. Verify that all other pods are blocked from accessing `api-backend` on port `8080`.
 
 ---
 

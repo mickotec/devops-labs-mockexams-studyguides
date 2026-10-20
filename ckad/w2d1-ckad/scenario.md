@@ -1,4 +1,4 @@
-# [CKAD W2D1-CKAD] Container Commands & Arguments Overrides
+# [CKAD W2D1-CKAD] Container Commands & Arguments Execution
 
 **Date:** 2026-10-19  
 **Time Limit:** 25m  
@@ -14,11 +14,12 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Container Commands & Arguments Overrides
-1. Work in namespace `ckad-w2d1` on the cluster.
-2. Objective: Overriding entrypoint and cmd via command and args.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Override Container Entrypoint & Arguments
+1. In namespace `ckad-w2d1`, create a Pod named `report-worker` running image `busybox:1.36`.
+2. Configure the container to override the default command and arguments:
+   - `command`: `["/bin/sh"]`
+   - `args`: `["-c", "mkdir -p /tmp/reports && while true; do date >> /tmp/reports/output.txt; sleep 3; done"]`
+3. Ensure the pod transitions to `Running` state and `/tmp/reports/output.txt` is populated.
 
 ---
 

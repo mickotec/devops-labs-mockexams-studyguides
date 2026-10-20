@@ -1,14 +1,27 @@
 # [CKAD W1D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Init Containers & Service Dependency Blocking
+### Official Solution: Editing Pods
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w1d2 --dry-run=client -o yaml | kubectl apply -f -
+# 1. Export pod spec to yaml:
+ssh controlplane '
+kubectl get pod data-worker -n ckad-w1d2 -o yaml > /tmp/worker.yaml
 
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w1d2
+# 2. Update command and args in /tmp/worker.yaml and replace:
+cat << "EOF_POD" > /tmp/worker.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: data-worker
+  namespace: ckad-w1d2
+spec:
+  containers:
+  - name: data-worker
+    image: busybox:1.36
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /tmp/processed.log; sleep 2; done"]
+EOF_POD
 
-# 3. Check status:
-kubectl get pods -n ckad-w1d2
+kubectl replace --force -f /tmp/worker.yaml
+'
 ```

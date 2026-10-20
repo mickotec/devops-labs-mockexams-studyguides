@@ -1,14 +1,43 @@
 # [CKAD W2D3-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Secrets Creation, Base64 & Safe Mounting
+### Official Solution: ConfigMaps as Volumes
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w2d3 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w2d3
-
-# 3. Check status:
-kubectl get pods -n ckad-w2d3
+ssh controlplane '
+cat << "EOF_CONF" | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-nginx-conf
+  namespace: ckad-w2d3
+data:
+  default.conf: |
+    server {
+      listen 8088;
+      location / {
+        return 200 "CUSTOM-PORT-OK
+";
+      }
+    }
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-custom-port
+  namespace: ckad-w2d3
+spec:
+  volumes:
+  - name: conf-vol
+    configMap:
+      name: custom-nginx-conf
+  containers:
+  - name: web
+    image: nginx:1.24-alpine
+    ports:
+    - containerPort: 8088
+    volumeMounts:
+    - name: conf-vol
+      mountPath: /etc/nginx/conf.d
+EOF_CONF
+'
 ```

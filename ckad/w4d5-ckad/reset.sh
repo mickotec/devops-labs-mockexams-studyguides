@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 echo "[*] Cleaning up w4d5-ckad..."
-ssh controlplane 'kubectl delete namespace ckad-w4d5 --ignore-not-found'
+ssh controlplane 'rm -f /tmp/top-cpu-pod.txt'
 echo "[✓] Reset complete."

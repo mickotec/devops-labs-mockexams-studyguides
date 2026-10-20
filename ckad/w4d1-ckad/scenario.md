@@ -1,7 +1,7 @@
-# [CKAD W4D1-CKAD] Rolling Updates, Rollout History & Undo/Rollback
+# [CKAD W4D1-CKAD] Readiness Probes & Service Endpoint Gating
 
 **Date:** 2026-11-02  
-**Time Limit:** 30m  
+**Time Limit:** 25m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,15 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Rolling Updates, Rollout History & Undo/Rollback
-1. Work in namespace `ckad-w4d1` on the cluster.
-2. Objective: maxSurge, maxUnavailable, change-cause, and rollback.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Configure HTTP Readiness Probe
+1. In namespace `ckad-w4d1`, create a Pod named `order-processor` running image `nginx:alpine`.
+2. Configure an HTTP GET readiness probe on path `/ready` port `80`:
+   - `initialDelaySeconds`: `5`
+   - `periodSeconds`: `3`
+   - `failureThreshold`: `2`
+3. Expose `order-processor` with a ClusterIP service named `order-service` on port `80`.
+4. Ensure the probe passes by creating `/usr/share/nginx/html/ready` inside the container.
+5. Verify that `order-service` registers the pod IP as a healthy endpoint.
 
 ---
 

@@ -1,7 +1,7 @@
-# [CKAD W5D2-CKAD] Readiness Probes & Service Traffic Gating
+# [CKAD W5D2-CKAD] Rolling Updates with Zero-Downtime MaxSurge
 
 **Date:** 2026-11-10  
-**Time Limit:** 25m  
+**Time Limit:** 30m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Readiness Probes & Service Traffic Gating
-1. Work in namespace `ckad-w5d2` on the cluster.
-2. Objective: Preventing traffic to unready containers until warmup.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Zero-Downtime Rolling Update
+1. In namespace `ckad-w5d2`, inspect existing deployment `payment-gateway`.
+2. Configure rolling update strategy parameters:
+   - `maxSurge`: `2`
+   - `maxUnavailable`: `0`
+3. Update the container image to `nginx:1.25-alpine`.
+4. Scale deployment to `5` replicas.
+5. Track and ensure rollout completes successfully using `kubectl rollout status`.
 
 ---
 

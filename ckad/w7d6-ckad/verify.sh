@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Week 7 Milestone: Declarative GitOps Kustomize Stack in namespace ckad-w7d6..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w7d6 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w7d6.\033[0m"
+echo "[*] Evaluating CKAD W7D6: StatefulSets in ckad-w7d6..."
+
+REPLICAS=$(ssh controlplane 'kubectl get statefulset redis-cluster -n ckad-w7d6 -o jsonpath="{.status.readyReplicas}" 2>/dev/null || echo 0')
+PVC_0=$(ssh controlplane 'kubectl get pvc redis-data-redis-cluster-0 -n ckad-w7d6 -o jsonpath="{.metadata.name}" 2>/dev/null || echo ""')
+PVC_1=$(ssh controlplane 'kubectl get pvc redis-data-redis-cluster-1 -n ckad-w7d6 -o jsonpath="{.metadata.name}" 2>/dev/null || echo ""')
+
+if [ "$REPLICAS" -eq 2 ] && [ -n "$PVC_0" ] && [ -n "$PVC_1" ]; then
+  echo -e "[0;32m[PASS] StatefulSet redis-cluster 2/2 ready with dedicated volumeClaimTemplates PVCs.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Ready replicas: $REPLICAS/2 | PVC 0: '$PVC_0' | PVC 1: '$PVC_1'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

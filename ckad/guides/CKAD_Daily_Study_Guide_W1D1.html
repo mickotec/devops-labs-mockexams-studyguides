@@ -260,18 +260,15 @@
   <div class="page-break"></div>
   <h2 class="section-title">☸ CKAD Application Architecture Deep Dive: Week 1 Day 1 CKAD</h2>
   
-  
-    <h3>CKAD Week 1 Day 1: Multi-Container Pods & Sidecar Logging</h3>
-    <p><strong>Overview:</strong> emptyDir shared volume and log shipping. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Multi-Container Pods & Sidecar Logging</li>
-      <li><strong>Target Image / Workload:</strong> <code>busybox:1.36</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    
+  <p>In Kubernetes, the <strong>Pod</strong> is the smallest deployable compute unit, encapsulating one or more application containers with shared network IP and storage.</p>
+<ul>
+  <li><strong>Atomic Scheduling:</strong> All containers in a single Pod are co-located and co-scheduled on the same node.</li>
+  <li><strong>Shared Resources:</strong> Containers share an IP address and port space (communicating via <code>localhost</code>) and can share volumes via <code>emptyDir</code>.</li>
+  <li><strong>Four YAML Root Keys:</strong> <code>apiVersion</code>, <code>kind</code>, <code>metadata</code>, and <code>spec</code>.</li>
+</ul>
 
   <div class="diagram-container">
-    <svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+    <svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
   <defs>
     <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#090d16"/>
@@ -289,68 +286,17 @@
       <stop offset="0%" stop-color="#059669"/>
       <stop offset="100%" stop-color="#047857"/>
     </linearGradient>
-    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d97706"/>
-      <stop offset="100%" stop-color="#b45309"/>
-    </linearGradient>
-    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7c3aed"/>
-      <stop offset="100%" stop-color="#6d28d9"/>
-    </linearGradient>
-    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e11d48"/>
-      <stop offset="100%" stop-color="#be123c"/>
-    </linearGradient>
-    <linearGradient id="indigoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4f46e5"/>
-      <stop offset="100%" stop-color="#3730a3"/>
-    </linearGradient>
-    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0891b2"/>
-      <stop offset="100%" stop-color="#0e7490"/>
-    </linearGradient>
-
-    <!-- Arrow Markers -->
-    <marker id="arrowSky" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#38bdf8" />
-    </marker>
-    <marker id="arrowGreen" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#34d399" />
-    </marker>
-    <marker id="arrowAmber" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#fbbf24" />
-    </marker>
-    <marker id="arrowPurple" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#c084fc" />
-    </marker>
-    <marker id="arrowRose" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#f43f5e" />
-    </marker>
-    <marker id="arrowWhite" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 9 3, 0 6" fill="#ffffff" />
-    </marker>
-
-    <!-- Drop Shadow Filter -->
-    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.28"/>
-    </filter>
   </defs>
-
-  <!-- Base Canvas -->
-  <rect x="0" y="0" width="800" height="180" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
-
-  
-        <rect x="15" y="10" width="770" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
-        <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
-        <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">Multi-Container Pods & Sidecar Logging</text>
-        
-
-  
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W1D1: Multi-Container Pods & Sidecar Logging</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">emptyDir shared volume and log shipping</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 1 Day 1: Pod Architecture, YAML Basics & Creating Pods</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
 </svg>
   </div>
 
@@ -363,12 +309,23 @@
     <div class="section-subhead">📋 Scenario Overview</div>
 <p>Practice scenario aligned with your official certification preparation schedule. Complete all tasks under exam conditions.</p>
 <div class="section-subhead">🎯 Candidate Tasks</div>
-<div class="task-title">📌 Task 1: Multi-Container Pods &amp; Sidecar Logging</div>
+<div class="task-title">📌 Task 1: Repair Broken Pod Manifest &amp; Configure Multi-Container Pod</div>
 <ol class="doc-list">
-<li>Work in namespace <code>ckad-w1d1</code> on the cluster.</li>
-<li>Objective: emptyDir shared volume and log shipping.</li>
-<li>Deploy or configure workload named <code>ckad-app</code> using image <code>busybox:1.36</code>.</li>
-<li>Ensure all pods are in <code>Running</code> state (Ready) and meet specifications.</li>
+<li>On node <code>controlplane</code>, a junior developer left a broken YAML manifest at <code>/tmp/webapp-core.yaml</code> intended to run in namespace <code>ckad-w1d1</code>.</li>
+<li>Inspect and repair the syntax errors in <code>/tmp/webapp-core.yaml</code>:</li>
+</ol>
+<ul class="doc-list">
+<li>Pod Name: <code>webapp-core</code></li>
+<li>Namespace: <code>ckad-w1d1</code></li>
+<li>Primary Container: named <code>web-app</code>, running image <code>nginx:1.24-alpine</code>, listening on containerPort <code>80</code>.</li>
+<li>Sidecar Container: named <code>log-shipper</code>, running image <code>busybox:1.36</code>, executing the command:</li>
+</ul>
+<p><code>sh -c &quot;while true; do date &gt;&gt; /var/log/app/heartbeat.log; sleep 2; done&quot;</code></p>
+<ul class="doc-list">
+<li>Storage: Mount a shared <code>emptyDir</code> volume named <code>shared-logs</code> at <code>/var/log/app</code> in <strong>both</strong> containers.</li>
+</ul>
+<ol class="doc-list">
+<li>Apply the repaired manifest and verify that pod <code>webapp-core</code> enters <code>Running</code> status with both containers ready (<code>2/2</code>).</li>
 </ol>
 <div class="section-subhead">🔍 Validation</div>
 <p>Run the automated grader:</p>
@@ -378,15 +335,36 @@
   <div class="callout callout-tip avoid-break">
     <div class="callout-title">✅ Step-by-Step Grader Solution Walkthrough</div>
     <div class="task-title">📌 Tasks &amp; Official Solution</div>
-<div class="task-title">📌 Official Solution: Multi-Container Pods &amp; Sidecar Logging</div>
-<pre><code># 1. Create or verify namespace:
-kubectl create namespace ckad-w1d1 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w1d1
-
-# 3. Check status:
-kubectl get pods -n ckad-w1d1</code></pre>
+<div class="task-title">📌 Official Solution: Multi-Container Pod</div>
+<pre><code># 1. Edit /tmp/webapp-core.yaml on controlplane:
+# Fix the volumeMount name in container &#x27;log-shipper&#x27; to match &#x27;shared-logs&#x27;:
+ssh controlplane &#x27;cat &lt;&lt; &quot;EOF_FIX&quot; &gt; /tmp/webapp-core.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp-core
+  namespace: ckad-w1d1
+spec:
+  volumes:
+  - name: shared-logs
+    emptyDir: {}
+  containers:
+  - name: web-app
+    image: nginx:1.24-alpine
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/app
+  - name: log-shipper
+    image: busybox:1.36
+    command: [&quot;sh&quot;, &quot;-c&quot;, &quot;while true; do date &gt;&gt; /var/log/app/heartbeat.log; sleep 2; done&quot;]
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/app
+EOF_FIX
+kubectl apply -f /tmp/webapp-core.yaml
+&#x27;</code></pre>
   </div>
 
   <!-- ==================== EXAM SPEED DRILLS & CHECKLIST ==================== -->
@@ -395,7 +373,9 @@ kubectl get pods -n ckad-w1d1</code></pre>
 
   <div class="callout callout-info avoid-break">
     <div class="callout-title">☸ Essential Kubectl Shortcuts &amp; Terminal Aliases (.bashrc)</div>
-    <pre><code>alias k=&#x27;kubectl&#x27;\nalias kdry=&#x27;kubectl --dry-run=client -o yaml&#x27;</code></pre>
+    <pre><code>alias k=&#x27;kubectl&#x27;
+alias krun=&#x27;kubectl run --dry-run=client -o yaml&#x27;
+export do=&#x27;--dry-run=client -o yaml&#x27;</code></pre>
   </div>
 
   <h3>Daily Self-Assessment Checklist</h3>
@@ -412,15 +392,22 @@ kubectl get pods -n ckad-w1d1</code></pre>
       
         <tr>
           <td><span class="badge badge-primary">CKAD</span></td>
-          <td>Can you solve Multi-Container Pods & Sidecar Logging in under 30m?</td>
-          <td><code>Review scenario and solution guide</code></td>
+          <td>Understand the four top-level YAML keys (apiVersion, kind, metadata, spec)</td>
+          <td><code>kubectl explain pod</code></td>
           <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
         </tr>
         
         <tr>
           <td><span class="badge badge-primary">CKAD</span></td>
-          <td>Can you verify requirements using kubectl jsonpath/custom-columns?</td>
-          <td><code>Use -o jsonpath or -o custom-columns</code></td>
+          <td>Create Pod manifest imperatively without starting the container</td>
+          <td><code>kubectl run web --image=nginx $do &gt; pod.yaml</code></td>
+          <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
+        </tr>
+        
+        <tr>
+          <td><span class="badge badge-primary">CKAD</span></td>
+          <td>Configure two containers sharing an emptyDir volume in a single Pod</td>
+          <td><code>kubectl explain pod.spec.volumes.emptyDir</code></td>
           <td style="text-align: center; font-weight: bold; color: #059669;">[ &nbsp; ] Ready</td>
         </tr>
         

@@ -1,14 +1,32 @@
 # [CKAD W8D6-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: CKAD killer.sh Mock Exam 2 (Timed Simulation)
+### Official Solution: Kustomize Overlays
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w8d6 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+cat << "EOF_PROD" > /tmp/kustomize-store/overlays/prod/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ckad-w8d6
+resources:
+- ../../base
+namePrefix: prod-
+commonLabels:
+  env: production
+  tier: web
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: web-app
+    spec:
+      replicas: 3
+  target:
+    kind: Deployment
+    name: web-app
+EOF_PROD
 
-# 2. Run workload:
-kubectl run ckad-app --image=mock-ckad-2 -n ckad-w8d6
-
-# 3. Check status:
-kubectl get pods -n ckad-w8d6
+kubectl apply -k /tmp/kustomize-store/overlays/prod
+'
 ```

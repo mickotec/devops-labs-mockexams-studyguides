@@ -1,14 +1,13 @@
 # [CKAD W8D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: RBAC: Role & RoleBinding Scoped Authorizations
+### Official Solution: RBAC Roles
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w8d2 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+kubectl create sa app-operator -n ckad-w8d2
 
-# 2. Run workload:
-kubectl run ckad-app --image=rbac -n ckad-w8d2
+kubectl create role pod-admin -n ckad-w8d2   --verb=get,list,watch,create,delete   --resource=pods,pods/log
 
-# 3. Check status:
-kubectl get pods -n ckad-w8d2
+kubectl create rolebinding bind-pod-admin -n ckad-w8d2   --role=pod-admin   --serviceaccount=ckad-w8d2:app-operator
+'
 ```

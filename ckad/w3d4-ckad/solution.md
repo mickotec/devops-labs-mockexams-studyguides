@@ -1,14 +1,17 @@
 # [CKAD W3D4-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Taints & Tolerations: Dedicated Workload Isolation
+### Official Solution: Init Containers
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w3d4 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+# 1. Inspect init container:
+kubectl describe pod webapp-gated -n ckad-w3d4
 
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w3d4
+# 2. Deploy dummy backend and expose as mysql-backend:
+kubectl run mysql-dummy --image=busybox:1.36 -n ckad-w3d4 --command -- nc -lk -p 3306
+kubectl expose pod mysql-dummy -n ckad-w3d4 --name=mysql-backend --port=3306 --target-port=3306
 
-# 3. Check status:
-kubectl get pods -n ckad-w3d4
+# 3. Check webapp transitions to Running:
+kubectl get pod webapp-gated -n ckad-w3d4
+'
 ```

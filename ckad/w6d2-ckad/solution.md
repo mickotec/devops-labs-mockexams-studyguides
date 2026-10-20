@@ -1,14 +1,25 @@
 # [CKAD W6D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Headless Services & StatefulSets Architecture
+### Official Solution: Headless Service
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w6d2 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+kubectl run db-node-0 --image=redis:alpine -n ckad-w6d2 -l app=database
+kubectl run db-node-1 --image=redis:alpine -n ckad-w6d2 -l app=database
 
-# 2. Run workload:
-kubectl run ckad-app --image=redis:alpine -n ckad-w6d2
-
-# 3. Check status:
-kubectl get pods -n ckad-w6d2
+cat << "EOF_HL" | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-headless
+  namespace: ckad-w6d2
+spec:
+  clusterIP: None
+  selector:
+    app: database
+  ports:
+  - port: 6379
+    targetPort: 6379
+EOF_HL
+'
 ```

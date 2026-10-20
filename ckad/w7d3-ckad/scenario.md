@@ -1,8 +1,8 @@
-# [CKAD W7D3-CKAD] StorageClasses & Dynamic Volume Provisioning
+# [CKAD W7D3-CKAD] PersistentVolumeClaims & Volume Binding
 
 **Date:** 2026-11-25  
 **Time Limit:** 25m  
-**Difficulty:** Easy  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: StorageClasses & Dynamic Volume Provisioning
-1. Work in namespace `ckad-w7d3` on the cluster.
-2. Objective: Configuring storage classes and PVC claim expansion.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Bind PersistentVolumeClaim
+1. On the cluster, PV `claim-target-pv` (1Gi, `storageClassName: manual-target`) already exists in `Available` status.
+2. In namespace `ckad-w7d3`, create a PersistentVolumeClaim named `app-storage-pvc`:
+   - `storageClassName`: `manual-target`
+   - `accessModes`: `ReadWriteOnce`
+   - Requests: `1Gi` storage
+3. Verify `app-storage-pvc` transitions from `Pending` to `Bound` to `claim-target-pv`.
 
 ---
 

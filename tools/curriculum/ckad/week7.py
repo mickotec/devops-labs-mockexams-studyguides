@@ -1,145 +1,221 @@
+"""CKAD Curriculum Content: Week 7
+Week 7: State Persistence & Storage
 """
-CKAD Curriculum Content: Week 7 (Days 1 to 6)
-State Persistence & Modern App Tooling
-"""
-from .svg_helpers import wrap_svg, card, code_box, arrow
 
 def get_day_1():
-    theory = """
-    <h3>CKAD Week 7 Day 1: Volume Types: emptyDir & hostPath In-Depth</h3>
-    <p><strong>Overview:</strong> Ephemeral storage and node filesystem sharing. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Volume Types: emptyDir & hostPath In-Depth</li>
-      <li><strong>Target Image / Workload:</strong> <code>busybox:1.36</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D1: Volume Types: emptyDir & hostPath In-Depth</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Ephemeral storage and node filesystem sharing</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Volume Types: emptyDir & hostPath In-Depth")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Volume Types: emptyDir & hostPath In-Depth in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p><code>emptyDir</code> provides pod-lifecycle temporary storage (or RAM tmpfs). <code>hostPath</code> mounts node filesystem directories.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 1: Ephemeral Storage: emptyDir & Node-Bound hostPath Volumes</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kvol='kubectl explain pod.spec.volumes'"""
+    checklist = [('CKAD', 'Mount an emptyDir with medium: Memory for in-memory cache', 'emptyDir: {medium: Memory}')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_2():
-    theory = """
-    <h3>CKAD Week 7 Day 2: PersistentVolumes & PersistentVolumeClaims</h3>
-    <p><strong>Overview:</strong> Static volume provisioning and ReadWriteOnce binding. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> PersistentVolumes & PersistentVolumeClaims</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D2: PersistentVolumes & PersistentVolumeClaims</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Static volume provisioning and ReadWriteOnce binding</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "PersistentVolumes & PersistentVolumeClaims")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve PersistentVolumes & PersistentVolumeClaims in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>PersistentVolumes represent cluster-wide provisioned storage with accessModes (<code>RWO</code>, <code>ROX</code>, <code>RWX</code>) and reclaim policies (<code>Retain</code>, <code>Delete</code>).</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 2: Persistent Volumes (PVs): AccessModes & Reclaim Policies</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgpv='kubectl get pv'"""
+    checklist = [('CKAD', 'Create PersistentVolume with specific capacity and accessModes', 'kubectl explain pv.spec')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_3():
-    theory = """
-    <h3>CKAD Week 7 Day 3: StorageClasses & Dynamic Volume Provisioning</h3>
-    <p><strong>Overview:</strong> Configuring storage classes and PVC claim expansion. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> StorageClasses & Dynamic Volume Provisioning</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D3: StorageClasses & Dynamic Volume Provisioning</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Configuring storage classes and PVC claim expansion</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "StorageClasses & Dynamic Volume Provisioning")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve StorageClasses & Dynamic Volume Provisioning in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>PersistentVolumeClaims request storage capacity and accessModes, binding to matching available PersistentVolumes.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 3: Persistent Volume Claims (PVCs): Storage Requests & Binding</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgpvc='kubectl get pvc'"""
+    checklist = [('CKAD', 'Create PersistentVolumeClaim matching PV storage and accessModes', 'kubectl explain pvc.spec')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_4():
-    theory = """
-    <h3>CKAD Week 7 Day 4: Helm Fundamentals: Repos, Releases & Values Overrides</h3>
-    <p><strong>Overview:</strong> helm repo, install, upgrade, and rollback with custom values. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Helm Fundamentals: Repos, Releases & Values Overrides</li>
-      <li><strong>Target Image / Workload:</strong> <code>helm</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D4: Helm Fundamentals: Repos, Releases & Values Overrides</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">helm repo, install, upgrade, and rollback with custom values</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Helm Fundamentals: Repos, Releases & Values Overrides")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Helm Fundamentals: Repos, Releases & Values Overrides in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Mounting PVCs in pod specs preserves file state across pod deletions and restarts.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 4: Consuming PVCs in Pods & Data Persistence Verification</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kpvcvol='kubectl explain pod.spec.volumes.persistentVolumeClaim'"""
+    checklist = [('CKAD', 'Mount a PersistentVolumeClaim into a Pod container', 'volumes: [{name: v, persistentVolumeClaim: {claimName: c}}]')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_5():
-    theory = """
-    <h3>CKAD Week 7 Day 5: Kustomize Basics: Overlays, Patches & Transformers</h3>
-    <p><strong>Overview:</strong> base and overlays (dev/prod) with commonLabels and patches. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Kustomize Basics: Overlays, Patches & Transformers</li>
-      <li><strong>Target Image / Workload:</strong> <code>kustomize</code></li>
-      <li><strong>Target Time Limit:</strong> 30m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D5: Kustomize Basics: Overlays, Patches & Transformers</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">base and overlays (dev/prod) with commonLabels and patches</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 30m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Kustomize Basics: Overlays, Patches & Transformers")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Kustomize Basics: Overlays, Patches & Transformers in under 30m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>StorageClasses define provisioners and volume binding modes (<code>Immediate</code> vs <code>WaitForFirstConsumer</code>).</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 5: StorageClasses & Dynamic Volume Provisioning</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgsc='kubectl get sc'"""
+    checklist = [('CKAD', 'Inspect StorageClass parameters and volumeBindingMode', 'kubectl describe sc')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_6():
-    theory = """
-    <h3>CKAD Week 7 Day 6: Week 7 Milestone: Declarative GitOps Kustomize Stack</h3>
-    <p><strong>Overview:</strong> Deploying multi-environment application overlay with PVC. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Week 7 Milestone: Declarative GitOps Kustomize Stack</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 45m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W7D6: Week 7 Milestone: Declarative GitOps Kustomize Stack</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Deploying multi-environment application overlay with PVC</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 45m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Week 7 Milestone: Declarative GitOps Kustomize Stack")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Week 7 Milestone: Declarative GitOps Kustomize Stack in under 45m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>StatefulSets provide stable network identities and automatically generate dedicated PVCs for each replica via <code>volumeClaimTemplates</code>.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 7 Day 6: StatefulSets & VolumeClaimTemplates Architecture</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgsts='kubectl get statefulset'"""
+    checklist = [('CKAD', 'Deploy StatefulSet paired with Headless Service', 'kubectl explain sts.spec.serviceName')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_content(day: int) -> dict:

@@ -1,8 +1,8 @@
-# [CKAD W8D3-CKAD] RBAC: ClusterRole & ClusterRoleBinding Global Rules
+# [CKAD W8D3-CKAD] ClusterRoles & ClusterRoleBindings
 
 **Date:** 2026-12-02  
 **Time Limit:** 25m  
-**Difficulty:** Easy  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: RBAC: ClusterRole & ClusterRoleBinding Global Rules
-1. Work in namespace `ckad-w8d3` on the cluster.
-2. Objective: Cluster-wide resource querying and non-namespaced APIs.
-3. Deploy or configure workload named `ckad-app` using image `rbac`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Grant Cluster-Wide Read Permissions
+1. Create a ClusterRole named `cluster-inspector`:
+   - Resources: `nodes`, `persistentvolumes`, `storageclasses`
+   - Verbs: `get`, `list`, `watch`
+2. Create a ServiceAccount named `auditor-sa` in namespace `default`.
+3. Bind ClusterRole `cluster-inspector` to `auditor-sa` using a ClusterRoleBinding named `bind-cluster-inspector`.
+4. Verify with `kubectl auth can-i get nodes --as=system:serviceaccount:default:auditor-sa`.
 
 ---
 

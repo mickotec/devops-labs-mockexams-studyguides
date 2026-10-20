@@ -1,7 +1,7 @@
-# [CKAD W7D6-CKAD] Week 7 Milestone: Declarative GitOps Kustomize Stack
+# [CKAD W7D6-CKAD] StatefulSets & VolumeClaimTemplates
 
 **Date:** 2026-11-28  
-**Time Limit:** 45m  
+**Time Limit:** 30m  
 **Difficulty:** Hard  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,15 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Week 7 Milestone: Declarative GitOps Kustomize Stack
-1. Work in namespace `ckad-w7d6` on the cluster.
-2. Objective: Deploying multi-environment application overlay with PVC.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Deploy Clustered StatefulSet
+1. In namespace `ckad-w7d6`, create a Headless Service named `redis-service` (`clusterIP: None`) on port `6379`.
+2. Deploy a StatefulSet named `redis-cluster`:
+   - `serviceName`: `redis-service`
+   - Replicas: `2`
+   - Image: `redis:alpine`
+   - Container port: `6379`
+   - `volumeClaimTemplates`: name `redis-data`, accessModes `ReadWriteOnce`, requests `200Mi`, mounted at `/data`.
+3. Verify both replicas `redis-cluster-0` and `redis-cluster-1` are `Running` and both generate their own PVC.
 
 ---
 

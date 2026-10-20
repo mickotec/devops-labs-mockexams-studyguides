@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Kubeconfig Architecture & Multi-Cluster Contexts in namespace ckad-w8d1..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w8d1 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w8d1.\033[0m"
+echo "[*] Evaluating CKAD W8D1: Kubeconfig Context in /tmp/custom-kubeconfig..."
+
+CURRENT_CTX=$(ssh controlplane 'kubectl --kubeconfig=/tmp/custom-kubeconfig config current-context 2>/dev/null || echo ""')
+NS=$(ssh controlplane 'kubectl --kubeconfig=/tmp/custom-kubeconfig config view --minify -o jsonpath="{.contexts[0].context.namespace}" 2>/dev/null || echo ""')
+
+if [ "$CURRENT_CTX" == "developer-ctx" ] && [ "$NS" == "ckad-dev-ns" ]; then
+  echo -e "[0;32m[PASS] custom-kubeconfig active context is developer-ctx with default namespace ckad-dev-ns.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] current-context: '$CURRENT_CTX' (expected developer-ctx) | default ns: '$NS'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

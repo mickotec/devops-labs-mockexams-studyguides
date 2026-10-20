@@ -1,7 +1,7 @@
-# [CKAD W2D4-CKAD] SecurityContexts: UID, GID & Linux Capabilities
+# [CKAD W2D4-CKAD] Secrets Management & Restricted File Modes
 
 **Date:** 2026-10-22  
-**Time Limit:** 30m  
+**Time Limit:** 25m  
 **Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: SecurityContexts: UID, GID & Linux Capabilities
-1. Work in namespace `ckad-w2d4` on the cluster.
-2. Objective: runAsUser, runAsGroup, fsGroup, drop ALL, add NET_ADMIN.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Mount Secret Volume with 0400 Permissions
+1. In namespace `ckad-w2d4`, create an Opaque Secret named `api-credentials` containing keys:
+   - `api-key`: `secret-alpha-9988`
+   - `api-token`: `token-beta-7766`
+2. Deploy Pod `auth-consumer` with image `busybox:1.36` sleeping continuously (`sleep 3600`).
+3. Mount the Secret as a volume at `/etc/api-keys` with file permission mode `0400` (`r--------`).
+4. Ensure the file `/etc/api-keys/api-key` is readable and its permission mode is verified.
 
 ---
 

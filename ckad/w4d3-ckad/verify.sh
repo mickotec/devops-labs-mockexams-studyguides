@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Canary Deployment Strategy with Weighted Traffic in namespace ckad-w4d3..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w4d3 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w4d3.\033[0m"
+echo "[*] Evaluating CKAD W4D3: Startup Probes in ckad-w4d3..."
+
+PHASE=$(ssh controlplane 'kubectl get pod slow-boot-app -n ckad-w4d3 -o jsonpath="{.status.phase}" 2>/dev/null || echo "Missing"')
+RESTARTS=$(ssh controlplane 'kubectl get pod slow-boot-app -n ckad-w4d3 -o jsonpath="{.status.containerStatuses[0].restartCount}" 2>/dev/null || echo 99')
+THRESHOLD=$(ssh controlplane 'kubectl get pod slow-boot-app -n ckad-w4d3 -o jsonpath="{.spec.containers[0].startupProbe.failureThreshold}" 2>/dev/null || echo 0')
+
+if [ "$PHASE" == "Running" ] && [ "$RESTARTS" -eq 0 ] && [ "$THRESHOLD" -eq 15 ]; then
+  echo -e "[0;32m[PASS] slow-boot-app successfully bootstrapped with startupProbe shield (0 restarts).[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Phase: $PHASE, Restarts: $RESTARTS (expected 0), Startup failureThreshold: $THRESHOLD (expected 15).[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

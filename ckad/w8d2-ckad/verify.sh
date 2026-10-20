@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating RBAC: Role & RoleBinding Scoped Authorizations in namespace ckad-w8d2..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w8d2 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w8d2.\033[0m"
+echo "[*] Evaluating CKAD W8D2: RBAC in ckad-w8d2..."
+
+CAN_CREATE=$(ssh controlplane 'kubectl auth can-i create pods -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || echo "no"')
+CAN_DEPLOY=$(ssh controlplane 'kubectl auth can-i create deployments -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || echo "yes"')
+
+if [ "$CAN_CREATE" == "yes" ] && [ "$CAN_DEPLOY" == "no" ]; then
+  echo -e "[0;32m[PASS] ServiceAccount app-operator has exact pod-admin permissions in ckad-w8d2.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] can-i create pods: '$CAN_CREATE' (expected yes) | can-i create deployments: '$CAN_DEPLOY' (expected no)[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

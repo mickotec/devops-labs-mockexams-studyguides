@@ -1,14 +1,36 @@
 # [CKAD W5D4-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Container Logging: Multi-Container & Previous Logs
+### Official Solution: Blue-Green Deployment
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w5d4 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+# 1. Deploy portal-green:
+cat << "EOF_GREEN" | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal-green
+  namespace: ckad-w5d4
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: portal
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: portal
+        version: v2
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.25-alpine
+EOF_GREEN
 
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w5d4
+kubectl rollout status deployment/portal-green -n ckad-w5d4
 
-# 3. Check status:
-kubectl get pods -n ckad-w5d4
+# 2. Patch service selector to v2:
+kubectl patch svc web-portal -n ckad-w5d4 -p "{"spec":{"selector":{"version":"v2"}}}"
+'
 ```

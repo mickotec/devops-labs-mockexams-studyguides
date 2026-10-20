@@ -1,8 +1,8 @@
-# [CKAD W3D3-CKAD] Node Affinity: Required vs Preferred
+# [CKAD W3D3-CKAD] Multi-Container Pods: Ambassador Pattern
 
 **Date:** 2026-10-28  
 **Time Limit:** 25m  
-**Difficulty:** Easy  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Node Affinity: Required vs Preferred
-1. Work in namespace `ckad-w3d3` on the cluster.
-2. Objective: requiredDuringScheduling vs preferredDuringScheduling.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Ambassador Local Proxy Routing
+1. In namespace `ckad-w3d3-infra`, deploy a Redis pod named `redis-backend` exposed via ClusterIP service `redis-svc` on port 6379.
+2. In namespace `ckad-w3d3-apps`, deploy Pod `client-ambassador`.
+3. The pod has 2 containers:
+   - `ambassador`: runs `alpine/socat:latest` or `busybox` listening on `localhost:6379` and proxying to `redis-svc.ckad-w3d3-infra.svc.cluster.local:6379`.
+   - `client`: connects to `localhost:6379` using `nc -z localhost 6379` and writes `"AMBASSADOR_CONNECTED"` to `/tmp/proxy.log`.
+4. Verify `/tmp/proxy.log` contains `"AMBASSADOR_CONNECTED"`.
 
 ---
 

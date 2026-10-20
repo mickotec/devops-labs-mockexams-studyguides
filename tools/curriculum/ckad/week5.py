@@ -1,145 +1,221 @@
+"""CKAD Curriculum Content: Week 5
+Week 5: POD Design & Deployment Strategies
 """
-CKAD Curriculum Content: Week 5 (Days 1 to 6)
-Application Observability & Debugging
-"""
-from .svg_helpers import wrap_svg, card, code_box, arrow
 
 def get_day_1():
-    theory = """
-    <h3>CKAD Week 5 Day 1: Liveness Probes: HTTP, Command & TCP Checks</h3>
-    <p><strong>Overview:</strong> Detecting deadlock and restarting failed containers. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Liveness Probes: HTTP, Command & TCP Checks</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D1: Liveness Probes: HTTP, Command & TCP Checks</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Detecting deadlock and restarting failed containers</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Liveness Probes: HTTP, Command & TCP Checks")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Liveness Probes: HTTP, Command & TCP Checks in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Labels identify resources; selectors filter resources using equality (<code>=</code>) or set-based (<code>in</code>, <code>notin</code>) queries.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 1: Labels, Equality/Set-Based Selectors & Annotations</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgl='kubectl get pods --show-labels'"""
+    checklist = [('CKAD', 'Query pods using set-based selector syntax', "kubectl get pods -l 'env in (prod,qa)'")]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_2():
-    theory = """
-    <h3>CKAD Week 5 Day 2: Readiness Probes & Service Traffic Gating</h3>
-    <p><strong>Overview:</strong> Preventing traffic to unready containers until warmup. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Readiness Probes & Service Traffic Gating</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D2: Readiness Probes & Service Traffic Gating</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Preventing traffic to unready containers until warmup</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Readiness Probes & Service Traffic Gating")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Readiness Probes & Service Traffic Gating in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Tune zero-downtime rolling updates using <code>maxSurge</code> (extra pods allowed) and <code>maxUnavailable</code> (allowed offline pods).</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 2: Rolling Updates, MaxSurge & MaxUnavailable Mechanics</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kroll='kubectl rollout status deployment'"""
+    checklist = [('CKAD', 'Configure maxSurge and maxUnavailable in deployment spec', 'kubectl explain deploy.spec.strategy.rollingUpdate')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_3():
-    theory = """
-    <h3>CKAD Week 5 Day 3: Startup Probes for Slow-Initializing Applications</h3>
-    <p><strong>Overview:</strong> failureThreshold and periodSeconds for slow containers. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Startup Probes for Slow-Initializing Applications</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 25m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D3: Startup Probes for Slow-Initializing Applications</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">failureThreshold and periodSeconds for slow containers</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 25m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Startup Probes for Slow-Initializing Applications")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Startup Probes for Slow-Initializing Applications in under 25m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Inspect deployment revision history via <code>kubectl rollout history</code> and instantly revert using <code>kubectl rollout undo</code>.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 3: Rollback Strategies, Revisions & Paused Rollouts</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias khist='kubectl rollout history deployment'\nalias kundo='kubectl rollout undo deployment'"""
+    checklist = [('CKAD', 'Roll back deployment to specific revision number', 'kubectl rollout undo deploy/<name> --to-revision=2')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_4():
-    theory = """
-    <h3>CKAD Week 5 Day 4: Container Logging: Multi-Container & Previous Logs</h3>
-    <p><strong>Overview:</strong> Extracting logs from crashing pods with --previous. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Container Logging: Multi-Container & Previous Logs</li>
-      <li><strong>Target Image / Workload:</strong> <code>busybox:1.36</code></li>
-      <li><strong>Target Time Limit:</strong> 20m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D4: Container Logging: Multi-Container & Previous Logs</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Extracting logs from crashing pods with --previous</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 20m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Container Logging: Multi-Container & Previous Logs")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Container Logging: Multi-Container & Previous Logs in under 20m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Blue-Green deployments run parallel versions; traffic is cut over atomically by modifying Service <code>spec.selector</code>.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 4: Deployment Strategies: Blue-Green Atomic Cutover</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias ksvc='kubectl get svc'"""
+    checklist = [('CKAD', 'Atomically switch Service selector from Blue to Green', 'kubectl patch svc web-svc -p \'{"spec":{"selector":{"version":"v2"}}}\'')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_5():
-    theory = """
-    <h3>CKAD Week 5 Day 5: Metrics Server & CLI Resource Monitoring</h3>
-    <p><strong>Overview:</strong> kubectl top pod and top node parsing and sorting. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Metrics Server & CLI Resource Monitoring</li>
-      <li><strong>Target Image / Workload:</strong> <code>metrics-server</code></li>
-      <li><strong>Target Time Limit:</strong> 20m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D5: Metrics Server & CLI Resource Monitoring</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">kubectl top pod and top node parsing and sorting</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 20m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Metrics Server & CLI Resource Monitoring")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Metrics Server & CLI Resource Monitoring in under 20m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Canary deployments split incoming traffic between stable baseline and canary replicas matching a shared service selector.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 5: Deployment Strategies: Canary Traffic Splitting</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgp='kubectl get pods -l app=store'"""
+    checklist = [('CKAD', 'Structure deployments sharing common service labels for Canary routing', 'selector: {app: catalog}')]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_6():
-    theory = """
-    <h3>CKAD Week 5 Day 6: Week 5 Milestone: Comprehensive Health & Triage Suite</h3>
-    <p><strong>Overview:</strong> Configuring full probe lifecycle and resolving crash loops. In the Certified Kubernetes Application Developer (CKAD) exam, speed and precision are paramount. Candidates must understand containerized runtime concepts, declarative YAML specifications, and imperative kubectl CLI shortcuts.</p>
-    <ul>
-      <li><strong>Core Competency:</strong> Week 5 Milestone: Comprehensive Health & Triage Suite</li>
-      <li><strong>Target Image / Workload:</strong> <code>nginx:alpine</code></li>
-      <li><strong>Target Time Limit:</strong> 40m</li>
-    </ul>
-    """
-    svg = wrap_svg(800, 180, """
-    <rect x="40" y="30" width="720" height="120" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
-    <text x="65" y="65" fill="#38bdf8" font-size="14" font-weight="bold">CKAD W5D6: Week 5 Milestone: Comprehensive Health & Triage Suite</text>
-    <text x="65" y="95" fill="#f8fafc" font-size="12">Configuring full probe lifecycle and resolving crash loops</text>
-    <text x="65" y="125" fill="#94a3b8" font-size="11">Time: 40m • Focus: Application Development &amp; Cloud Native Architecture</text>
-    """, "Week 5 Milestone: Comprehensive Health & Triage Suite")
-    aliases = "alias k='kubectl'\\nalias kdry='kubectl --dry-run=client -o yaml'"
-    checklist = [
-        ("CKAD", "Can you solve Week 5 Milestone: Comprehensive Health & Triage Suite in under 40m?", "Review scenario and solution guide"),
-        ("CKAD", "Can you verify requirements using kubectl jsonpath/custom-columns?", "Use -o jsonpath or -o custom-columns")
-    ]
+    theory = """<p>Jobs run batch workloads to completion. CronJobs schedule Jobs with concurrency policies: <code>Allow</code>, <code>Forbid</code>, <code>Replace</code>.</p>"""
+    svg = """<svg viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg" class="diagram-svg">
+  <defs>
+    <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="900" height="260" rx="12" fill="url(#bgDark)" stroke="#1e293b" stroke-width="1.5"/>
+  <rect x="15" y="10" width="870" height="32" rx="7" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="34" cy="26" r="5" fill="#38bdf8"/>
+  <text x="48" y="31" fill="#f8fafc" font-size="12.5" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Week 5 Day 6: Batch Jobs, CronJobs & Concurrency Policies</text>
+  <rect x="40" y="65" width="380" height="160" rx="9" fill="url(#cardDark)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="60" y="100" fill="#38bdf8" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">Kubernetes Cluster Workload</text>
+  <text x="60" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Target: VirtualBox Nodes (controlplane, node01, node02)</text>
+  <rect x="470" y="65" width="390" height="160" rx="9" fill="url(#cardDark)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="490" y="100" fill="#34d399" font-size="14" font-weight="bold" font-family="-apple-system, sans-serif">CKAD Verification &amp; Orchestration</text>
+  <text x="490" y="130" fill="#94a3b8" font-size="11" font-family="-apple-system, sans-serif">Automated grading via: ./lab check &lt;scenario&gt;</text>
+</svg>"""
+    aliases = """alias kgj='kubectl get jobs'\nalias kgcj='kubectl get cronjobs'"""
+    checklist = [('CKAD', 'Create Job with completions, parallelism, and backoffLimit', 'kubectl explain job.spec'), ('CKAD', 'Create CronJob with schedule syntax and concurrencyPolicy', "kubectl create cronjob backup --image=busybox --schedule='0 */2 * * *'")]
     return {"theory_html": theory, "svg": svg, "aliases": aliases, "checklist": checklist}
 
 def get_day_content(day: int) -> dict:

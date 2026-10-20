@@ -1,14 +1,16 @@
 # [CKAD W1D6-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Week 1 Milestone: Multi-Tier Core Application
+### Official Solution: Imperative CLI & JSONPath
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w1d6 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+# 1. Imperatively create pod:
+kubectl run imperative-pod --image=redis:7-alpine -n ckad-w1d6 --port=6379 -l tier=cache
 
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w1d6
+# 2. Extract Pod IP:
+kubectl get pod target-alpha -n ckad-w1d6 -o jsonpath="{.status.podIP}" > /tmp/alpha-ip.txt
 
-# 3. Check status:
-kubectl get pods -n ckad-w1d6
+# 3. Explain query:
+kubectl explain pod.spec.terminationGracePeriodSeconds > /tmp/explain.txt
+'
 ```

@@ -1,4 +1,4 @@
-# [CKAD W6D1-CKAD] Services: ClusterIP, NodePort & TargetPort Matching
+# [CKAD W6D1-CKAD] Services: ClusterIP, NodePort & Port Mapping
 
 **Date:** 2026-11-16  
 **Time Limit:** 25m  
@@ -14,11 +14,11 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Services: ClusterIP, NodePort & TargetPort Matching
-1. Work in namespace `ckad-w6d1` on the cluster.
-2. Objective: Exposing pods and validating endpoints.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Expose Deployments with ClusterIP & NodePort
+1. In namespace `ckad-w6d1`, deploy `backend-deploy` (image `redis:alpine`, 2 replicas) and `frontend-deploy` (image `nginx:alpine`, 2 replicas).
+2. Create a ClusterIP Service named `backend-svc` exposing `backend-deploy` on port `6379` mapping to targetPort `6379`.
+3. Create a NodePort Service named `frontend-svc` exposing `frontend-deploy` on port `80`, mapping to targetPort `80`, with `nodePort: 30080`.
+4. Verify both services are registered with active endpoints.
 
 ---
 

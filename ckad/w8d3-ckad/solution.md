@@ -1,14 +1,13 @@
 # [CKAD W8D3-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: RBAC: ClusterRole & ClusterRoleBinding Global Rules
+### Official Solution: ClusterRoles
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w8d3 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+kubectl create sa auditor-sa -n default
 
-# 2. Run workload:
-kubectl run ckad-app --image=rbac -n ckad-w8d3
+kubectl create clusterrole cluster-inspector   --verb=get,list,watch   --resource=nodes,persistentvolumes,storageclasses
 
-# 3. Check status:
-kubectl get pods -n ckad-w8d3
+kubectl create clusterrolebinding bind-cluster-inspector   --clusterrole=cluster-inspector   --serviceaccount=default:auditor-sa
+'
 ```

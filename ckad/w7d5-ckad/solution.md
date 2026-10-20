@@ -1,14 +1,28 @@
 # [CKAD W7D5-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Kustomize Basics: Overlays, Patches & Transformers
+### Official Solution: StorageClasses
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w7d5 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=kustomize -n ckad-w7d5
-
-# 3. Check status:
-kubectl get pods -n ckad-w7d5
+ssh controlplane 'cat << "EOF_SC" | kubectl apply -f -
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: delayed-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: delayed-pvc
+  namespace: ckad-w7d5
+spec:
+  storageClassName: delayed-storage
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+EOF_SC
+'
 ```

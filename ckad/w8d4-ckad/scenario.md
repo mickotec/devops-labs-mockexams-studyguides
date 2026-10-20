@@ -1,4 +1,4 @@
-# [CKAD W8D4-CKAD] Custom Resource Definitions (CRDs) & API Extensions
+# [CKAD W8D4-CKAD] API Versions & Deprecations Migration
 
 **Date:** 2026-12-03  
 **Time Limit:** 25m  
@@ -14,11 +14,13 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Custom Resource Definitions (CRDs) & API Extensions
-1. Work in namespace `ckad-w8d4` on the cluster.
-2. Objective: Creating CRDs and managing custom resource instances.
-3. Deploy or configure workload named `ckad-app` using image `crd`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Migrate Deprecated Ingress Manifest
+1. On node `controlplane`, an outdated manifest exists at `/tmp/deprecated-ingress.yaml` written against `extensions/v1beta1`.
+2. Convert the manifest to the current stable API version `networking.k8s.io/v1`:
+   - Change `apiVersion` to `networking.k8s.io/v1`
+   - Update path syntax to include `pathType: Prefix`
+   - Update backend specification to `service: {name: web-svc, port: {number: 80}}`
+3. Apply the updated manifest into namespace `ckad-w8d4` and verify it creates successfully.
 
 ---
 

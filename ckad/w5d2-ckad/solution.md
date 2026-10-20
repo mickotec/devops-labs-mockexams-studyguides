@@ -1,14 +1,12 @@
 # [CKAD W5D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Readiness Probes & Service Traffic Gating
+### Official Solution: Rolling Updates
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w5d2 --dry-run=client -o yaml | kubectl apply -f -
-
-# 2. Run workload:
-kubectl run ckad-app --image=nginx:alpine -n ckad-w5d2
-
-# 3. Check status:
-kubectl get pods -n ckad-w5d2
+ssh controlplane '
+kubectl patch deployment payment-gateway -n ckad-w5d2 -p "{"spec":{"strategy":{"rollingUpdate":{"maxSurge":2,"maxUnavailable":0}}}}"
+kubectl set image deployment/payment-gateway payment-gateway=nginx:1.25-alpine -n ckad-w5d2
+kubectl scale deployment payment-gateway --replicas=5 -n ckad-w5d2
+kubectl rollout status deployment/payment-gateway -n ckad-w5d2
+'
 ```

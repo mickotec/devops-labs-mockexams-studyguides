@@ -1,14 +1,34 @@
 # [CKAD W1D3-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Imperative Pod & Deployment CLI Mastery
+### Official Solution: ReplicaSet & Label Selectors
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w1d3 --dry-run=client -o yaml | kubectl apply -f -
+# 1. Update labels on orphan-web:
+ssh controlplane '
+kubectl label pod orphan-web -n ckad-w1d3 tier=web
 
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w1d3
-
-# 3. Check status:
-kubectl get pods -n ckad-w1d3
+# 2. Create ReplicaSet manifest:
+cat << "EOF_RS" | kubectl apply -f -
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend-rs
+  namespace: ckad-w1d3
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: frontend
+        tier: web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.24-alpine
+EOF_RS
+'
 ```

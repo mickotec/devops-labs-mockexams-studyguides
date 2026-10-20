@@ -1,8 +1,8 @@
-# [CKAD W7D5-CKAD] Kustomize Basics: Overlays, Patches & Transformers
+# [CKAD W7D5-CKAD] StorageClasses & Delayed Volume Binding
 
 **Date:** 2026-11-27  
-**Time Limit:** 30m  
-**Difficulty:** Easy  
+**Time Limit:** 25m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,15 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Kustomize Basics: Overlays, Patches & Transformers
-1. Work in namespace `ckad-w7d5` on the cluster.
-2. Objective: base and overlays (dev/prod) with commonLabels and patches.
-3. Deploy or configure workload named `ckad-app` using image `kustomize`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Create StorageClass with WaitForFirstConsumer
+1. Create a StorageClass named `delayed-storage`:
+   - `provisioner`: `kubernetes.io/no-provisioner`
+   - `volumeBindingMode`: `WaitForFirstConsumer`
+2. In namespace `ckad-w7d5`, create PVC `delayed-pvc`:
+   - `storageClassName`: `delayed-storage`
+   - Requests: `1Gi`
+   - `accessModes`: `ReadWriteOnce`
+3. Verify that `delayed-pvc` remains in status `Pending` (because no consuming pod has been scheduled).
 
 ---
 

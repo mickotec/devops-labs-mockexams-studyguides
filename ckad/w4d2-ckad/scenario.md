@@ -1,4 +1,4 @@
-# [CKAD W4D2-CKAD] Blue-Green Deployment Cutover Pattern
+# [CKAD W4D2-CKAD] Liveness Probes & Automated Container Healing
 
 **Date:** 2026-11-03  
 **Time Limit:** 25m  
@@ -14,11 +14,14 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: Blue-Green Deployment Cutover Pattern
-1. Work in namespace `ckad-w4d2` on the cluster.
-2. Objective: Switching traffic between v1 and v2 via service selector.
-3. Deploy or configure workload named `ckad-app` using image `nginx:alpine`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Configure Exec Liveness Probe
+1. In namespace `ckad-w4d2`, deploy Pod `health-monitor` running image `busybox:1.36`.
+2. The container must touch `/tmp/healthy` at startup and sleep indefinitely:
+   `command: ["sh", "-c", "touch /tmp/healthy && sleep 3600"]`
+3. Configure an Exec liveness probe checking `cat /tmp/healthy`:
+   - `initialDelaySeconds`: `5`
+   - `periodSeconds`: `5`
+4. Verify that `health-monitor` runs continuously without restarting.
 
 ---
 

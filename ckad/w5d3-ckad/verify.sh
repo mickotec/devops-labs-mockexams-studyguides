@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating Startup Probes for Slow-Initializing Applications in namespace ckad-w5d3..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w5d3 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w5d3.\033[0m"
+echo "[*] Evaluating CKAD W5D3: Rollback in ckad-w5d3..."
+
+IMG=$(ssh controlplane 'kubectl get deploy checkout-api -n ckad-w5d3 -o jsonpath="{.spec.template.spec.containers[0].image}" 2>/dev/null || echo ""')
+READY=$(ssh controlplane 'kubectl get deploy checkout-api -n ckad-w5d3 -o jsonpath="{.status.readyReplicas}" 2>/dev/null || echo 0')
+
+if [[ "$IMG" =~ "nginx:1.24-alpine" ]] && [ "$READY" -eq 3 ]; then
+  echo -e "[0;32m[PASS] checkout-api successfully rolled back to revision 1 (nginx:1.24-alpine, 3/3 Ready).[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Image: $IMG (expected nginx:1.24-alpine), Ready: $READY (expected 3).[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

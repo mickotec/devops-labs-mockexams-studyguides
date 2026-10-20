@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating PersistentVolumes & PersistentVolumeClaims in namespace ckad-w7d2..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w7d2 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w7d2.\033[0m"
+echo "[*] Evaluating CKAD W7D2: PersistentVolume app-storage-pv..."
+
+CAP=$(ssh controlplane 'kubectl get pv app-storage-pv -o jsonpath="{.spec.capacity.storage}" 2>/dev/null || echo ""')
+RECLAIM=$(ssh controlplane 'kubectl get pv app-storage-pv -o jsonpath="{.spec.persistentVolumeReclaimPolicy}" 2>/dev/null || echo ""')
+STATUS=$(ssh controlplane 'kubectl get pv app-storage-pv -o jsonpath="{.status.phase}" 2>/dev/null || echo ""')
+
+if [ "$CAP" == "2Gi" ] && [ "$RECLAIM" == "Retain" ] && [ "$STATUS" == "Available" ]; then
+  echo -e "[0;32m[PASS] PersistentVolume app-storage-pv Available (2Gi, Retain, ReadWriteOnce).[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] Capacity: $CAP | Reclaim: $RECLAIM | Status: $STATUS (expected Available).[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi

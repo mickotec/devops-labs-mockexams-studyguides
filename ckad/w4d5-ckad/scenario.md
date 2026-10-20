@@ -1,8 +1,8 @@
-# [CKAD W4D5-CKAD] CronJobs: Schedule Syntax & Concurrency Policies
+# [CKAD W4D5-CKAD] Workload Monitoring with Metrics Server (kubectl top)
 
 **Date:** 2026-11-06  
-**Time Limit:** 25m  
-**Difficulty:** Easy  
+**Time Limit:** 20m  
+**Difficulty:** Medium  
 **Target:** VirtualBox K8s Cluster (`controlplane`, `node01`, `node02`)  
 
 ---
@@ -14,11 +14,10 @@ Practice scenario aligned with your official certification preparation schedule.
 
 ## 🎯 Candidate Tasks
 
-### Task 1: CronJobs: Schedule Syntax & Concurrency Policies
-1. Work in namespace `ckad-w4d5` on the cluster.
-2. Objective: ConcurrencyPolicy Forbid, history limits, and schedules.
-3. Deploy or configure workload named `ckad-app` using image `busybox:1.36`.
-4. Ensure all pods are in `Running` state (Ready) and meet specifications.
+### Task 1: Identify Highest Resource Consumer
+1. In namespace `kube-system`, several core cluster workloads are running.
+2. Using `kubectl top pod -n kube-system --sort-by=cpu`, identify the pod currently consuming the highest CPU.
+3. Save the name of that highest CPU pod into `/tmp/top-cpu-pod.txt` on node `controlplane`.
 
 ---
 

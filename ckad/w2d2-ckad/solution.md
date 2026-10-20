@@ -1,14 +1,28 @@
 # [CKAD W2D2-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: ConfigMaps from Literals, Files & Env Injection
+### Official Solution: ConfigMaps & Env
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w2d2 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+kubectl create configmap backend-config -n ckad-w2d2   --from-literal=DB_HOST=postgres.internal   --from-literal=DB_PORT=5432   --from-literal=CACHE_TTL=3600
 
-# 2. Run workload:
-kubectl run ckad-app --image=alpine:3.19 -n ckad-w2d2
-
-# 3. Check status:
-kubectl get pods -n ckad-w2d2
+cat << "EOF_POD" | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-server
+  namespace: ckad-w2d2
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    command: ["sleep", "3600"]
+    env:
+    - name: APP_ENV
+      value: "production"
+    envFrom:
+    - configMapRef:
+        name: backend-config
+EOF_POD
+'
 ```

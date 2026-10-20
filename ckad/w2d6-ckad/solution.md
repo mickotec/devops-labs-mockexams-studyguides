@@ -1,14 +1,24 @@
 # [CKAD W2D6-CKAD] Solution & Technical Walkthrough
 
 ### Tasks & Official Solution
-### Official Solution: Week 2 Milestone: Hardened Workload Configuration
+### Official Solution: ServiceAccounts
 ```bash
-# 1. Create or verify namespace:
-kubectl create namespace ckad-w2d6 --dry-run=client -o yaml | kubectl apply -f -
+ssh controlplane '
+kubectl create serviceaccount build-deployer -n ckad-w2d6
 
-# 2. Run workload:
-kubectl run ckad-app --image=busybox:1.36 -n ckad-w2d6
-
-# 3. Check status:
-kubectl get pods -n ckad-w2d6
+cat << "EOF_POD" | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: isolated-agent
+  namespace: ckad-w2d6
+spec:
+  serviceAccountName: build-deployer
+  automountServiceAccountToken: false
+  containers:
+  - name: agent
+    image: busybox:1.36
+    command: ["sleep", "3600"]
+EOF_POD
+'
 ```

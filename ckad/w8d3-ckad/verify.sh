@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 set -uo pipefail
-echo "[*] Evaluating RBAC: ClusterRole & ClusterRoleBinding Global Rules in namespace ckad-w8d3..."
-READY=$(ssh controlplane 'kubectl get pods -n ckad-w8d3 -o jsonpath="{.items[0].status.phase}" 2>/dev/null || echo "Missing"')
-if [ "$READY" == "Running" ]; then
-  echo -e "\033[0;32m[PASS] Workload ckad-app is Running successfully in ckad-w8d3.\033[0m"
+echo "[*] Evaluating CKAD W8D3: ClusterRole cluster-inspector..."
+
+CAN_NODES=$(ssh controlplane 'kubectl auth can-i get nodes --as=system:serviceaccount:default:auditor-sa 2>/dev/null || echo "no"')
+CAN_PVS=$(ssh controlplane 'kubectl auth can-i get persistentvolumes --as=system:serviceaccount:default:auditor-sa 2>/dev/null || echo "no"')
+
+if [ "$CAN_NODES" == "yes" ] && [ "$CAN_PVS" == "yes" ]; then
+  echo -e "[0;32m[PASS] ClusterRoleBinding bind-cluster-inspector grants cluster-wide node & PV read access.[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Workload ckad-app status is '$READY' (expected Running).\033[0m"
+  echo -e "[0;31m[FAIL] can-i get nodes: '$CAN_NODES' | can-i get pvs: '$CAN_PVS'[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi
