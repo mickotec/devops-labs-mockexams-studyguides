@@ -57,12 +57,12 @@ except ImportError:
 DATA_DIR = Path.home() / ".local" / "share" / "study_todo"
 PROGRESS_FILE = DATA_DIR / "progress.json"
 SCHEDULE_CSV = BASE_DIR / "cka_lfcs_schedule.csv"
-if not SCHEDULE_CSV.exists():
-    SCHEDULE_CSV = BASE_DIR / "cka" / "schedule.template.csv"
+SCHEDULE_ICS = BASE_DIR / "cka_lfcs_schedule.ics"
 
 app = Flask(__name__,
             template_folder=str(Path(__file__).parent / "templates"),
             static_folder=str(Path(__file__).parent / "static"))
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 sock = Sock(app) if Sock else None
 
 # ── Progress persistence ─────────────────────────────────────
@@ -142,12 +142,116 @@ def load_curriculum():
 CHECKLISTS, WEEK_TOPICS = load_curriculum()
 
 
-# ── Schedule CSV parser ───────────────────────────────────────
-def parse_csv():
+# ── Schedule Parser (supports ICS and CSV) ────────────────────
+def parse_ics(ics_path):
     days = {}
-    if not SCHEDULE_CSV.exists():
+    if not ics_path.exists():
         return days
-    with open(SCHEDULE_CSV, newline="", encoding="utf-8") as f:
+    content = ics_path.read_text(encoding="utf-8")
+    for raw in content.split("BEGIN:VEVENT")[1:]:
+        lines = raw.splitlines()
+        event = {}
+        curr_key, curr_val = None, []
+        for line in lines:
+            if line.startswith("END:VEVENT"):
+                break
+            if line.startswith(" ") or line.startswith("\t"):
+                if curr_key:
+                    curr_val.append(line[1:])
+                continue
+            if ":" in line:
+                if curr_key:
+                    event[curr_key] = "".join(curr_val)
+                k, v = line.split(":", 1)
+                curr_key = k.split(";")[0]
+                curr_val = [v]
+        if curr_key:
+            event[curr_key] = "".join(curr_val)
+
+        summary = event.get("SUMMARY", "").strip()
+        dtstart = event.get("DTSTART", "").strip()
+        dtend = event.get("DTEND", "").strip()
+        desc = (
+            event.get("DESCRIPTION", "")
+            .replace(r"\n", "\n")
+            .replace(r"\,", ",")
+            .strip()
+        )
+        if not summary or not dtstart:
+            continue
+
+        try:
+            if "T" in dtstart:
+                dt_obj = datetime.strptime(dtstart[:15], "%Y%m%dT%H%M%S")
+                date_str = dt_obj.strftime("%m/%d/%Y")
+                start_time = dt_obj.strftime("%I:%M %p")
+            else:
+                dt_obj = datetime.strptime(dtstart[:8], "%Y%m%d")
+                date_str = dt_obj.strftime("%m/%d/%Y")
+                start_time = "All Day"
+        except ValueError:
+            continue
+
+        if "T" in dtend:
+            try:
+                end_obj = datetime.strptime(dtend[:15], "%Y%m%dT%H%M%S")
+                time_str = f"{start_time} - {end_obj.strftime('%I:%M %p')}"
+            except ValueError:
+                time_str = start_time
+        else:
+            time_str = start_time
+
+        btype = "OTHER"
+        for t in ["CKA", "LFCS", "RECOVERY", "REST"]:
+            if f"[{t}]" in summary:
+                btype = t
+                break
+        title = summary
+        for t in ["[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
+            title = title.replace(t, "").strip()
+
+        tasks = []
+        if desc:
+            for l in desc.split("\n"):
+                l = l.strip()
+                if not l or any(
+                    l.startswith(p)
+                    for p in (
+                        "CKA STUDY BLOCK",
+                        "LFCS STUDY BLOCK",
+                        "COGNITIVE RECOVERY",
+                    )
+                ):
+                    continue
+                m = re.match(
+                    r"(\d{2}:\d{2}\s*[AP]M)\s*-\s*(\d{2}:\d{2}\s*[AP]M):\s*(.*)",
+                    l,
+                )
+                tasks.append(
+                    f"{m.group(1)}-{m.group(2)}: {m.group(3)}" if m else l
+                )
+        block = {"type": btype, "title": title, "time": time_str, "tasks": tasks}
+        days.setdefault(date_str, []).append(block)
+    return days
+
+
+def parse_schedule():
+    if SCHEDULE_ICS.exists() and (
+        not SCHEDULE_CSV.exists()
+        or SCHEDULE_ICS.stat().st_mtime >= SCHEDULE_CSV.stat().st_mtime
+    ):
+        ics_days = parse_ics(SCHEDULE_ICS)
+        if ics_days:
+            return ics_days
+
+    csv_path = SCHEDULE_CSV
+    if not csv_path.exists():
+        csv_path = BASE_DIR / "cka" / "schedule.template.csv"
+    if not csv_path.exists():
+        return {}
+
+    days = {}
+    with open(csv_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             subject = row.get("Subject", "").strip()
@@ -193,7 +297,7 @@ def parse_csv():
     return days
 
 
-CSV_DAYS = parse_csv()
+CSV_DAYS = parse_schedule()
 
 
 def get_start_date(csv_days):
@@ -317,13 +421,7 @@ def day_meta(date_str, idx, progress):
             if progress.get(task_key(date_str, bi, ti), False):
                 done += 1
     is_rest = day_in_week == 7
-    if week in (2, 3):
-        day_label = f"Pause {week-1} {'REST' if is_rest else f'Day {day_in_week}'} — {dt.strftime('%a %b %d')}"
-    elif week >= 4:
-        curr_week = week - 2
-        day_label = f"Week {curr_week} {'REST' if is_rest else f'Day {day_in_week}'} — {dt.strftime('%a %b %d')}"
-    else:
-        day_label = f"Week {week} {'REST' if is_rest else f'Day {day_in_week}'} — {dt.strftime('%a %b %d')}"
+    day_label = f"Week {week} {'REST' if is_rest else f'Day {day_in_week}'} — {dt.strftime('%a %b %d')}"
 
     return {
         "date": date_str,
@@ -441,14 +539,10 @@ def api_schedule():
                         if progress.get(task_key(d, bi, ti), False):
                             wk_done += 1
 
-        if wk == 1:
-            tab_name = "Week 1"
-        elif wk in (2, 3):
-            tab_name = f"Pause {wk-1}"
-        elif wk < total_weeks:
-            tab_name = f"Week {wk-2} (W{wk})"
+        if wk == total_weeks:
+            tab_name = f"Week {wk} (Mocks)"
         else:
-            tab_name = "Week 8 (Mocks)"
+            tab_name = f"Week {wk}"
 
         weeks_summary.append({
             "week": wk, "name": tab_name, "done": wk_done, "total": wk_total,

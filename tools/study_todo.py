@@ -33,8 +33,7 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 SCHEDULE_CSV = BASE_DIR / "cka_lfcs_schedule.csv"
-if not SCHEDULE_CSV.exists():
-    SCHEDULE_CSV = BASE_DIR / "cka" / "schedule.template.csv"
+SCHEDULE_ICS = BASE_DIR / "cka_lfcs_schedule.ics"
 CURRICULUM_DIR = TOOLS_DIR / "curriculum"
 
 # ── Colour pairs ──────────────────────────────────────────────
@@ -69,13 +68,117 @@ def init_colours():
     curses.init_pair(C_CHECK,    curses.COLOR_GREEN,   -1)
 
 
-# ── Schedule CSV parser ───────────────────────────────────────
-def parse_schedule_csv():
-    """Return {date_str: [block, ...]} from the CSV."""
+# ── Schedule Parser (supports ICS and CSV) ────────────────────
+def parse_ics(ics_path):
     days = {}
-    if not SCHEDULE_CSV.exists():
+    if not ics_path.exists():
         return days
-    with open(SCHEDULE_CSV, newline="", encoding="utf-8") as f:
+    content = ics_path.read_text(encoding="utf-8")
+    for raw in content.split("BEGIN:VEVENT")[1:]:
+        lines = raw.splitlines()
+        event = {}
+        curr_key, curr_val = None, []
+        for line in lines:
+            if line.startswith("END:VEVENT"):
+                break
+            if line.startswith(" ") or line.startswith("\t"):
+                if curr_key:
+                    curr_val.append(line[1:])
+                continue
+            if ":" in line:
+                if curr_key:
+                    event[curr_key] = "".join(curr_val)
+                k, v = line.split(":", 1)
+                curr_key = k.split(";")[0]
+                curr_val = [v]
+        if curr_key:
+            event[curr_key] = "".join(curr_val)
+
+        summary = event.get("SUMMARY", "").strip()
+        dtstart = event.get("DTSTART", "").strip()
+        dtend = event.get("DTEND", "").strip()
+        desc = (
+            event.get("DESCRIPTION", "")
+            .replace(r"\n", "\n")
+            .replace(r"\,", ",")
+            .strip()
+        )
+        if not summary or not dtstart:
+            continue
+
+        try:
+            if "T" in dtstart:
+                dt_obj = datetime.strptime(dtstart[:15], "%Y%m%dT%H%M%S")
+                date_str = dt_obj.strftime("%m/%d/%Y")
+                start_time = dt_obj.strftime("%I:%M %p")
+            else:
+                dt_obj = datetime.strptime(dtstart[:8], "%Y%m%d")
+                date_str = dt_obj.strftime("%m/%d/%Y")
+                start_time = "All Day"
+        except ValueError:
+            continue
+
+        if "T" in dtend:
+            try:
+                end_obj = datetime.strptime(dtend[:15], "%Y%m%dT%H%M%S")
+                time_str = f"{start_time} - {end_obj.strftime('%I:%M %p')}"
+            except ValueError:
+                time_str = start_time
+        else:
+            time_str = start_time
+
+        btype = "OTHER"
+        for t in ["CKA", "LFCS", "RECOVERY", "REST"]:
+            if f"[{t}]" in summary:
+                btype = t
+                break
+        title = summary
+        for t in ["[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
+            title = title.replace(t, "").strip()
+
+        tasks = []
+        if desc:
+            for l in desc.split("\n"):
+                l = l.strip()
+                if not l or any(
+                    l.startswith(p)
+                    for p in (
+                        "CKA STUDY BLOCK",
+                        "LFCS STUDY BLOCK",
+                        "COGNITIVE RECOVERY",
+                    )
+                ):
+                    continue
+                m = re.match(
+                    r"(\d{2}:\d{2}\s*[AP]M)\s*-\s*(\d{2}:\d{2}\s*[AP]M):\s*(.*)",
+                    l,
+                )
+                tasks.append(
+                    f"{m.group(1)}-{m.group(2)}: {m.group(3)}" if m else l
+                )
+        block = {"type": btype, "title": title, "time": time_str, "tasks": tasks}
+        days.setdefault(date_str, []).append(block)
+    return days
+
+
+def parse_schedule_csv():
+    """Return {date_str: [block, ...]} from ICS or CSV."""
+    if SCHEDULE_ICS.exists() and (
+        not SCHEDULE_CSV.exists()
+        or SCHEDULE_ICS.stat().st_mtime >= SCHEDULE_CSV.stat().st_mtime
+    ):
+        ics_days = parse_ics(SCHEDULE_ICS)
+        if ics_days:
+            return ics_days
+
+    csv_path = SCHEDULE_CSV
+    if not csv_path.exists():
+        csv_path = BASE_DIR / "cka" / "schedule.template.csv"
+    if not csv_path.exists():
+        return {}
+
+    days = {}
+    with open(csv_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             subject = row.get("Subject", "").strip()

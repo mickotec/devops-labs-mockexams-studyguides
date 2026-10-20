@@ -713,6 +713,7 @@ async function init() {
 // ── Notification System ─────────────────────────────────
 let notifTimer = null;
 const notifQueue = new Set();
+let notificationsEnabled = true;
 
 async function initNotificationSystem() {
   try {
@@ -720,11 +721,12 @@ async function initNotificationSystem() {
     const settings = await res.json();
     const select = document.getElementById('notif-mins');
     if (select) select.value = settings.notification_minutes_before || 5;
-  } catch (e) {}
-
-  if ('Notification' in window) {
-    updateNotifBtnState(Notification.permission === 'granted');
+    notificationsEnabled = settings.desktop_notifications !== false;
+  } catch (e) {
+    notificationsEnabled = true;
   }
+
+  updateNotifBtnState(notificationsEnabled);
 
   // Start in-browser client timer check every 15s
   if (notifTimer) clearInterval(notifTimer);
@@ -732,15 +734,17 @@ async function initNotificationSystem() {
   checkClientNotifications();
 }
 
-function updateNotifBtnState(granted) {
+function updateNotifBtnState(enabled) {
   const btn = document.getElementById('notif-toggle-btn');
   if (!btn) return;
-  if (granted) {
+  if (enabled) {
     btn.classList.add('active');
     btn.innerHTML = '🔔 Alerts Active';
+    btn.title = 'Click to mute alerts';
   } else {
     btn.classList.remove('active');
-    btn.innerHTML = '🔔 Enable Alerts';
+    btn.innerHTML = '🔕 Alerts Off';
+    btn.title = 'Click to enable alerts';
   }
 }
 
@@ -759,27 +763,34 @@ document.addEventListener('click', (e) => {
 });
 
 async function toggleNotifications() {
-  if (!('Notification' in window)) {
-    alert('Browser notifications are not supported in this browser. Desktop daemon notifications via notify-send will still work!');
-    return;
+  notificationsEnabled = !notificationsEnabled;
+
+  if (notificationsEnabled && 'Notification' in window && Notification.permission !== 'granted') {
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+      // Permission was denied by user
+    }
   }
 
-  if (Notification.permission === 'granted') {
-    new Notification('Study Todo Alerts', {
-      body: 'Notifications are already active! You will get alerts before each task.',
-      icon: 'favicon.ico'
-    });
-    fetch('/api/test_notification', { method: 'POST' });
-    return;
-  }
+  updateNotifBtnState(notificationsEnabled);
 
-  const perm = await Notification.requestPermission();
-  updateNotifBtnState(perm === 'granted');
-  if (perm === 'granted') {
-    new Notification('Study Todo Alerts', {
-      body: 'Alerts enabled! You will be notified before each scheduled task begins.'
+  try {
+    await fetch('/api/settings', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ desktop_notifications: notificationsEnabled })
     });
-    fetch('/api/test_notification', { method: 'POST' });
+
+    if (notificationsEnabled) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Study Todo Alerts', {
+          body: 'Alerts enabled! You will be notified before each scheduled task begins.'
+        });
+      }
+      fetch('/api/test_notification', { method: 'POST' });
+    }
+  } catch (e) {
+    console.error('Failed to update notification settings', e);
   }
 }
 
@@ -793,6 +804,7 @@ async function updateNotifSettings() {
 }
 
 async function checkClientNotifications() {
+  if (!notificationsEnabled) return;
   if (!state.days || state.days.length === 0) return;
   const now = new Date();
   const todayStr = (now.getMonth() + 1).toString().padStart(2, '0') + '/' +

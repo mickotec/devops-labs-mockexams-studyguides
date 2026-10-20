@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="cover.png" alt="CKA & LFCS Study & Lab Suite Cover Banner" width="100%">
+</p>
+
 # ☸ CKA & 🐧 LFCS Hands-on Practice Labs, Mock Exams & Study Suite
 
 A comprehensive, calendar-aligned preparation suite for the **Certified Kubernetes Administrator (CKA)** and **Linux Foundation Certified System Administrator (LFCS)** certifications.
