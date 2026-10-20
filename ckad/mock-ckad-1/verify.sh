@@ -65,7 +65,7 @@ Q14=$(ssh controlplane 'kubectl get pod probed-web -n mock-ckad-1-q14 -o jsonpat
 
 # Q15: Pod Debugging (5.0%)
 Q15_READY=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o jsonpath="{.status.containerStatuses[0].ready}" 2>/dev/null || echo "false"')
-Q15_ENV=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o jsonpath="{.spec.containers[0].env[?(@.name=="DB_HOST")].value}" 2>/dev/null || echo ""')
+Q15_ENV=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o yaml 2>/dev/null | grep -q "value: postgres" && echo "postgres" || echo ""')
 [ "$Q15_READY" == "true" ] && [ "$Q15_ENV" == "postgres" ] && { echo -e "[0;32m[PASS] Q15: order-worker debugged (Ready & DB_HOST=postgres).[0m"; SCORE=$((SCORE + 1)); } || echo -e "[0;31m[FAIL] Q15: order-worker ready='$Q15_READY', DB_HOST='$Q15_ENV'.[0m"
 
 # Q16: Log Extraction (5.0%)

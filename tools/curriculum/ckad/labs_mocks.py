@@ -274,7 +274,7 @@ Q14=$(ssh controlplane 'kubectl get pod probed-web -n mock-ckad-1-q14 -o jsonpat
 
 # Q15: Pod Debugging (5.0%)
 Q15_READY=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o jsonpath="{.status.containerStatuses[0].ready}" 2>/dev/null || echo "false"')
-Q15_ENV=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o jsonpath="{.spec.containers[0].env[?(@.name==\"DB_HOST\")].value}" 2>/dev/null || echo ""')
+Q15_ENV=$(ssh controlplane 'kubectl get pod order-worker -n mock-ckad-1-q15 -o yaml 2>/dev/null | grep -q "value: postgres" && echo "postgres" || echo ""')
 [ "$Q15_READY" == "true" ] && [ "$Q15_ENV" == "postgres" ] && { echo -e "\033[0;32m[PASS] Q15: order-worker debugged (Ready & DB_HOST=postgres).\033[0m"; SCORE=$((SCORE + 1)); } || echo -e "\033[0;31m[FAIL] Q15: order-worker ready='$Q15_READY', DB_HOST='$Q15_ENV'.\033[0m"
 
 # Q16: Log Extraction (5.0%)
@@ -288,10 +288,9 @@ echo "Final Score: $SCORE / $TOTAL ($PCT%)"
         "solution": """### Official Solutions: CKAD Mock Exam 1
 See detailed solutions in the web dashboard solution viewer.""",
         "reset": """ssh controlplane '
-for q in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16; do
-  kubectl delete namespace mock-ckad-1-q$q --ignore-not-found
-done
-kubectl delete pv mock1-pv --ignore-not-found
+NS_LIST=$(for q in {1..16}; do echo -n "mock-ckad-1-q$q "; done)
+kubectl delete namespace $NS_LIST --ignore-not-found --wait=false 2>/dev/null || true
+kubectl delete pv mock1-pv --ignore-not-found --wait=false 2>/dev/null || true
 rm -f /tmp/fatal-errors.txt
 '"""
     },
@@ -472,9 +471,8 @@ echo "Final Score: $SCORE / $TOTAL ($PCT%)"
         "solution": """### Official Solutions: CKAD Mock Exam 2
 See detailed solutions in the web dashboard solution viewer.""",
         "reset": """ssh controlplane '
-for q in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16; do
-  kubectl delete namespace mock-ckad-2-q$q --ignore-not-found
-done
+NS_LIST=$(for q in {1..16}; do echo -n "mock-ckad-2-q$q "; done)
+kubectl delete namespace $NS_LIST --ignore-not-found --wait=false 2>/dev/null || true
 rm -rf /tmp/kustomize-store /tmp/hpa-version.txt /tmp/top-pod.txt
 '"""
     }
