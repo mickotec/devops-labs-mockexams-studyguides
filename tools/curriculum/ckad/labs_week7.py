@@ -225,6 +225,14 @@ spec:
   hostPath:
     path: /mnt/persist-data
     type: DirectoryOrCreate
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node01
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -280,7 +288,7 @@ spec:
       mountPath: /var/storage
 EOF_WRITER
 
-sleep 3
+kubectl wait --for=condition=Ready pod/state-writer -n ckad-w7d4 --timeout=30s 2>/dev/null && sleep 2
 kubectl delete pod state-writer -n ckad-w7d4 --force --grace-period=0
 
 # 2. Run reader pod:
@@ -388,9 +396,40 @@ kubectl delete sc delayed-storage --ignore-not-found
    - Replicas: `2`
    - Image: `redis:alpine`
    - Container port: `6379`
-   - `volumeClaimTemplates`: name `redis-data`, accessModes `ReadWriteOnce`, requests `200Mi`, mounted at `/data`.
+   - `volumeClaimTemplates`: name `redis-data`, accessModes `ReadWriteOnce`, requests `200Mi`, `storageClassName: redis-sc`, mounted at `/data`.
 3. Verify both replicas `redis-cluster-0` and `redis-cluster-1` are `Running` and both generate their own PVC.""",
-        "setup": """ssh controlplane 'kubectl create namespace ckad-w7d6 --dry-run=client -o yaml | kubectl apply -f -'""",
+        "setup": """ssh controlplane '
+kubectl create namespace ckad-w7d6 --dry-run=client -o yaml | kubectl apply -f -
+cat << "EOF_PV" | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv-0
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: redis-sc
+  hostPath:
+    path: /mnt/redis-0
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv-1
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: redis-sc
+  hostPath:
+    path: /mnt/redis-1
+    type: DirectoryOrCreate
+EOF_PV
+'""",
         "verify": """#!/usr/bin/env bash
 set -uo pipefail
 echo "[*] Evaluating CKAD W7D6: StatefulSets in ckad-w7d6..."
@@ -400,11 +439,11 @@ PVC_0=$(ssh controlplane 'kubectl get pvc redis-data-redis-cluster-0 -n ckad-w7d
 PVC_1=$(ssh controlplane 'kubectl get pvc redis-data-redis-cluster-1 -n ckad-w7d6 -o jsonpath="{.metadata.name}" 2>/dev/null || echo ""')
 
 if [ "$REPLICAS" -eq 2 ] && [ -n "$PVC_0" ] && [ -n "$PVC_1" ]; then
-  echo -e "\033[0;32m[PASS] StatefulSet redis-cluster 2/2 ready with dedicated volumeClaimTemplates PVCs.\033[0m"
+  echo -e "\\033[0;32m[PASS] StatefulSet redis-cluster 2/2 ready with dedicated volumeClaimTemplates PVCs.\\033[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Ready replicas: $REPLICAS/2 | PVC 0: '$PVC_0' | PVC 1: '$PVC_1'\033[0m"
+  echo -e "\\033[0;31m[FAIL] Ready replicas: $REPLICAS/2 | PVC 0: '\''$PVC_0'\'' | PVC 1: '\''$PVC_1'\''\\033[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi""",
@@ -453,12 +492,18 @@ spec:
       name: redis-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: redis-sc
       resources:
         requests:
           storage: 200Mi
 EOF_STS
+
+kubectl rollout status statefulset/redis-cluster -n ckad-w7d6 --timeout=60s 2>/dev/null || true
 '
 ```""",
-        "reset": """ssh controlplane 'kubectl delete namespace ckad-w7d6 --ignore-not-found'"""
+        "reset": """ssh controlplane '
+kubectl delete namespace ckad-w7d6 --ignore-not-found
+kubectl delete pv redis-pv-0 redis-pv-1 --ignore-not-found
+'"""
     }
 ]

@@ -202,12 +202,12 @@ def parse_ics(ics_path):
             time_str = start_time
 
         btype = "OTHER"
-        for t in ["CKA", "LFCS", "RECOVERY", "REST"]:
+        for t in ["CKAD", "CKA", "LFCS", "RECOVERY", "REST"]:
             if f"[{t}]" in summary:
                 btype = t
                 break
         title = summary
-        for t in ["[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
+        for t in ["[CKAD]", "[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
             title = title.replace(t, "").strip()
 
         tasks = []
@@ -218,6 +218,7 @@ def parse_ics(ics_path):
                     l.startswith(p)
                     for p in (
                         "CKA STUDY BLOCK",
+                        "CKAD STUDY BLOCK",
                         "LFCS STUDY BLOCK",
                         "COGNITIVE RECOVERY",
                     )
@@ -261,7 +262,9 @@ def parse_schedule():
             desc = row.get("Description", "").strip()
             if not date_str or not subject:
                 continue
-            if "[CKA]" in subject:
+            if "[CKAD]" in subject:
+                btype = "CKAD"
+            elif "[CKA]" in subject:
                 btype = "CKA"
             elif "[LFCS]" in subject:
                 btype = "LFCS"
@@ -272,7 +275,7 @@ def parse_schedule():
             else:
                 btype = "OTHER"
             title = subject
-            for tag in ["[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
+            for tag in ["[CKAD]", "[CKA]", "[LFCS]", "[RECOVERY]", "[REST]"]:
                 title = title.replace(tag, "").strip()
             tasks = []
             if desc:
@@ -280,7 +283,7 @@ def parse_schedule():
                     line = line.strip()
                     if not line:
                         continue
-                    skip = ("CKA STUDY BLOCK", "LFCS STUDY BLOCK",
+                    skip = ("CKA STUDY BLOCK", "CKAD STUDY BLOCK", "LFCS STUDY BLOCK",
                             "COGNITIVE RECOVERY")
                     if any(line.startswith(p) for p in skip):
                         continue
@@ -588,6 +591,8 @@ def api_day(date_str):
 
 
 def _detect_track(text, block):
+    if text.startswith("[CKAD]"):
+        return "CKAD"
     if text.startswith("[CKA]"):
         return "CKA"
     if text.startswith("[LFCS]"):

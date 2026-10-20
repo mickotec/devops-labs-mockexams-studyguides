@@ -21,7 +21,7 @@ Practice scenario aligned with your official certification preparation schedule.
    - Replicas: `2`
    - Image: `redis:alpine`
    - Container port: `6379`
-   - `volumeClaimTemplates`: name `redis-data`, accessModes `ReadWriteOnce`, requests `200Mi`, mounted at `/data`.
+   - `volumeClaimTemplates`: name `redis-data`, accessModes `ReadWriteOnce`, requests `200Mi`, `storageClassName: redis-sc`, mounted at `/data`.
 3. Verify both replicas `redis-cluster-0` and `redis-cluster-1` are `Running` and both generate their own PVC.
 
 ---

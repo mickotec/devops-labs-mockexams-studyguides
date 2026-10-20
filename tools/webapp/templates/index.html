@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CKA & LFCS Study Todo</title>
+<title>CKA, CKAD & LFCS Study Todo</title>
 <style>
   :root {
     --bg: #0f172a;
@@ -14,6 +14,8 @@
     --text-dim: #94a3b8;
     --cka: #3b82f6;
     --cka-bg: #1e3a5f;
+    --ckad: #10b981;
+    --ckad-bg: #064e3b;
     --lfcs: #a855f7;
     --lfcs-bg: #3b1f5e;
     --recovery: #eab308;
@@ -285,6 +287,8 @@
   }
   .block.cka .block-header { background: var(--cka-bg); border-bottom: 1px solid var(--cka); }
   .block.cka .badge { background: var(--cka); color: #fff; }
+  .block.ckad .block-header { background: var(--ckad-bg); border-bottom: 1px solid var(--ckad); }
+  .block.ckad .badge { background: var(--ckad); color: #fff; }
   .block.lfcs .block-header { background: var(--lfcs-bg); border-bottom: 1px solid var(--lfcs); }
   .block.lfcs .badge { background: var(--lfcs); color: #fff; }
   .block.recovery .block-header { background: var(--recovery-bg); border-bottom: 1px solid var(--recovery); }
@@ -339,6 +343,7 @@
     flex-shrink: 0;
   }
   .task-track.cka { background: var(--cka); color: #fff; }
+  .task-track.ckad { background: var(--ckad); color: #fff; }
   .task-track.lfcs { background: var(--lfcs); color: #fff; }
 
   /* ── Filter pills ────────────────── */
@@ -549,7 +554,7 @@
 
 <div class="header">
   <div class="header-top">
-    <h1>CKA & LFCS <span>Study Todo</span></h1>
+    <h1>CKA, CKAD & LFCS <span>Study Todo</span></h1>
     <div class="overall-progress" id="overall">
       <div class="overall-bar"><div class="overall-bar-fill" id="overall-bar"></div></div>
       <span id="overall-text">Loading...</span>
@@ -1000,6 +1005,7 @@ async function selectDay(idx) {
     <div class="filters">
       <div class="filter-pill ${!state.filter ? 'active' : ''}" onclick="setFilter(null)">All</div>
       <div class="filter-pill ${state.filter==='CKA' ? 'active' : ''}" onclick="setFilter('CKA')">CKA</div>
+      <div class="filter-pill ${state.filter==='CKAD' ? 'active' : ''}" onclick="setFilter('CKAD')">CKAD</div>
       <div class="filter-pill ${state.filter==='LFCS' ? 'active' : ''}" onclick="setFilter('LFCS')">LFCS</div>
     </div>
   `;

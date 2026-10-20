@@ -25,7 +25,7 @@ spec:
       mountPath: /var/storage
 EOF_WRITER
 
-sleep 3
+kubectl wait --for=condition=Ready pod/state-writer -n ckad-w7d4 --timeout=30s 2>/dev/null && sleep 2
 kubectl delete pod state-writer -n ckad-w7d4 --force --grace-period=0
 
 # 2. Run reader pod:

@@ -281,8 +281,8 @@ fi""",
         "solution": """### Official Solution: Deployments & Rolling Updates
 ```bash
 ssh controlplane '
-kubectl patch deployment api-gateway -n ckad-w1d4 -p "{\"spec\":{\"strategy\":{\"type\":\"RollingUpdate\",\"rollingUpdate\":{\"maxSurge\":1,\"maxUnavailable\":0}}}}"
-kubectl set image deployment/api-gateway api-gateway=nginx:1.25-alpine -n ckad-w1d4
+kubectl patch deployment api-gateway -n ckad-w1d4 --type="strategic" -p "{\\"spec\\":{\\"strategy\\":{\\"rollingUpdate\\":{\\"maxSurge\\":1,\\"maxUnavailable\\":0}}}}"
+kubectl set image deployment/api-gateway nginx=nginx:1.25-alpine -n ckad-w1d4
 kubectl scale deployment api-gateway --replicas=4 -n ckad-w1d4
 kubectl rollout status deployment/api-gateway -n ckad-w1d4
 '
@@ -366,6 +366,7 @@ kubectl delete namespace ckad-w1d5-frontend --ignore-not-found
         "setup": """ssh controlplane '
 kubectl create namespace ckad-w1d6 --dry-run=client -o yaml | kubectl apply -f -
 kubectl run target-alpha --image=nginx:alpine -n ckad-w1d6
+kubectl wait --for=condition=Ready pod/target-alpha -n ckad-w1d6 --timeout=30s 2>/dev/null || true
 rm -f /tmp/alpha-ip.txt /tmp/explain.txt
 '""",
         "verify": """#!/usr/bin/env bash
@@ -394,6 +395,7 @@ ssh controlplane '
 kubectl run imperative-pod --image=redis:7-alpine -n ckad-w1d6 --port=6379 -l tier=cache
 
 # 2. Extract Pod IP:
+kubectl wait --for=condition=Ready pod/target-alpha -n ckad-w1d6 --timeout=30s 2>/dev/null || true
 kubectl get pod target-alpha -n ckad-w1d6 -o jsonpath="{.status.podIP}" > /tmp/alpha-ip.txt
 
 # 3. Explain query:

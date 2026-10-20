@@ -73,8 +73,8 @@ kubectl delete namespace ckad-dev-ns --ignore-not-found
 set -uo pipefail
 echo "[*] Evaluating CKAD W8D2: RBAC in ckad-w8d2..."
 
-CAN_CREATE=$(ssh controlplane 'kubectl auth can-i create pods -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || echo "no"')
-CAN_DEPLOY=$(ssh controlplane 'kubectl auth can-i create deployments -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || echo "yes"')
+CAN_CREATE=$(ssh controlplane 'kubectl auth can-i create pods -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || true')
+CAN_DEPLOY=$(ssh controlplane 'kubectl auth can-i create deployments -n ckad-w8d2 --as=system:serviceaccount:ckad-w8d2:app-operator 2>/dev/null || true')
 
 if [ "$CAN_CREATE" == "yes" ] && [ "$CAN_DEPLOY" == "no" ]; then
   echo -e "\033[0;32m[PASS] ServiceAccount app-operator has exact pod-admin permissions in ckad-w8d2.\033[0m"
@@ -281,15 +281,15 @@ EOF_DEP
 set -uo pipefail
 echo "[*] Evaluating CKAD W8D5: Helm Release in ckad-w8d5..."
 
-HELM_STATUS=$(ssh controlplane 'helm status frontend-app -n ckad-w8d5 -o json 2>/dev/null | grep -o ""status":"deployed"" || echo ""')
+HELM_STATUS=$(ssh controlplane 'helm list -n ckad-w8d5 -q 2>/dev/null | grep "^frontend-app$" || echo ""')
 REPLICAS=$(ssh controlplane 'kubectl get deploy frontend-app -n ckad-w8d5 -o jsonpath="{.status.readyReplicas}" 2>/dev/null || echo 0')
 
 if [ -n "$HELM_STATUS" ] && [ "$REPLICAS" -eq 3 ]; then
-  echo -e "\033[0;32m[PASS] Helm release frontend-app deployed with replicaCount=3 (3/3 Ready).\033[0m"
+  echo -e "\\033[0;32m[PASS] Helm release frontend-app deployed with replicaCount=3 (3/3 Ready).\\033[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Helm status: '$HELM_STATUS' | Ready replicas: $REPLICAS (expected 3).\033[0m"
+  echo -e "\\033[0;31m[FAIL] Helm status: '\''$HELM_STATUS'\'' | Ready replicas: $REPLICAS (expected 3).\\033[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi""",
@@ -297,7 +297,7 @@ fi""",
 ```bash
 ssh controlplane '
 helm install frontend-app /tmp/sample-chart -n ckad-w8d5 --set replicaCount=3
-helm list -n ckad-w8d5
+kubectl rollout status deployment/frontend-app -n ckad-w8d5 --timeout=60s
 '
 ```""",
         "reset": """ssh controlplane '
@@ -397,6 +397,7 @@ patches:
 EOF_PROD
 
 kubectl apply -k /tmp/kustomize-store/overlays/prod
+kubectl rollout status deployment/prod-web-app -n ckad-w8d6 --timeout=30s 2>/dev/null || true
 '
 ```""",
         "reset": """ssh controlplane '

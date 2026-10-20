@@ -46,9 +46,12 @@ spec:
       name: redis-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: redis-sc
       resources:
         requests:
           storage: 200Mi
 EOF_STS
+
+kubectl rollout status statefulset/redis-cluster -n ckad-w7d6 --timeout=60s 2>/dev/null || true
 '
 ```

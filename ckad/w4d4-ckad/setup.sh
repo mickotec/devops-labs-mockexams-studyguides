@@ -11,11 +11,17 @@ metadata:
   name: microservice-pod
   namespace: ckad-w4d4
 spec:
+  volumes:
+  - name: sync-state
+    emptyDir: {}
   containers:
   - name: web
     image: nginx:alpine
   - name: database-sync
     image: busybox:1.36
+    volumeMounts:
+    - name: sync-state
+      mountPath: /tmp
     command: ["sh", "-c"]
     args:
     - if [ ! -f /tmp/crashed ]; then

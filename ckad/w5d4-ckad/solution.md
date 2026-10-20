@@ -31,6 +31,6 @@ EOF_GREEN
 kubectl rollout status deployment/portal-green -n ckad-w5d4
 
 # 2. Patch service selector to v2:
-kubectl patch svc web-portal -n ckad-w5d4 -p "{"spec":{"selector":{"version":"v2"}}}"
+kubectl set selector service web-portal 'version=v2' -n ckad-w5d4
 '
 ```

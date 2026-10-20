@@ -5,6 +5,6 @@
 ```bash
 ssh controlplane '
 helm install frontend-app /tmp/sample-chart -n ckad-w8d5 --set replicaCount=3
-helm list -n ckad-w8d5
+kubectl rollout status deployment/frontend-app -n ckad-w8d5 --timeout=60s
 '
 ```

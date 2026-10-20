@@ -28,5 +28,6 @@ patches:
 EOF_PROD
 
 kubectl apply -k /tmp/kustomize-store/overlays/prod
+kubectl rollout status deployment/prod-web-app -n ckad-w8d6 --timeout=30s 2>/dev/null || true
 '
 ```

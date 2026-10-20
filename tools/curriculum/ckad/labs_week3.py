@@ -286,7 +286,7 @@ echo "[*] Evaluating CKAD W3D5: Taints & Tolerations in ckad-w3d5..."
 
 PHASE=$(ssh controlplane 'kubectl get pod analytics-engine -n ckad-w3d5 -o jsonpath="{.status.phase}" 2>/dev/null || echo "Missing"')
 NODE=$(ssh controlplane 'kubectl get pod analytics-engine -n ckad-w3d5 -o jsonpath="{.spec.nodeName}" 2>/dev/null || echo "none"')
-TOL_KEY=$(ssh controlplane 'kubectl get pod analytics-engine -n ckad-w3d5 -o jsonpath="{.spec.tolerations[?(@.key==\"dedicated\")].key}" 2>/dev/null || echo ""')
+TOL_KEY=$(ssh controlplane 'kubectl get pod analytics-engine -n ckad-w3d5 -o yaml 2>/dev/null | grep -q "key: dedicated" && echo "dedicated" || echo ""')
 
 if [ "$PHASE" == "Running" ] && [ "$NODE" == "node01" ] && [ "$TOL_KEY" == "dedicated" ]; then
   echo -e "\033[0;32m[PASS] Pod analytics-engine running on tainted node01 with matching toleration.\033[0m"

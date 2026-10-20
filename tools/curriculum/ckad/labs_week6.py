@@ -142,7 +142,7 @@ echo "[*] Evaluating CKAD W6D3: Default Deny NetworkPolicy in ckad-w6d3..."
 TYPES=$(ssh controlplane 'kubectl get netpol default-deny-ingress -n ckad-w6d3 -o jsonpath="{.spec.policyTypes[*]}" 2>/dev/null || echo ""')
 RULES=$(ssh controlplane 'kubectl get netpol default-deny-ingress -n ckad-w6d3 -o jsonpath="{.spec.ingress}" 2>/dev/null || echo "NONE"')
 
-if [[ "$TYPES" =~ "Ingress" ]] && [ "$RULES" == "NONE" -o "$RULES" == "[]" ]; then
+if [[ "$TYPES" =~ "Ingress" ]] && [ -z "$RULES" -o "$RULES" == "NONE" -o "$RULES" == "[]" ]; then
   echo -e "\033[0;32m[PASS] default-deny-ingress NetworkPolicy active with empty ingress rule (default-deny).\033[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
@@ -321,15 +321,15 @@ kubectl expose deployment api-dep --name=service-api --port=80 --target-port=80 
 set -uo pipefail
 echo "[*] Evaluating CKAD W6D6: Ingress Rewrite-Target in ckad-w6d6..."
 
-ANNO=$(ssh controlplane 'kubectl get ingress api-rewrite-ingress -n ckad-w6d6 -o jsonpath="{.metadata.annotations.nginx\.ingress\.kubernetes\.io/rewrite-target}" 2>/dev/null || echo ""')
+ANNO=$(ssh controlplane 'kubectl get ingress api-rewrite-ingress -n ckad-w6d6 -o yaml 2>/dev/null | grep "rewrite-target:" | awk "{print \$2}"')
 PATH_DEF=$(ssh controlplane 'kubectl get ingress api-rewrite-ingress -n ckad-w6d6 -o jsonpath="{.spec.rules[0].http.paths[0].path}" 2>/dev/null || echo ""')
 
-if [ "$ANNO" == "/$2" ] && [[ "$PATH_DEF" =~ "/api" ]]; then
-  echo -e "\033[0;32m[PASS] api-rewrite-ingress configured with rewrite-target: /$2 and regex path.\033[0m"
+if [ "$ANNO" == '/$2' ] && [[ "$PATH_DEF" =~ "/api" ]]; then
+  echo -e "\\033[0;32m[PASS] api-rewrite-ingress configured with rewrite-target: /\\$2 and regex path.\\033[0m"
   echo "Final Score: 1/1 (100%)"
   exit 0
 else
-  echo -e "\033[0;31m[FAIL] Annotation: '$ANNO' (expected /$2) | Path: '$PATH_DEF'\033[0m"
+  echo -e "\\033[0;31m[FAIL] Annotation: '$ANNO' (expected /\\$2) | Path: '$PATH_DEF'\\033[0m"
   echo "Final Score: 0/1 (0%)"
   exit 1
 fi""",

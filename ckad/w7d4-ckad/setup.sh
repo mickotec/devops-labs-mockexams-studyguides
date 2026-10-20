@@ -17,6 +17,14 @@ spec:
   hostPath:
     path: /mnt/persist-data
     type: DirectoryOrCreate
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node01
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
